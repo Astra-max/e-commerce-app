@@ -1,0 +1,88 @@
+.s-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.title-div {
+    line-height: 1rem;
+}
+
+.s-title {
+    font-size: 1.9rem;
+    font-weight: bold;
+    color: orange;
+    padding-bottom: 1rem;
+}
+
+.s-cont {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    align-items: center;
+    border: 0.1rem solid silver;
+    border-radius: 0.4rem;
+    margin: 4rem 0rem ;
+    padding: 1rem 0rem;
+}
+
+.s-div {
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+    line-height: 0.2rem;
+    padding-bottom: 1rem;
+}
+
+.s-div > p {
+    opacity: 0.8;
+}
+
+.s-div-age {
+    width: 97%;
+    display: flex;
+    align-items: start;
+    gap: 1rem;
+    justify-content: space-between;
+}
+
+.s-age {
+    width: inherit;
+    border: 0.1rem solid silver;
+    background-color: #fff;
+    padding-left: 0.5rem;
+    border-radius: 0.4rem;
+    height: 2.5rem;
+}
+
+.s-input {
+    width: 21rem;
+    height: 2.5rem;
+    border: 0.1rem solid silver;
+    border-radius: 0.4rem;
+    background-color: #fff;
+    padding-left: 0.9rem;
+}
+
+.create-acc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.s-create-btn {
+    width: 22rem;
+    background-color: orange;
+    border: 0rem;
+    border-radius: 0.4em;
+    height: 2.7rem;
+    margin-top: 1rem;
+    cursor: pointer;
+}

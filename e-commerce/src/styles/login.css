@@ -1,0 +1,66 @@
+.login-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100vh;
+}
+
+.l-logo-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    line-height: 0.2rem;
+    margin-bottom: 2rem;
+}
+
+.l-logo {
+    font-size: 1.9rem;
+    font-weight: bolder;
+}
+
+.l-top {
+    margin-bottom: 2rem;
+}
+
+.l-input-div {
+    line-height: 0.4rem;
+}
+
+.l-welcome {
+    font-size: 1.4rem;
+    font-weight: bold;
+}
+
+.login-cont {
+    height: 80%;
+    width: 23rem;
+    margin: 2rem 0rem;
+    border: 0.1rem solid silver;
+    padding: 1rem;
+    border-radius: 0.4rem;
+}
+
+.l-input {
+    border-radius: 0.4rem;
+    border: 0.1rem solid silver;
+    background-color: #fff;
+    padding-left: 0.5rem;
+    height: 2.3rem;
+    width: 96%;
+}
+
+.l-link {
+    text-decoration: none;
+}
+
+.l-btn {
+    width: 98%;
+    border: 0rem;
+    border-radius: 0.4rem;
+    height: 2.5rem;
+    background-color: orange;
+    cursor: pointer;
+    margin-top: 2rem;
+}

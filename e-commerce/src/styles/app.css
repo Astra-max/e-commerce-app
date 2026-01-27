@@ -1,0 +1,80 @@
+.sub-main {
+  background-color: var(--background);
+  width: 100%;
+  height: 66vh;
+  display: flex;
+  align-items: start;
+  justify-content: space-around;
+  gap: 6rem;
+}
+
+.sub-img-cont {
+  align-content: center;
+  height: inherit;
+  width: 16rem;
+}
+
+.sub-cont {
+  line-height: 0.7rem;
+  margin: 2rem 0rem;
+}
+
+.sub-image {
+  height: 95%;
+  width: 100%;
+  border-radius: 2rem 4rem 8rem 1rem;
+  background: transparent;
+}
+
+.sub-top {
+  opacity: 0.7;
+}
+
+.sub-ttl {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.sub-btn {
+  height: 2.3rem;
+  width: 8rem;
+  border: 0.1rem solid silver;
+  border-radius: 0.4rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  background-color: black;
+  color: #fff;
+}
+
+.dis-alert {
+  width: 70%;
+  line-height: 1rem;
+}
+
+.sub-btn:hover {
+  background-color: black;
+  color: #fff;
+  border: 0;
+}
+
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.about-cont {
+  height: 50vh;
+  padding: 4rem 2rem;
+}
+

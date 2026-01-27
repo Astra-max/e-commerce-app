@@ -1,0 +1,71 @@
+.side-bar-main {
+    height: 90vh;
+    width: 15rem;
+    padding-bottom: 5rem;
+}
+
+.side-bar-cont {
+    height: inherit;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgb(19, 17, 17);
+    line-height: 2rem;
+    padding: 4rem 1rem;
+    border-radius: 0.4rem;
+}
+
+.p-links {
+    text-decoration: none;
+    color: #fff;
+    opacity: 0.9;
+}
+
+.active-path {
+    font-weight: bold;
+    text-decoration: none;
+    color: orangered;
+}
+
+.p-logout {
+    color: #fff;
+    cursor: pointer;
+    padding-top: 15rem;
+}
+
+.account-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ship-main {
+    height: 90vh;
+    width: 90%;
+    margin: 0rem 2rem;
+    padding: 1rem 2rem;
+    background-color: rgb(255, 250, 245);
+}
+
+.drop-down-cont {
+    border-radius: 0.3rem;
+    position: absolute;
+    background-color: rgb(160, 142, 142);
+    width: 15rem;
+    height: 20vh;
+    margin-top: 0.8rem;
+    padding: 1rem 0rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    left: 80%;
+}
+
+.logout-p {
+    cursor: pointer;
+    padding-left: 0.5rem;
+    align-content: center;
+    font-weight: bold;
+}
+

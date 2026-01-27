@@ -1,0 +1,107 @@
+.home-main {
+  background-color: var(--background);
+  width: 100%;
+  height: 90vh;
+  line-height: 0.1rem;
+}
+
+.offer-news {
+  font-size: 4rem;
+  font-weight: bold;
+}
+
+.h-cd-desc {
+  width: 60%;
+  font-size: 1.2rem;
+  opacity: 0.8;
+  line-height: 1.4rem;
+}
+
+.home-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 0.9rem;
+  padding: 0rem 3rem;
+}
+
+.discount {
+    font-size: 1.4rem;
+}
+
+.view-more {
+  border-radius: 0.5rem;
+  height: 2.2rem;
+  width: 8rem;
+  background-color: inherit;
+  margin-top: 1rem;
+  cursor: pointer;
+  border: 0.1rem solid silver;
+}
+
+.home-image {
+  height: 28rem;
+  width: 23rem;
+  padding-top: 2rem;
+  border-radius: 0.5rem;
+  z-index: 1000;
+}
+
+.h-cat-more {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-card-cont {
+  display: flex;
+  flex-direction: column;
+  background-color: #fffdfd;
+  height: 14rem;
+  line-height: 0.3rem;
+  width: 22rem;
+  border-radius: 0.5rem;
+  padding: 0.3rem 0.7rem;
+}
+
+.card-v-more {
+  cursor: pointer;
+}
+
+.views {
+  font-size: 0.9rem;
+  padding-top: 0.5rem;
+}
+
+.h-card {
+  position: absolute;
+  left: 42%;
+  top: 49%;
+  z-index: 1000;
+}
+
+.h-more {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 768px) {
+  .home-display {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1rem;
+  }
+
+  .offer-news {
+    font-size: calc(2rem);
+  }
+  .home-image {
+    height: 40vh;
+    width: inherit;
+  }
+  .discount {
+    font-size: 1.5rem;
+  }
+  .home-card-cont {
+    display: none;
+  }
+}
