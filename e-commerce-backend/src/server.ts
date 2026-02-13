@@ -6,7 +6,6 @@ import RequestLimit, { GeneralRateLimiter } from "./middleware/rate-limiter";
 
 env.config();
 
-
 const app = express();
 app.use(cors(
   {
