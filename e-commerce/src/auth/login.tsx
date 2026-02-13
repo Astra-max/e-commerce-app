@@ -9,8 +9,8 @@ const Login = () => {
 
   const dispatch: any = useDispatch();
   const { loading, error, token } = useSelector(authSelector);
+  
   const push = useNavigate();
-
 
   useEffect(() => {
     if (token) {

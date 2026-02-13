@@ -12,11 +12,11 @@
     justify-content: center;
     flex-direction: column;
     line-height: 0.2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .l-logo {
-    font-size: 1.9rem;
+    font-size: 2.3rem;
     font-weight: bolder;
 }
 
@@ -25,17 +25,17 @@
 }
 
 .l-input-div {
-    line-height: 0.4rem;
+    line-height: 1.2rem;
 }
 
 .l-welcome {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 
 .login-cont {
-    height: 80%;
-    width: 23rem;
+    height: 68%;
+    width: 30%;
     margin: 2rem 0rem;
     border: 0.1rem solid silver;
     padding: 1rem;
@@ -47,7 +47,7 @@
     border: 0.1rem solid silver;
     background-color: #fff;
     padding-left: 0.5rem;
-    height: 2.3rem;
+    height: 2.9rem;
     width: 96%;
 }
 
@@ -59,7 +59,7 @@
     width: 98%;
     border: 0rem;
     border-radius: 0.4rem;
-    height: 2.5rem;
+    height: 3rem;
     background-color: orange;
     cursor: pointer;
     margin-top: 2rem;
