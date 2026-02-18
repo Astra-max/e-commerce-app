@@ -45,6 +45,7 @@
   padding-top: 2rem;
   border-radius: 0.5rem;
   z-index: 1000;
+  transition: opacity 0.6s ease-in-out, transform 0.6s ease;
 }
 
 .h-cat-more {
@@ -103,5 +104,20 @@
   }
   .home-card-cont {
     display: none;
+  }
+}
+
+.home-image.fade {
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
