@@ -35,7 +35,7 @@ const Home = () => {
       }
     }
 
-    setInterval(() => HandleRandomId()g, 10000);
+    setInterval(() => HandleRandomId(), 10000);
 
     if (productId !== 0) {
       setIndex(index);
