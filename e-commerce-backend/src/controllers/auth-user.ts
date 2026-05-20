@@ -39,7 +39,7 @@ export const HandleLogin = async (req: Request, res: Response) => {
         userName: checkUser.rows[0].username,
       },
       process.env.SECRET_KEY as string,
-      { expiresIn: "7d" } // token valid for 7 days
+      { expiresIn: "1d" } // token valid for 7 days
     );
      return res.status(200).json({
       token,
@@ -88,16 +88,14 @@ export const HandleSignUP = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = userExists.rows[0]
     await pool.query(
-      `INSERT INTO users(userid,username,firstname,secondname,email,age,phone,idNo,gender,password) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+      `INSERT INTO users(username,firstname,secondname,email,age,phone,gender,password) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING userid`,
       [
-        setId(),
         userName,
         firstName,
         secondName,
         emailAddr,
         age,
         phone,
-        idNo,
         gender,
         hashedPassword,
       ]
