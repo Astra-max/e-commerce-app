@@ -1,0 +1,13 @@
+2026-05-22 13:39:29.342 EAT [7289] LOG:  starting PostgreSQL 16.2 on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit
+2026-05-22 13:39:29.342 EAT [7289] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-05-22 13:39:29.348 EAT [7289] LOG:  listening on Unix socket "/tmp/.s.PGSQL.5432"
+2026-05-22 13:39:29.356 EAT [7292] LOG:  database system was shut down at 2026-05-22 13:39:12 EAT
+2026-05-22 13:39:29.362 EAT [7289] LOG:  database system is ready to accept connections
+2026-05-22 13:39:38.874 EAT [7367] FATAL:  database "westmart" does not exist
+2026-05-22 13:41:21.919 EAT [7289] LOG:  received fast shutdown request
+2026-05-22 13:41:21.928 EAT [7289] LOG:  aborting any active transactions
+2026-05-22 13:41:21.929 EAT [7289] LOG:  background worker "logical replication launcher" (PID 7295) exited with exit code 1
+2026-05-22 13:41:21.930 EAT [7290] LOG:  shutting down
+2026-05-22 13:41:21.933 EAT [7290] LOG:  checkpoint starting: shutdown immediate
+2026-05-22 13:41:21.956 EAT [7290] LOG:  checkpoint complete: wrote 42 buffers (0.3%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.007 s, sync=0.005 s, total=0.026 s; sync files=11, longest=0.003 s, average=0.001 s; distance=241 kB, estimate=241 kB; lsn=0/1530348, redo lsn=0/1530348
+2026-05-22 13:41:21.961 EAT [7289] LOG:  database system is shut down
