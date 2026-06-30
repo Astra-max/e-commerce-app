@@ -1,4 +1,3 @@
-
 type params = {
   message: string
 }

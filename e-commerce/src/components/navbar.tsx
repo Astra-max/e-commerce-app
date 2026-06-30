@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import "../styles/index.css";
+import "../index.css";
 import { useSelector } from "react-redux";
 import { cartSelector } from "../store/cartSlice";
 import ProfileAccount from "./profile-account";
