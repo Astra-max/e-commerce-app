@@ -15,6 +15,9 @@ import { HandleGetTotal } from "../store/totalSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "../components/notFound";
 
+/**
+ * Handles product card
+ */
 export const ProductCard = () => {
   const [pid, setPid] = useState(0);
   const [leave, setLeave] = useState(false);
@@ -30,6 +33,9 @@ export const ProductCard = () => {
     }
   }, [userId]);
 
+  /**
+   * Handles handle add to cart
+   */
   async function HandleAddToCart(product: Products) {
     const { productid, name, category, image, amount, description } = product;
     const status = "cart";
@@ -59,11 +65,17 @@ export const ProductCard = () => {
     }
   }
 
+  /**
+   * Handles handle style
+   */
   function HandleStyle(productId: number) {
     setLeave(false);
     setPid(productId);
   }
 
+  /**
+   * Handles handle mouse leave
+   */
   function HandleMouseLeave() {
     setLeave(true);
   }
@@ -106,6 +118,9 @@ export const ProductCard = () => {
   );
 };
 
+/**
+ * Handles products list
+ */
 const ProductsList = () => {
   const btnVals = [
     { id: 1, category: "All" },
@@ -129,6 +144,9 @@ const ProductsList = () => {
 
   const [category, setCategory] = useState("All");
 
+  /**
+   * Handles fetch category
+   */
   function fetchCategory(cat: string) {
     setCategory(cat);
   }
@@ -167,6 +185,9 @@ const ProductsList = () => {
   );
 };
 
+/**
+ * Handles single product
+ */
 export function SingleProduct() {
   const { Items } = useSelector(productSelector);
   const { productid } = useParams();
@@ -175,23 +196,58 @@ export function SingleProduct() {
     (product: Products) => product.productid === productId
   );
   if (product === undefined) return <NotFound message={"product"} />;
+
   return (
-    <div className="s-p-card">
-      <div className="s-cd-img-cont">
-        <img className="s-cd-image" src={product.image} alt="product image" />
-      </div>
-      <div className="s-p-desc">
-        <div>
-          <p className="">{product.category}</p>
-          <p className="singlecart-name">{product.name}</p>
-          <p>{product.description}</p>
-          <p className="single-cart-price">
-            Price&nbsp;Kshs&nbsp;{product.amount}.00
-          </p>
+    <div className="s-p-page">
+      <div className="s-p-card">
+        {/* Left: image */}
+        <div className="s-cd-img-cont">
+          <img className="s-cd-image" src={product.image} alt="product image" />
         </div>
-        <div className="s-btn-cont">
-          <button className="s-btn purchase-item">Add to cart</button>
-          <button className="s-btn goto-cart">purchase</button>
+
+        {/* Middle: details */}
+        <div className="s-p-info">
+          <p className="s-p-category">{product.category}</p>
+          <h1 className="singlecart-name">{product.name}</h1>
+
+          <div className="s-p-rating">
+            <span className="s-p-stars">★★★★☆</span>
+            <span className="s-p-rating-count">128 ratings</span>
+          </div>
+
+          <hr className="s-p-divider" />
+
+          <p className="s-p-price-tag">
+            <span className="s-p-currency">Kshs</span>
+            <span className="s-p-amount">{product.amount}</span>
+            <span className="s-p-decimal">.00</span>
+          </p>
+
+          <hr className="s-p-divider" />
+
+          <p className="s-p-about-title">About this item</p>
+          <p className="s-p-desc-text">{product.description}</p>
+        </div>
+
+        {/* Right: buy box */}
+        <div className="s-buybox">
+          <p className="s-buybox-price">
+            Kshs {product.amount}
+            <span className="s-buybox-decimal">.00</span>
+          </p>
+
+          <p className="s-buybox-delivery">
+            FREE delivery <span>Tomorrow</span>
+          </p>
+
+          <p className="s-buybox-stock">In Stock</p>
+
+          <div className="s-btn-cont">
+            <button className="s-btn purchase-item">Add to cart</button>
+            <button className="s-btn goto-cart">Buy Now</button>
+          </div>
+
+          <p className="s-buybox-secure">🔒 Secure transaction</p>
         </div>
       </div>
     </div>

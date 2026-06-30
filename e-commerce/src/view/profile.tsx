@@ -3,6 +3,9 @@ import "../styles/profile.css";
 import { useSelector } from "react-redux";
 import { authSelector } from "../store/authSlice";
 
+/**
+ * Handles side bar
+ */
 export const SideBar = () => {
   const nav = useNavigate();
   const { userId } = useSelector(authSelector)
@@ -19,6 +22,9 @@ export const SideBar = () => {
     { id: 9, name: "Logout" },
   ];
   
+  /**
+   * Handles handle logout
+   */
   function HandleLogout() {
     nav(`/auth/login`)
   }
@@ -55,6 +61,9 @@ export const SideBar = () => {
   );
 };
 
+/**
+ * Handles profile account
+ */
 const ProfileAccount = () => {
   return (
     <div>
