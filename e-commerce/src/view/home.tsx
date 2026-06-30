@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { cartSelector, HandleCartFetch } from "../store/cartSlice";
+import {  HandleCartFetch } from "../store/cartSlice";
 import "../styles/home.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../store/authSlice";
@@ -15,7 +15,7 @@ const Home = () => {
   const push = useNavigate();
 
   const { userId, token } = useSelector(authSelector);
-  const { cart } = useSelector(cartSelector);
+  //const { cart } = useSelector(cartSelector);
   const { Items } = useSelector(productSelector);
   const { productId }: any = useSelector(itemHistrySelector);
 
@@ -26,9 +26,6 @@ const Home = () => {
     return Math.floor(Math.random() * Items.length);
   };
 
-  /* -------------------------
-     Random rotate
-  -------------------------- */
   useEffect(() => {
     function HandleRandomId() {
       if (!Items.length) return;
