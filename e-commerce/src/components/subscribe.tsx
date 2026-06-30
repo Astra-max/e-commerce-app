@@ -4,6 +4,9 @@ import { authSelector } from "../store/authSlice"
 
 const Subscribe = () => {
     const { userId } = useSelector(authSelector)
+    /**
+     * Handles handle subscribe
+     */
     function HandleSubscribe() {
         if (userId) return alert('successfully subscribed to westmart product news & promotion')
     }

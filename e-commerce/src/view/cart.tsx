@@ -22,6 +22,9 @@ import store from "../store/store";
 import { authSelector } from "../store/authSlice";
 import { productSelector } from "../store/productSlice";
 
+/**
+ * Handles product cart
+ */
 export const ProductCart = () => {
   const { cart, loading } = useSelector(cartSelector);
   const { total } = useSelector(totalSelector);
@@ -47,6 +50,9 @@ export const ProductCart = () => {
     }
   }
 
+  /**
+   * Handles handle add quant
+   */
   function HandleAddQuant(productId: number, amount: number) {
     const index: number = cart.findIndex(
       (item: { productid: number }) => item.productid === productId
@@ -60,6 +66,9 @@ export const ProductCart = () => {
     }
   }
 
+  /**
+   * Handles handle remove quant
+   */
   function HandleRemoveQuant(itemId: number, amount: number) {
     const index = cart.findIndex(
       (item: { productid: number }) => item.productid === itemId
@@ -83,64 +92,123 @@ export const ProductCart = () => {
 
   if (cart.length === 0 ) return (<p>Temporarily unavailable 503</p>)
 
+  const itemCount = cart.reduce(
+    (sum: number, val: Products) => sum + (val.quantity || 1),
+    0
+  );
 
   return (
     <Fragment>
-      <div className="payable">
-        <p className="total">
-          Total Expenses: <span>kshs&nbsp;{total||0}</span>
-        </p>
-        <button className="purchase-all">Payment</button>
-      </div>
-      <div className="cart-cont">
-        {cart.map((val: Products) => (
-          <div className="cart-main" key={val.productid}>
-            <div className="display-img-price">
-              <img className="cart-image" src={val.image} alt="product image" />
-              <div className="price-cont">
-                <div className="cart-price-div">
-                  <p className="cart-name">{val.name}</p>
-                  <p className="cart-price">Kshs&nbsp;{val.amount||0}</p>
-                  <p className="cart-quant">
-                    Quantity&nbsp;
-                    <span style={{ fontWeight: "bold" }}>{val.quantity}</span>
+      <div className="cart-page">
+        <div className="cart-items-col">
+          <div className="cart-items-header">
+            <h1 className="cart-items-title">Shopping Basket</h1>
+            <span className="cart-items-subtitle">Price</span>
+          </div>
+          <hr className="cart-divider" />
+
+          <div className="cart-cont">
+            {cart.map((val: Products) => (
+              <Fragment key={val.productid}>
+                <div className="cart-main">
+                  <div className="display-img-price">
+                    <Link to={`/cart/${userId}/${val.productid}`}>
+                      <img
+                        className="cart-image"
+                        src={val.image}
+                        alt="product image"
+                      />
+                    </Link>
+                    <div className="price-cont">
+                      <div className="cart-price-div">
+                        <Link
+                          to={`/cart/${userId}/${val.productid}`}
+                          className="cart-name"
+                        >
+                          {val.name}
+                        </Link>
+                        <p className="cart-stock">In Stock</p>
+
+                        <div className="ct-btn-cont">
+                          <div className="qty-stepper">
+                            <button
+                              className="qty-btn"
+                              onClick={() =>
+                                HandleRemoveQuant(val.productid, val.amount)
+                              }
+                            >
+                              −
+                            </button>
+                            <span className="qty-value">{val.quantity}</span>
+                            <button
+                              className="qty-btn"
+                              onClick={() =>
+                                HandleAddQuant(val.productid, val.amount)
+                              }
+                            >
+                              +
+                            </button>
+                          </div>
+
+                          <span className="ct-sep">|</span>
+
+                          <button
+                            className="cart-link-btn remove-item"
+                            onClick={() => HandleRemoveProduct(val.productid)}
+                          >
+                            Delete
+                          </button>
+
+                          <span className="ct-sep">|</span>
+
+                          <Link
+                            to={`/cart/${userId}/${val.productid}`}
+                            className="cart-link-btn"
+                          >
+                            View details
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="cart-line-price">
+                    Kshs&nbsp;{(val.amount || 0) * (val.quantity || 1)}
+                    <span className="cart-line-decimal">.00</span>
                   </p>
                 </div>
-                <div className="ct-btn-cont">
-                  <button
-                    className="c-btn remove-item"
-                    onClick={() => HandleRemoveProduct(val.productid)}
-                  >
-                    Remove
-                  </button>
-                  <button
-                    className="c-btn purchase"
-                    onClick={() => HandleAddQuant(val.productid, val.amount)}
-                  >
-                    +
-                  </button>
-                  <button
-                    className="c-btn purchase"
-                    onClick={() => HandleRemoveQuant(val.productid, val.amount)}
-                  >
-                    -
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div className="quantity">
-              <Link
-                to={`/cart/${userId}/${val.productid}`}
-                className="see-more"
-              >{`->`}</Link>
-            </div>
+                <hr className="cart-divider" />
+              </Fragment>
+            ))}
           </div>
-        ))}
+
+          <div className="cart-grand-total">
+            Subtotal ({itemCount} item{itemCount !== 1 ? "s" : ""}):{" "}
+            <span>Kshs&nbsp;{total || 0}</span>
+          </div>
+        </div>
+
+        <aside className="cart-summary-col">
+          <div className="cart-summary-box">
+            <p className="cart-summary-total">
+              Subtotal ({itemCount} item{itemCount !== 1 ? "s" : ""}):{" "}
+              <span>Kshs&nbsp;{total || 0}</span>
+            </p>
+            <label className="cart-summary-checkbox">
+              <input type="checkbox" defaultChecked /> This order contains a
+              gift
+            </label>
+            <button className="purchase-all">Proceed to checkout</button>
+          </div>
+        </aside>
       </div>
     </Fragment>
   );
 };
 
+/**
+ * Handles single item
+ */
 export function SingleItem() {
   const { productid } = useParams();
   const { cart } = useSelector(cartSelector);
@@ -165,7 +233,12 @@ export function SingleItem() {
     );
 
   const item = cart[itemIndex];
+  const unitPrice = Items[itemIndex]?.amount ?? item.amount ?? 0;
+  const lineTotal = item.quantity * unitPrice;
 
+  /**
+   * Handles handle add quant
+   */
   const HandleAddQuant = () => {
     dispatch(addToTotal(item.amount));
     dispatch(HandleAddTotal({userId, productId: item.productid}))
@@ -173,6 +246,9 @@ export function SingleItem() {
     dispatch(HandleAddQuantity({ userId, productId: item.productid }));
   };
 
+  /**
+   * Handles handle remove quant
+   */
   const HandleRemoveQuant = () => {
     if (item.quantity > 1) {
       //dispatch(reduceTotal(item.amount));
@@ -182,67 +258,77 @@ export function SingleItem() {
   };
 
   return (
-    <div className="single-main">
-      <div className="single-cont" key={item.productid}>
-        <div className="s-display-img-price">
-          <div className="s-image-div">
-            <img
-              className="single-cart-image"
-              src={item.image}
-              alt="product image"
-            />
+    <div className="s-p-page">
+      <div className="s-p-card" key={item.productid}>
+        {/* Left: image */}
+        <div className="s-cd-img-cont">
+          <img
+            className="s-cd-image"
+            src={item.image}
+            alt="product image"
+          />
+        </div>
+
+        {/* Middle: details */}
+        <div className="s-p-info">
+          <p className="s-p-category">{item.category}</p>
+          <h1 className="singlecart-name">{item.name}</h1>
+
+          <hr className="s-p-divider" />
+
+          <p className="s-p-about-title">About this item</p>
+          <p className="s-p-desc-text">{item.description}</p>
+
+          <hr className="s-p-divider" />
+
+          <p className="s-p-about-title">Quantity in cart</p>
+          <div className="qty-stepper qty-stepper-lg">
+            <button className="qty-btn" onClick={HandleRemoveQuant}>
+              −
+            </button>
+            <span className="qty-value">{item.quantity}</span>
+            <button className="qty-btn" onClick={HandleAddQuant}>
+              +
+            </button>
           </div>
-          <div className="single-price-cont">
-            <div className="single-price-div">
-              <p className="">{item.category}</p>
-              <p className="singlecart-name">{item.name}</p>
-              <p>{item.description}</p>
-              <p className="single-cart-price">
-                Number of item(s) {item.quantity}
-              </p>
-              <p className="single-cart-price">
-                Amount {item.quantity} * {Items[itemIndex]?.amount} = Kshs{" "}
-                {item.quantity * Items[itemIndex]?.amount}.00
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: "1rem", lineHeight: "0.1rem" }}>
-              <p
-                style={{
-                  fontSize: "2.2rem",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-                onClick={HandleAddQuant}
-              >
-                +
-              </p>
-              <p
-                style={{
-                  fontSize: "2.2rem",
-                  fontWeight: "bold",
-                  cursor: "pointer",
-                }}
-                onClick={HandleRemoveQuant}
-              >
-                -
-              </p>
-            </div>
-            <div className="s-btn-cont">
-              <button className="s-btn purchase-item">Purchase Now</button>
-              <button
-                className="s-btn goto-cart"
-                onClick={() => nav(`/cart/${userId}`)}
-              >
-                Go to Cart
-              </button>
-            </div>
+        </div>
+
+        {/* Right: buy box */}
+        <div className="s-buybox">
+          <p className="s-buybox-price">
+            Kshs {lineTotal}
+            <span className="s-buybox-decimal">.00</span>
+          </p>
+          <p className="s-buybox-unit-price">
+            ({item.quantity} × Kshs {unitPrice}.00)
+          </p>
+
+          <p className="s-buybox-delivery">
+            FREE delivery <span>Tomorrow</span>
+          </p>
+
+          <p className="s-buybox-stock">In Stock</p>
+
+          <div className="s-btn-cont">
+            <button className="s-btn purchase-item">Purchase Now</button>
+            <button
+              className="s-btn goto-cart"
+              onClick={() => nav(`/cart/${userId}`)}
+            >
+              Go to Cart
+            </button>
           </div>
+
+          <p className="s-buybox-secure">🔒 Secure transaction</p>
         </div>
       </div>
     </div>
   );
 }
 
+/**
+ * Handles cart
+ */
 function Cart() {
   return (
     <div className="cart-display">
@@ -254,4 +340,3 @@ function Cart() {
 }
 
 export default Cart;
-

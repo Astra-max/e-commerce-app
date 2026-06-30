@@ -7,8 +7,11 @@ import { productSelector } from "../store/productSlice";
 import { useNavigate } from "react-router-dom";
 import { itemHistrySelector, setTemp } from "../store/itemHistorySlice";
 
+/**
+ * Handles home
+ */
 const Home = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const push = useNavigate();
 
   const { userId, token } = useSelector(authSelector);
@@ -16,12 +19,9 @@ const Home = () => {
   const { Items } = useSelector(productSelector);
   const { productId }: any = useSelector(itemHistrySelector);
 
-  const [index, setIndex] = useState(productId || 0);
+  const [index, setIndex] = useState(productId ?? 0);
   const [product, setProduct] = useState(Items[productId] || {});
 
-  /* -------------------------
-     FIX 1: correct random
-  -------------------------- */
   const chooseRandom = (): number => {
     if (!Items.length) return 0;
     return Math.floor(Math.random() * Items.length);
@@ -31,6 +31,9 @@ const Home = () => {
      Random rotate
   -------------------------- */
   useEffect(() => {
+    /**
+     * Handles handle random id
+     */
     function HandleRandomId() {
       const id = chooseRandom();
 
@@ -43,21 +46,15 @@ const Home = () => {
 
     const interval = setInterval(HandleRandomId, 10000);
 
-    return () => clearInterval(interval); // ⭐ FIX 2
+    return () => clearInterval(interval);
   }, [token, Items]);
 
-  /* -------------------------
-     Update product when index changes
-  -------------------------- */
   useEffect(() => {
     if (Items.length) {
       setProduct(Items[index]);
     }
   }, [index, Items]);
 
-  /* -------------------------
-     FIX 3: use dispatch not store.dispatch
-  -------------------------- */
   useEffect(() => {
     if (token) {
       dispatch(HandleCartFetch(userId));
@@ -108,8 +105,10 @@ const Home = () => {
   );
 };
 
-/* ------------------------------------ */
 
+/**
+ * Handles home product card
+ */
 export function HomeProductCard({ productId }: any) {
   const { Items } = useSelector(productSelector);
   const push = useNavigate();
