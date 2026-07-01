@@ -1,3 +1,5 @@
+-- migrate:up
+
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS roles (
@@ -6,3 +8,6 @@ CREATE TABLE IF NOT EXISTS roles (
     role_name VARCHAR(50) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+-- migrate:down
+
+DROP TABLE IF EXISTS roles;

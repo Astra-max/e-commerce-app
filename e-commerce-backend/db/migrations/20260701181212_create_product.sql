@@ -1,3 +1,5 @@
+-- migrate:up
+
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
 CREATE TABLE IF NOT EXISTS products (
@@ -10,3 +12,7 @@ CREATE TABLE IF NOT EXISTS products (
     stock_quantity INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- migrate:down
+
+DROP TABLE IF EXISTS products;

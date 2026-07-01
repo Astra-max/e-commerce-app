@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  userId: string;
   userName: string;
   firstName: string;
   secondName: string;
@@ -22,4 +22,17 @@ export interface Item {
   amount: number;
   userId: string;
   image: string;
+}
+
+export interface ValidationError {
+    isError: boolean;
+    message: string;
+    statusCode: number;
+    data?: responseData;
+}
+
+export interface responseData {
+    token: string;
+    userId: string;
+    userName: string;
 }
