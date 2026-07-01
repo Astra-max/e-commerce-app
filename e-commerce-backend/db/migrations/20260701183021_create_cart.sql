@@ -2,7 +2,7 @@
 
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
-CREATE TABLE IF NOT EXISTS carts (
+CREATE TABLE IF NOT EXISTS cart (
     cart_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id UUID NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
     product_id UUID NOT NULL REFERENCES products(product_id) ON DELETE CASCADE,
@@ -17,4 +17,4 @@ CREATE TABLE IF NOT EXISTS carts (
 );
 -- migrate:down
 
-DROP TABLE IF EXISTS carts;
+DROP TABLE IF EXISTS cart;

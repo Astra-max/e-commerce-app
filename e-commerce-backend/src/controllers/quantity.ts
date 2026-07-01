@@ -1,5 +1,5 @@
 import { type Request, type Response } from "express";
-import { addQuantity, reduceQuantity, removeItem } from "../model/query";
+import { addQuantity, reduceQuantity, removeItem } from "../repository/query";
 import pool from "../model/model";
 
 /**

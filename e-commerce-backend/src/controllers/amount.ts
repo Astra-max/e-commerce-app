@@ -1,5 +1,5 @@
 import pool from "../model/model";
-import { addTotal, getTotal } from "../model/query";
+import { addTotal, getTotal } from "../repository/query";
 import { type Request, type Response } from "express";
 
 /**

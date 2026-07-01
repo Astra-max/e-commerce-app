@@ -7,7 +7,7 @@ import {
   deleteCartItem,
   getSingleItem,
   saveItem,
-} from "../model/query";
+} from "../repository/query";
 
 /**
  * Handles handle get cart

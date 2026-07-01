@@ -1,5 +1,5 @@
 import express from "express";
-import { HandleLogin, HandleSignUP } from "../controllers/auth-user";
+import { HandleLogin, HandleSignUP } from "../controllers/auth.controller";
 import {
   HandleAddItem,
   HandleGetCart,
