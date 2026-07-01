@@ -1,5 +1,8 @@
-import "../styles/index.css";
+import "../index.css";
 
+/**
+ * Handles footer
+ */
 const Footer = () => {
   return (
     <div className="footer-display">

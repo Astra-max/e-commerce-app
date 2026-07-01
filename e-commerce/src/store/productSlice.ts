@@ -12,5 +12,8 @@ const productSlice = createSlice({
     reducers: {},
 })
 
+/**
+ * Handles product selector
+ */
 export const productSelector = (state: any)=>state.products
 export default productSlice.reducer

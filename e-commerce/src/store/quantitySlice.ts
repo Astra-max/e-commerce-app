@@ -67,6 +67,9 @@ const quantitySlice = createSlice({
   },
 });
 
+/**
+ * Handles quantity selector
+ */
 export const quantitySelector = (state: { quantity: number | any }) =>
   state.quantity;
 export const { incrementQuantity, decrementQuantity } = quantitySlice.actions;

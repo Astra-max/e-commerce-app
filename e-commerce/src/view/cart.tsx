@@ -39,6 +39,9 @@ export const ProductCart = () => {
     if (userId) dispatch(HandleGetTotal(userId));
   }, [total]);
 
+  /**
+   * Handles handle remove product
+   */
   function HandleRemoveProduct(productId: number) {
     const checkExists = cart.findIndex(
       (product: Products) => product.productid === productId

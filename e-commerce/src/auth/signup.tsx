@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSelector, signUPUser } from "../store/authSlice";
 import { UnknownAction } from "@reduxjs/toolkit";
 
+/**
+ * Handles signup
+ */
 const Signup = () => {
   const [submit, setSubmit] = useState(true);
   const { error, token } = useSelector(authSelector);
@@ -43,6 +46,9 @@ const Signup = () => {
     }
   },[token])
 
+  /**
+   * Handles form validation
+   */
   function FormValidation(
     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) {
@@ -186,6 +192,9 @@ const Signup = () => {
     }
   }
 
+  /**
+   * Handles handle submit
+   */
   function HandleSubmit(
     event: React.FormEvent<HTMLFormElement>
   ): UnknownAction {

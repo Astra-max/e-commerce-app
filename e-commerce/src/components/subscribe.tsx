@@ -2,6 +2,9 @@ import { useSelector } from "react-redux"
 import "../styles/app.css"
 import { authSelector } from "../store/authSlice"
 
+/**
+ * Handles subscribe
+ */
 const Subscribe = () => {
     const { userId } = useSelector(authSelector)
     /**

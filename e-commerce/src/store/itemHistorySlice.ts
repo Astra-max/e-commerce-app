@@ -29,6 +29,9 @@ const itemHistorySlice = createSlice({
   },
 });
 
+/**
+ * Handles item histry selector
+ */
 export const itemHistrySelector = (state: { itemHistory: number }) =>
   state.itemHistory;
 export const { setTemp, setItemHistory, clearItemHistory } =

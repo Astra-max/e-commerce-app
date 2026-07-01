@@ -139,7 +139,7 @@ const cartSlice = createSlice({
           { payload }: PayloadAction<{ itemId: number; quantity: number }>
         ) => {
           state.loading = false;
-          //state.cart[payload.itemId].quantity = payload.quantity;
+          state.cart[payload.itemId].quantity = payload.quantity;
         }
       )
       .addCase(HandleAddQuantity.rejected, (state, { payload }: any) => {
@@ -157,5 +157,8 @@ export const {
   reduceTotal,
   removeItemPrice,
 } = cartSlice.actions;
+/**
+ * Handles cart selector
+ */
 export const cartSelector = (state: any) => state.cart;
 export default cartSlice.reducer;

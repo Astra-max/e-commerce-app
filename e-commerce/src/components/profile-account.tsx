@@ -5,6 +5,9 @@ import { useState } from "react";
 import "../styles/profile.css";
 import { itemHistrySelector, setItemHistory } from "../store/itemHistorySlice";
 
+/**
+ * Handles profile account
+ */
 const ProfileAccount = () => {
   const { userName } = useSelector(authSelector);
 
@@ -58,6 +61,9 @@ export const DropDown = (): JSX.Element => {
     { id: 2, name: "Logout" },
   ];
 
+  /**
+   * Handles handle logout
+   */
   function HandleLogout() {
     dispatch(setItemHistory({event: true, productId: tempId}))
     dispatch(logout());

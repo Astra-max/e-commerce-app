@@ -4,6 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { authSelector, loginUser } from "../store/authSlice";
 import "../styles/login.css"
 
+/**
+ * Handles login
+ */
 const Login = () => {
   const [userData, setData] = useState({ emailAddr: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +18,9 @@ const Login = () => {
     if (token) push("/");
   }, [token]);
 
+  /**
+   * Handles handle user data
+   */
   function HandleUserData(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     setData((data) => ({ ...data, [name]: value }));
@@ -22,6 +28,9 @@ const Login = () => {
 
   const canLogin = Boolean(userData.emailAddr) && Boolean(userData.password);
 
+  /**
+   * Handles handle submit
+   */
   function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(loginUser(userData)).unwrap();

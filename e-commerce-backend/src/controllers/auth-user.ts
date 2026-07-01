@@ -9,6 +9,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+/**
+ * Handles handle login
+ */
 export const HandleLogin = async (req: Request, res: Response) => {
   const { emailAddr, password } = req.body;
   if (!emailAddr || !password)
@@ -51,6 +54,9 @@ export const HandleLogin = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Handles handle sign u p
+ */
 export const HandleSignUP = async (req: Request, res: Response) => {
   const {
     userName,
