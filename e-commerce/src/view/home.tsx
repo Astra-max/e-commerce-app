@@ -27,6 +27,9 @@ const Home = () => {
   };
 
   useEffect(() => {
+    /**
+     * Handles handle random id
+     */
     function HandleRandomId() {
       if (!Items.length) return;
 

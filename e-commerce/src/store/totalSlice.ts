@@ -82,6 +82,9 @@ const totalSlice = createSlice({
   },
 });
 
+/**
+ * Handles total selector
+ */
 export const totalSelector = (state: { total: any }) => state.total;
 
 export const {} = totalSlice.actions;

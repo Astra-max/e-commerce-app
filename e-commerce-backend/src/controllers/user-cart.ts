@@ -9,6 +9,9 @@ import {
   saveItem,
 } from "../model/query";
 
+/**
+ * Handles handle get cart
+ */
 export const HandleGetCart = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
@@ -21,6 +24,9 @@ export const HandleGetCart = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Handles handle get product
+ */
 export const HandleGetProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "product id required" });
@@ -37,6 +43,9 @@ export const HandleGetProduct = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Handles handle add item
+ */
 export const HandleAddItem = async (req: Request, res: Response) => {
   const {
     productid,
@@ -105,6 +114,9 @@ export const HandleAddItem = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Handles handle remove item
+ */
 export const HandleRemoveItem = async (req: Request, res: Response) => {
   const { productId, userId } = req.params;
 

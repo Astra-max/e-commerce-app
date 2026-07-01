@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 
+/**
+ * Handles general rate limiter
+ */
 export function GeneralRateLimiter(
   req: Request,
   res: Response,

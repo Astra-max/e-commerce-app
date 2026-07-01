@@ -99,6 +99,9 @@ const authSlice = createSlice({
   },
 });
 
+/**
+ * Handles auth selector
+ */
 export const authSelector = (state: any) => state.auth;
 
 export const { logout } = authSlice.actions;

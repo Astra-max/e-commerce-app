@@ -2,6 +2,9 @@ import { type Request, type Response } from "express";
 import { addQuantity, reduceQuantity, removeItem } from "../model/query";
 import pool from "../model/model";
 
+/**
+ * Handles handle add quantity
+ */
 export const HandleAddQuantity = async (req: Request, res: Response) => {
   const { itemId, userId } = req.body;
   try {
@@ -15,6 +18,9 @@ export const HandleAddQuantity = async (req: Request, res: Response) => {
 };
 
 
+/**
+ * Handles handle reduce quantity
+ */
 export const HandleReduceQuantity = async (req: Request, res: Response) => {
   const { itemId, userId } = req.body;
   try {

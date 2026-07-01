@@ -2,6 +2,9 @@ import { useState } from "react";
 import "../styles/poducts.css"
 
 
+/**
+ * Handles shipment
+ */
 const Shipment = () => {
     const [selected, setSelected] = useState("Nairobi")
     const deliveryPlace = [
@@ -10,6 +13,9 @@ const Shipment = () => {
         "Kakamega",
     ]
     const cityPlace = new Map([["Kisumu", ['Lake basin', 'Mega city']], ["Nairobi", ["GPO", "CBD", "Westlands"]]])
+    /**
+     * Handles handle select
+     */
     function HandleSelect(event: React.ChangeEvent<HTMLSelectElement>) {
         const { value } = event.target
         setSelected(value)

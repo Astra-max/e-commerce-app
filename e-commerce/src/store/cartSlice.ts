@@ -157,5 +157,8 @@ export const {
   reduceTotal,
   removeItemPrice,
 } = cartSlice.actions;
+/**
+ * Handles cart selector
+ */
 export const cartSelector = (state: any) => state.cart;
 export default cartSlice.reducer;

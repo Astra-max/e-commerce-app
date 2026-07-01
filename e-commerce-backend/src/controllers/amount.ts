@@ -2,6 +2,9 @@ import pool from "../model/model";
 import { addTotal, getTotal } from "../model/query";
 import { type Request, type Response } from "express";
 
+/**
+ * Handles handle get amount
+ */
 export const HandleGetAmount = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
@@ -17,6 +20,9 @@ export const HandleGetAmount = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * Handles handle add total
+ */
 export const HandleAddTotal = async (req: Request, res: Response) => {
   const { userId } = req.body;
   const { productId } = req.params;
