@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
       localStorage.setItem(
         "auth",
         JSON.stringify({
-          token: data.token,
+          token: data.accessToken,
           userName: data.userName,
           userId: data.userId,
         })
@@ -29,11 +29,11 @@ export const signUPUser = createAsyncThunk(
   "auth/sign-up",
   async (userData: User, { rejectWithValue }) => {
     try {
-      const { data } = await API.post("/auth/sign-up", userData);
+      const { data } = await API.post("/auth/register", userData);
       localStorage.setItem(
         "auth",
         JSON.stringify({
-          token: data.token,
+          token: data.accessToken,
           userName: data.userName,
           userId: data.userId,
         })
@@ -52,7 +52,7 @@ const userData = JSON.parse(localStorage.getItem("auth") as string);
 
 const initialState = {
   userName: userData?.userName || null,
-  token: userData?.token || null,
+  token: userData?.accessToken || null,
   userId: userData?.userId || null,
   loading: false,
   error: null,
@@ -76,7 +76,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.token = payload.token;
+        state.token = payload.accessToken;
         state.userName = payload.userName;
         state.userId = payload.userId;
         state.error = null;
