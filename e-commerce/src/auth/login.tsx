@@ -16,7 +16,7 @@ const Login = () => {
 
   useEffect(() => {
     if (token) push("/");
-  }, [token]);
+  }, [token]);  
 
   /**
    * Handles handle user data

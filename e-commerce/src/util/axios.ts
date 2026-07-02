@@ -3,6 +3,7 @@ import { BASE_URL } from "../../types";
 
 const API = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true, // Include cookies in requests
 });
 
 API.interceptors.request.use(
