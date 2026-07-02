@@ -21,7 +21,7 @@ app.use(GeneralRateLimiter)
 
 const PORT = process.env.SERVER_PORT || 5500;
 
-app.use("/", router);
+app.use("/api/v1", router);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -1,5 +1,4 @@
 import { type Request, type Response } from "express";
-import jwt from "jsonwebtoken";
 import { User } from "../../types";
 import pool from "../model/model";
 import bcrypt from "bcrypt";
