@@ -11,22 +11,23 @@ import {
   HandleReduceQuantity,
 } from "../controllers/quantity";
 import { getAllUsersController } from "../controllers/users.controllers";
+import { authRateLimiter, generalRateLimiter } from "../middleware/rate-limiter";
 
 
 export const router = express.Router();
 
 //auth routes
-router.post("/auth/login", HandleLogin);
-router.post("/auth/register", HandleSignUP);
+router.post("/auth/login", authRateLimiter, HandleLogin);
+router.post("/auth/register", authRateLimiter, HandleSignUP);
 
 // users routes
-router.get("/users", getAllUsersController);
+router.get("/users", generalRateLimiter, getAllUsersController);
 
 //cart routes
-router.post("/cart", HandleAddItem);
-router.delete("/cart/:userId/:productId", HandleRemoveItem);
-router.put("/quantity/add",HandleAddQuantity);
-router.put("/quantity/reduce", HandleReduceQuantity);
-router.get("/cart/:userId", HandleGetCart);
-router.get("/total/:userId", HandleGetAmount);
-router.put("/total/:productId", HandleAddTotal);
+router.post("/cart", generalRateLimiter, HandleAddItem);
+router.delete("/cart/:userId/:productId", generalRateLimiter, HandleRemoveItem);
+router.put("/quantity/add", generalRateLimiter, HandleAddQuantity);
+router.put("/quantity/reduce", generalRateLimiter, HandleReduceQuantity);
+router.get("/cart/:userId", generalRateLimiter, HandleGetCart);
+router.get("/total/:userId", generalRateLimiter, HandleGetAmount);
+router.put("/total/:productId", generalRateLimiter, HandleAddTotal);
