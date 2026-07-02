@@ -3,11 +3,10 @@ import { type Request, type Response } from "express";
 import pool from "../model/model";
 import {
   allItems,
-  cartQuery,
   deleteCartItem,
   getSingleItem,
-  saveItem,
-} from "../repository/query";
+} from "../query/query";
+import { addItemQuery } from "../query/cart.query";
 
 /**
  * Handles handle get cart
@@ -85,10 +84,7 @@ export const HandleAddItem = async (req: Request, res: Response) => {
     }
 
     const inserted = await pool.query(
-      `INSERT INTO cart 
-        (userid, productid, name, description, category, quantity, price, image, status)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
-       RETURNING *`,
+      addItemQuery,
       [
         userId,
         productid,

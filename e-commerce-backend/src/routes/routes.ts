@@ -10,12 +10,19 @@ import {
   HandleAddQuantity,
   HandleReduceQuantity,
 } from "../controllers/quantity";
+import { getAllUsersController } from "../controllers/users.controllers";
 
 
 export const router = express.Router();
 
+//auth routes
 router.post("/auth/login", HandleLogin);
-router.post("/auth/sign-up", HandleSignUP);
+router.post("/auth/register", HandleSignUP);
+
+// users routes
+router.get("/users", getAllUsersController);
+
+//cart routes
 router.post("/cart", HandleAddItem);
 router.delete("/cart/:userId/:productId", HandleRemoveItem);
 router.put("/quantity/add",HandleAddQuantity);

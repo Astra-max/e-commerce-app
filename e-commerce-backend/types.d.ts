@@ -1,15 +1,25 @@
 export interface User {
-  userId: string;
   userName: string;
   firstName: string;
   secondName: string;
   emailAddr: string;
   age: string;
   phone: string;
-  idNo?: string;
+  idNo: string;
   password: string;
   gender: string;
-  confirm: string;
+}
+export interface UserRequest {
+  userName: string;
+  firstName: string;
+  secondName: string;
+  emailAddr: string;
+  age: string;
+  phone: string;
+  idNo: string;
+  password: string;
+  gender: string;
+  confirmPassword: string;
 }
 
 export interface Item {
@@ -31,8 +41,8 @@ export interface ValidationError {
     data?: responseData;
 }
 
-export interface responseData {
-    token: string;
+export interface ResponseData {
+    accessToken: string;
     userId: string;
     userName: string;
 }
