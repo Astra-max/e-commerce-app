@@ -11,8 +11,8 @@ import {
   HandleReduceQuantity,
 } from "../controllers/quantity";
 import { getAllUsersController } from "../controllers/users.controllers";
-import { authRateLimiter, generalRateLimiter } from "../middleware/rate.limit.middleware";
-
+import { authRateLimiter } from "../middleware/rate.limit.middleware";
+import { authMiddleware } from "../middleware/auth.middleware";
 
 export const router = express.Router();
 
@@ -21,13 +21,13 @@ router.post("/auth/login", authRateLimiter, HandleLogin);
 router.post("/auth/register", authRateLimiter, HandleSignUP);
 
 // users routes
-router.get("/users",  getAllUsersController);
+router.get("/users", authMiddleware, getAllUsersController);
 
 //cart routes
-router.post("/cart",HandleAddItem);
-router.delete("/cart/:userId/:productId",  HandleRemoveItem);
-router.put("/quantity/add", HandleAddQuantity);
-router.put("/quantity/reduce", HandleReduceQuantity);
-router.get("/cart/:userId", HandleGetCart);
-router.get("/total/:userId",  HandleGetAmount);
-router.put("/total/:productId", HandleAddTotal);
+router.post("/cart", authMiddleware, HandleAddItem);
+router.delete("/cart/:userId/:productId", authMiddleware, HandleRemoveItem);
+router.put("/quantity/add", authMiddleware, HandleAddQuantity);
+router.put("/quantity/reduce", authMiddleware, HandleReduceQuantity);
+router.get("/cart/:userId", authMiddleware, HandleGetCart);
+router.get("/total/:userId", authMiddleware, HandleGetAmount);
+router.put("/total/:productId", authMiddleware, HandleAddTotal);
