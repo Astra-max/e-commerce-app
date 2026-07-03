@@ -40,7 +40,7 @@ export const authLoginService = async (
     return { isError: true, message: "Invalid password", statusCode: 401 };
   }
 
-  const token = generateToken(getUserByEmail.userId, getUserByEmail.userName);
+  const token = generateToken({ userId: getUserByEmail.userId, userName: getUserByEmail.userName });
   if (!token) {
     return {
       isError: true,
@@ -134,7 +134,7 @@ export const authSignUpService = async (
         };
     }
 
-    const token = generateToken(savedUser.userId, savedUser.userName);
+    const token = generateToken({ userId: savedUser.userId, userName: savedUser.userName });
     if (!token) {
         return {
             isError: true,
