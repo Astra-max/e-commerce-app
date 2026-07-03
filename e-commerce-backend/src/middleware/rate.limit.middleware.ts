@@ -11,8 +11,8 @@ export const generalRateLimiter = rateLimit({
 
 // authentication rate limiter for login and signup routes
 export const authRateLimiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 10 minutes
-  max: 5, // Limit each IP to 5 requests per windowMs
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 7, // Limit each IP to 7 requests per windowMs
   message: { message: "Too many requests, please try again later." },
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers

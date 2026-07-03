@@ -46,3 +46,8 @@ export interface ResponseData {
     userId: string;
     userName: string;
 }
+
+export interface JwtSignCredentials {
+    userId: string;
+    userName: string;
+}
