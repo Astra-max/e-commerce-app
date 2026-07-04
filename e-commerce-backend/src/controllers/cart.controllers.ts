@@ -8,9 +8,7 @@ import {
 } from "../query/query";
 import { addItemQuery } from "../query/cart.query";
 
-/**
- * Handles handle get cart
- */
+// return all items in the cart table
 export const HandleGetCart = async (req: Request, res: Response) => {
   const { userId } = req.params;
 
@@ -23,9 +21,8 @@ export const HandleGetCart = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Handles handle get product
- */
+
+// get single item from cart
 export const HandleGetProduct = async (req: Request, res: Response) => {
   const { id } = req.params;
   if (!id) return res.status(400).json({ message: "product id required" });
@@ -58,7 +55,6 @@ export const HandleAddItem = async (req: Request, res: Response) => {
     amount,
   }: Item = req.body;
 
-  console.log(amount);
   if (
     !productid ||
     !name ||
