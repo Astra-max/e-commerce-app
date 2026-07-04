@@ -3,11 +3,11 @@ import { getAllUsers, handleGetUserByEmail, saveUser } from "../repository/user.
 import isRepositoryError from "../util/repoErr";
 import { comparePassword, hashPassword } from "../util/hash.password.util";
 import { generateToken } from "../util/jwt";
-import { ResponseData, User, UserRequest, ValidationError } from "../../types";
+import { ResponseData, User, UserRequest, ServiceResponse } from "../../types";
 
 export const authLoginService = async (
   data: Request,
-): Promise<ValidationError> => {
+): Promise<ServiceResponse<ResponseData>> => {
   const { emailAddr, password } = data.body;
   if (!emailAddr) {
     return {
@@ -30,11 +30,13 @@ export const authLoginService = async (
     };
   }
 
-  let isValidPassword: Promise<boolean> = Promise.resolve(false);
-
-  if (getUserByEmail.password) {
-    isValidPassword = comparePassword(password, getUserByEmail.password);
-  }
+  const isValidPassword =
+    getUserByEmail.password
+        ? await comparePassword(
+            password,
+            getUserByEmail.password
+          )
+        : false;
 
   if (!isValidPassword) {
     return { isError: true, message: "Invalid password", statusCode: 401 };
@@ -63,7 +65,7 @@ export const authLoginService = async (
 
 export const authSignUpService = async (
   data: Request,
-): Promise<ValidationError> => {
+): Promise<ServiceResponse<ResponseData>> => {
   const {
     userName,
     firstName,
@@ -109,11 +111,6 @@ export const authSignUpService = async (
     };
     }
 
-     const userExists = await handleGetUserByEmail(emailAddr);
-        if (isRepositoryError(userExists) && userExists.statusCode === 409) {
-            return { isError: true, message: "User already exists", statusCode: 409 };
-        }
-
     const savedUser = await saveUser({
         userName,
         firstName,
@@ -156,7 +153,7 @@ export const authSignUpService = async (
 };
 
 
-export const getAllUsersService = async (): Promise<User[] | ValidationError> => {
+export const getAllUsersService = async (): Promise<User[] | ServiceResponse<ResponseData>> => {
   const users = await getAllUsers();
   // check if the result is an error object or an array of users
   if (!Array.isArray(users)) {

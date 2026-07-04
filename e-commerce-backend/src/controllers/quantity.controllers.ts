@@ -13,7 +13,7 @@ export const HandleAddQuantity = async (req: Request, res: Response) => {
     return res.json({itemId, quantity});
   } catch (e) {
     console.log(e)
-    return res.status(500).json({message: "Failed"});
+    return res.status(500).json({message: "Failed to add item quantity"});
   }
 };
 
