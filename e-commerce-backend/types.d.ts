@@ -34,11 +34,11 @@ export interface Item {
   image: string;
 }
 
-export interface ValidationError {
+export interface ServiceResponse<T> {
     isError: boolean;
     message: string;
     statusCode: number;
-    data?: responseData;
+    data?: T;
 }
 
 export interface ResponseData {

@@ -1,16 +1,16 @@
 import express from "express";
-import { HandleLogin, HandleSignUP } from "../controllers/auth.controller";
+import { HandleLogin, HandleSignUP } from "../controllers/auth.controllers";
 import {
   HandleAddItem,
   HandleGetCart,
   HandleRemoveItem,
-} from "../controllers/user-cart";
-import { HandleAddTotal, HandleGetAmount } from "../controllers/amount";
+} from "../controllers/cart.controllers";
+import { HandleAddTotal, HandleGetAmount } from "../controllers/amount.controllers";
 import {
   HandleAddQuantity,
   HandleReduceQuantity,
-} from "../controllers/quantity";
-import { getAllUsersController } from "../controllers/users.controllers";
+} from "../controllers/quantity.controllers";
+import { getAllUsersController, getUserByIdController } from "../controllers/users.controllers";
 import { authRateLimiter } from "../middleware/rate.limit.middleware";
 import { authMiddleware } from "../middleware/auth.middleware";
 
@@ -22,6 +22,8 @@ router.post("/auth/register", authRateLimiter, HandleSignUP);
 
 // users routes
 router.get("/users", authMiddleware, getAllUsersController);
+router.get("/users/:userId", authMiddleware, getUserByIdController);
+
 
 //cart routes
 router.post("/cart", authMiddleware, HandleAddItem);
