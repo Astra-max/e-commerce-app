@@ -1,1 +1,2 @@
 export const addItemQuery = `INSERT INTO cart (user_id, product_id, product_name, product_description, product_category, quantity, product_price, product_image, product_status) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`;
+export const getAllItemsQuery = `SELECT * FROM cart`;
