@@ -30,13 +30,11 @@ export const authLoginService = async (
     };
   }
 
-  const isValidPassword =
-    getUserByEmail.password
-        ? await comparePassword(
-            password,
-            getUserByEmail.password
-          )
-        : false;
+  let isValidPassword = false;
+
+  if (getUserByEmail.password) {
+    isValidPassword = await comparePassword(password, getUserByEmail.password);
+  }
 
   if (!isValidPassword) {
     return { isError: true, message: "Invalid password", statusCode: 401 };
@@ -111,6 +109,11 @@ export const authSignUpService = async (
     };
     }
 
+     const userExists = await handleGetUserByEmail(emailAddr);
+        if (isRepositoryError(userExists) && userExists.statusCode === 409) {
+            return { isError: true, message: "User already exists", statusCode: 409 };
+        }
+
     const savedUser = await saveUser({
         userName,
         firstName,
@@ -153,7 +156,7 @@ export const authSignUpService = async (
 };
 
 
-export const getAllUsersService = async (): Promise<User[] | ServiceResponse<ResponseData>> => {
+export const getAllUsersService = async (): Promise<User[] | ServiceResponse<User>> => {
   const users = await getAllUsers();
   // check if the result is an error object or an array of users
   if (!Array.isArray(users)) {

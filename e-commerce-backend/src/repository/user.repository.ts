@@ -46,7 +46,8 @@ export const handleGetUserByEmail = async (email: string): Promise<UserLoginData
         if (result.rows.length > 0) {
             return {
                 userId: result.rows[0].user_id,
-                userName: result.rows[0].user_name
+                userName: result.rows[0].user_name,
+                password: result.rows[0].password,
             }
         }
         logger.warn(`User with email ${email} not found.`);

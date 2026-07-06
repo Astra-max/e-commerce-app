@@ -51,3 +51,13 @@ export interface JwtSignCredentials {
     userId: string;
     userName: string;
 }
+
+export interface CartResponse {
+  itemId: string;
+  itemImage: string;
+  itemName: string;
+  itemPrice: string;
+  itemCategory: string;
+  itemDescription: string;
+  available: boolean;
+}
