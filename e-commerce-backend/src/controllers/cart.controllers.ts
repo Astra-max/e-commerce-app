@@ -1,4 +1,4 @@
-import { Item } from "../../types";
+import { CartItem } from "../model/cart.model";
 import { type Request, type Response } from "express";
 import pool from "../config/dbConnect";
 import {
@@ -44,7 +44,7 @@ export const HandleGetProduct = async (req: Request, res: Response) => {
  */
 export const HandleAddItem = async (req: Request, res: Response) => {
   const {
-    productid,
+    productId,
     name,
     description,
     category,
@@ -53,10 +53,10 @@ export const HandleAddItem = async (req: Request, res: Response) => {
     userId,
     image,
     amount,
-  }: Item = req.body;
+  }: CartItem = req.body;
 
   if (
-    !productid ||
+    !productId ||
     !name ||
     !description ||
     !category ||
@@ -71,7 +71,7 @@ export const HandleAddItem = async (req: Request, res: Response) => {
   }
 
   try {
-    const itemExist = await pool.query(getSingleItem, [productid, userId]);
+    const itemExist = await pool.query(getSingleItem, [productId, userId]);
 
     if (itemExist.rows.length > 0) {
       return res.status(409).json({
@@ -83,7 +83,7 @@ export const HandleAddItem = async (req: Request, res: Response) => {
       addItemQuery,
       [
         userId,
-        productid,
+        productId,
         name,
         description,
         category,
