@@ -1,6 +1,6 @@
 import { Item } from "../../types";
 import { type Request, type Response } from "express";
-import pool from "../model/model";
+import pool from "../config/dbConnect";
 import {
   allItems,
   deleteCartItem,
