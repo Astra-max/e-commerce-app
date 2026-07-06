@@ -3,7 +3,8 @@ import { getAllUsers, handleGetUserByEmail, saveUser } from "../repository/user.
 import isRepositoryError from "../util/repoErr";
 import { comparePassword, hashPassword } from "../util/hash.password.util";
 import { generateToken } from "../util/jwt";
-import { ResponseData, User, UserRequest, ServiceResponse } from "../../types";
+import { ResponseData, User, UserRequest } from "../../types";
+import { ServiceResponse } from "../model/response";
 
 export const authLoginService = async (
   data: Request,

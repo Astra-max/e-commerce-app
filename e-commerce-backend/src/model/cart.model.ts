@@ -9,3 +9,10 @@ export interface CartItem {
     userId: string;
     image: string;
 }
+
+export interface CartResponse<T> {
+    isError: boolean;
+    message: string;
+    statusCode: number;
+    data: T;
+}

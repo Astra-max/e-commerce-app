@@ -9,6 +9,7 @@ import {
 } from "../query/cart.query";
 import { CartItem } from "../model/cart.model";
 import { addItemQuery } from "../query/cart.query";
+import { CartError } from "../errors/cart.error";
 
 export const getAllItemsRepo = async (): Promise<CartItem[]> => {
     try {
@@ -22,27 +23,33 @@ export const getAllItemsRepo = async (): Promise<CartItem[]> => {
 
 export const getSingleItemRepo = async (
     itemId: string,
-): Promise<CartItem | null> => {
+): Promise<CartItem | CartError> => {
+    let response: CartError
+
     try {
         const singleItem = await pool.query(getSingleItemQuery, [itemId]);
         return singleItem.rows[0] ?? null;
     } catch (error: any) {
+         response = {isError: true, message: "Failed to get cart item", statusCode: 500};
         logger.warn(`Failed to get single cart item ${error}`);
     }
-    return null;
+    return response;
 };
 
 export const updateItemRepo = async (
     itemId: string,
-): Promise<CartItem | null> => {
+): Promise<CartItem | CartError> => {
     // Implementation for updating a cart item
+    let response: CartError;
+
     try {
         const updateItem = await pool.query(updateItemQuery, [itemId]);
         return updateItem.rows[0] ?? null;
     } catch (error: any) {
+        response = {isError: true, message: "Failed to get cart item", statusCode: 500};
         logger.warn(`Failed to update item ${error}`);
     }
-    return null;
+    return response;
 };
 
 export const saveItemRepo = async () => {

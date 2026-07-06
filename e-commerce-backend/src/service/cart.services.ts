@@ -1,4 +1,8 @@
-export const getAllitemsService = async () => {}
+import { getAllItemsRepo } from "../repository/cart.respository"
+
+export const getAllitemsService = async () => {
+    const {} = await getAllItemsRepo();
+}
 
 export const getSingleitemsService = async () => {}
 

@@ -22,25 +22,6 @@ export interface UserRequest {
   confirmPassword: string;
 }
 
-export interface Item {
-  productid: number;
-  name: string;
-  category: string;
-  description: string;
-  quantity: string;
-  status: string;
-  amount: number;
-  userId: string;
-  image: string;
-}
-
-export interface ServiceResponse<T> {
-    isError: boolean;
-    message: string;
-    statusCode: number;
-    data?: T;
-}
-
 export interface ResponseData {
     accessToken: string;
     userId: string;
@@ -52,12 +33,3 @@ export interface JwtSignCredentials {
     userName: string;
 }
 
-export interface CartResponse {
-  itemId: string;
-  itemImage: string;
-  itemName: string;
-  itemPrice: string;
-  itemCategory: string;
-  itemDescription: string;
-  available: boolean;
-}
