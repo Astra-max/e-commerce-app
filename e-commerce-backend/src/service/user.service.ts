@@ -1,7 +1,8 @@
 import { Request } from "express"
 import isRepositoryError from "../util/repoErr";
 import { getUserById } from "../repository/user.repository"
-import { ServiceResponse, User } from "../../types"
+import { User } from "../../types";
+import { ServiceResponse } from "../model/response";
 
 
 export const getUserByIdService = async (data: Request): Promise<ServiceResponse<User>> => {

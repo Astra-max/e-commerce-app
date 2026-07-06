@@ -7,25 +7,23 @@ import {
   getSingleItem,
 } from "../query/query";
 import { addItemQuery } from "../query/cart.query";
+import { getAllitemsService } from "../service/cart.services";
 
 // return all items in the cart table
-export const HandleGetCart = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+export const HandleGetAllCart = async (req: Request, res: Response) => {
+  const { isError, message, data, statusCode } = await getAllitemsService(req)
 
-  if (!userId) return res.json({ message: "please provide userId" });
-  try {
-    const getAllItems = await pool.query(allItems, [userId]);
-    return res.json(getAllItems.rows);
-  } catch (error) {
-    console.log(error);
-  }
+  if (isError)
+    return res.status(statusCode).json({message})
+  return res.status(200).json({data})
+  
 };
 
 
 // get single item from cart
-export const HandleGetProduct = async (req: Request, res: Response) => {
+export const HandleGetCartById = async (req: Request, res: Response) => {
   const { id } = req.params;
-  if (!id) return res.status(400).json({ message: "product id required" });
+  if (!id) return res.status(400).json({ message: "item id required" });
   const productId = parseInt(id);
 
   try {
@@ -44,27 +42,25 @@ export const HandleGetProduct = async (req: Request, res: Response) => {
  */
 export const HandleAddItem = async (req: Request, res: Response) => {
   const {
-    productId,
-    name,
-    description,
-    category,
-    quantity,
-    status,
     userId,
-    image,
-    amount,
+    productId,
+    quantity,
+    productName,
+    productDescription,
+    productCategory,
+    productPrice,
+    productImage,
   }: CartItem = req.body;
 
   if (
     !productId ||
-    !name ||
-    !description ||
-    !category ||
+    !productName ||
+    !productDescription ||
+    !productCategory ||
     !quantity ||
-    !status ||
     !userId ||
-    !image ||
-    !amount
+    !productImage ||
+    !productPrice
   ) {
     console.log("Invalid body:", req.body);
     return res.status(400).json({ message: "Missing product details" });
@@ -79,20 +75,18 @@ export const HandleAddItem = async (req: Request, res: Response) => {
       });
     }
 
-    const inserted = await pool.query(
-      addItemQuery,
-      [
-        userId,
-        productId,
-        name,
-        description,
-        category,
-        quantity,
-        amount,
-        image,
-        status,
-      ]
-    );
+    const inserted = await pool.query(addItemQuery, [
+      userId,
+      productId,
+      productName,
+      productDescription,
+      productCategory,
+      quantity,
+      productPrice,
+      productImage,
+    ]);
+
+    console.log(inserted.rows[0]);
 
     console.log("Item added successfully!");
 

@@ -43,6 +43,7 @@ export const saveUser = async (user: User): Promise<UserLoginData | RepositoryEr
 export const handleGetUserByEmail = async (email: string): Promise<UserLoginData | RepositoryError> => {
     try {
         const result = await pool.query(getUserByEmail, [email]);
+        
         if (result.rows.length > 0) {
             return {
                 userId: result.rows[0].user_id,

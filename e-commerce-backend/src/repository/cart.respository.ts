@@ -22,12 +22,12 @@ export const getAllItemsRepo = async (): Promise<CartItem[]> => {
 };
 
 export const getSingleItemRepo = async (
-    itemId: string,
+    itemId: string, userId: string,
 ): Promise<CartItem | CartError> => {
     let response: CartError
 
     try {
-        const singleItem = await pool.query(getSingleItemQuery, [itemId]);
+        const singleItem = await pool.query(getSingleItemQuery, [itemId, userId]);
         return singleItem.rows[0] ?? null;
     } catch (error: any) {
          response = {isError: true, message: "Failed to get cart item", statusCode: 500};
