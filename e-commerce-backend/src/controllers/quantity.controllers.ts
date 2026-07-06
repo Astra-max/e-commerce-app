@@ -1,6 +1,6 @@
 import { type Request, type Response } from "express";
 import { addQuantity, reduceQuantity, removeItem } from "../query/query";
-import pool from "../model/model";
+import pool from "../config/dbConnect";
 
 /**
  * Handles handle add quantity

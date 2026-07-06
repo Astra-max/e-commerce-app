@@ -1,4 +1,4 @@
-import pool from "../model/model";
+import pool from "../config/dbConnect";
 import { addTotal, getTotal } from "../query/query";
 import { type Request, type Response } from "express";
 

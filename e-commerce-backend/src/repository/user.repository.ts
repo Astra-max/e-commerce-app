@@ -1,5 +1,5 @@
 import { User } from "../../types";
-import pool from "../model/model";
+import pool from "../config/dbConnect";
 import { getAllUsersQuery, getUserByEmail, newUser, getUserByIdQuery, deleteUserById } from "../query/user.query";
 import { logger } from "../util/logger";
 
