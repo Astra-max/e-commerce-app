@@ -2,12 +2,11 @@ import { CartItem } from "../model/cart.model";
 import { type Request, type Response } from "express";
 import pool from "../config/dbConnect";
 import {
-  allItems,
   deleteCartItem,
   getSingleItem,
 } from "../query/query";
 import { addItemQuery } from "../query/cart.query";
-import { getAllitemsService } from "../service/cart.services";
+import { getAllitemsService, getSingleitemsService } from "../service/cart.services";
 
 // return all items in the cart table
 export const HandleGetAllCart = async (req: Request, res: Response) => {
@@ -22,24 +21,15 @@ export const HandleGetAllCart = async (req: Request, res: Response) => {
 
 // get single item from cart
 export const HandleGetCartById = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!id) return res.status(400).json({ message: "item id required" });
-  const productId = parseInt(id);
+  const { isError, data, message, statusCode} = await getSingleitemsService(req);
 
-  try {
-    const getSingleProduct = await pool.query(getSingleItem, [productId]);
-    if (getSingleProduct.rows.length === 0) {
-      return res.status(404).json({ message: "notFound" });
-    }
-    return res.json(getSingleProduct.rows[0]);
-  } catch (error) {
-    console.log(error);
-  }
+  if (isError)
+    return res.status(statusCode).json({message});
+  return res.json({data})
 };
 
-/**
- * Handles handle add item
- */
+
+//  * Handles handle add item
 export const HandleAddItem = async (req: Request, res: Response) => {
   const {
     userId,
