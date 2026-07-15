@@ -9,5 +9,5 @@ export const getSingleItemQuery = `SELECT * FROM cart WHERE product_id = $1 AND 
 export const updateItemQuery = `UPDATE cart SET quantity = $1 WHERE product_id = $2 RETURNING *`;
 
 // Delete queries
-export const deleteSingleItemQuery = `DELETE FROM cart WHERE product_id = $1 RETURNING *`;
+export const deleteSingleItemQuery = `DELETE FROM cart WHERE product_id = $1 AND user_Id=$2 RETURNING *`;
 export const deleteAllItemsQuery = `DELETE FROM cart RETURNING *`;

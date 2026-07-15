@@ -80,7 +80,7 @@ export const getUserById = async (userId: string): Promise<User | RepositoryErro
         logger.warn(`User with ID ${userId} not found.`);
         return { isError: true, message: "User not found", statusCode: 404 };
     } catch (error: any) {
-        logger.error("Error fetching user by ID:", error);
+        logger.error(`Error fetching user by ID: ${error}`);
         return { isError: true, message: "Error fetching user by ID", statusCode: 500 };
     }
 }

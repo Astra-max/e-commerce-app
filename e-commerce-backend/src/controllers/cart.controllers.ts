@@ -2,11 +2,11 @@ import { CartItem } from "../model/cart.model";
 import { type Request, type Response } from "express";
 import pool from "../config/dbConnect";
 import {
-  deleteCartItem,
   getSingleItem,
 } from "../query/query";
 import { addItemQuery } from "../query/cart.query";
-import { getAllitemsService, getSingleitemsService } from "../service/cart.services";
+import { deleteSingleitemsService, getAllitemsService, getSingleitemsService } from "../service/cart.services";
+import { logger } from "../util/logger";
 
 // return all items in the cart table
 export const HandleGetAllCart = async (req: Request, res: Response) => {
@@ -90,20 +90,19 @@ export const HandleAddItem = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * Handles handle remove item
- */
-export const HandleRemoveItem = async (req: Request, res: Response) => {
-  const { productId, userId } = req.params;
 
-  if (!userId || !productId)
-    return res.status(400).json({ message: "missing params" });
-
+// Handles handle remove item
+export const HandleRemoveItemById = async (req: Request, res: Response) => {
   try {
-    await pool.query(deleteCartItem, [userId, productId]);
-    return res.status(200).json({ message: `removed item` });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "server error" });
+    const { isError, statusCode, message } = await deleteSingleitemsService(req);
+     if (isError) {
+    logger.warn(`${message}`)
+    return res.status(statusCode).json({ message });
   }
+  } catch (error) {
+    return res.json({message: "server error"})
+  }
+ 
+  logger.info("cart item deleted successfully!")
+  return res.status(200).json({ message: "item deleted succefully" });
 };

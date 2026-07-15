@@ -29,7 +29,7 @@ router.get("/users/:userId", authMiddleware, getUserByIdController);
 //cart routes
 router.post("/carts", authMiddleware, HandleAddItem);
 router.get("/carts/", authMiddleware, HandleGetAllCart);
-router.delete("/carts/:productId", authMiddleware,  HandleRemoveItemById);
+router.delete("/carts/:itemId",   HandleRemoveItemById);
 
 // quntity routes
 router.put("/quantity/add", authMiddleware, HandleAddQuantity);

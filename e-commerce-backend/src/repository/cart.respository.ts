@@ -63,18 +63,15 @@ export const saveItemRepo = async () => {
     return;
 };
 
-export const deleteSingleItemRepo = async (
-    itemId: string, userId: string,
-): Promise<boolean> => {
-    // Implementation for deleting a single cart item
-
+export const deleteSingleItemRepo = async (itemId: string, userId: string,
+): Promise<CartItem | null> => {
     try {
         const deletedItem = await pool.query(deleteSingleItemQuery, [itemId, userId]);
-        return true;
+        if (deletedItem.rows.length > 0) return deletedItem.rows[0];
     } catch (error) {
         logger.warn(`Failed to delete cart item ${error}`);
     }
-    return false;
+    return null;
 };
 
 export const deleteAllItemsRepo = async (): Promise<boolean> => {
@@ -84,6 +81,7 @@ export const deleteAllItemsRepo = async (): Promise<boolean> => {
         return true;
     } catch (error) {
         logger.warn(`Failed to clear cart table ${error}`);
+        return false;
     }
     return false;
 };
