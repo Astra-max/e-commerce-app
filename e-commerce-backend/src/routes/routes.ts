@@ -1,7 +1,7 @@
 import express from "express";
 import { HandleLogin, HandleSignUP } from "../controllers/auth.controllers";
 import {
-  HandleAddItem,
+  HandleAddToCart,
   HandleGetAllCart,
   HandleRemoveItemById,
 } from "../controllers/cart.controllers";
@@ -27,9 +27,9 @@ router.get("/users/:userId", authMiddleware, getUserByIdController);
 //products route
 
 //cart routes
-router.post("/carts", authMiddleware, HandleAddItem);
+router.post("/carts", authMiddleware, HandleAddToCart);
 router.get("/carts/", authMiddleware, HandleGetAllCart);
-router.delete("/carts/:itemId",   HandleRemoveItemById);
+router.delete("/carts/:itemId", authMiddleware, HandleRemoveItemById);
 
 // quntity routes
 router.put("/quantity/add", authMiddleware, HandleAddQuantity);
