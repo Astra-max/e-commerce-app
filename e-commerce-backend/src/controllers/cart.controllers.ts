@@ -24,13 +24,13 @@ export const HandleGetCartById = async (req: Request, res: Response) => {
   const { isError, data, message, statusCode} = await getSingleitemsService(req);
 
   if (isError)
-    return res.status(statusCode).json({message});
-  return res.json({data})
+    return res.status(statusCode).json({ message });
+  return res.json({ data })
 };
 
 
 //  * Handles handle add item
-export const HandleAddItem = async (req: Request, res: Response) => {
+export const HandleAddToCart = async (req: Request, res: Response) => {
   const {
     userId,
     productId,

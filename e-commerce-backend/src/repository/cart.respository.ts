@@ -9,7 +9,7 @@ import {
 } from "../query/cart.query";
 import { CartItem } from "../model/cart.model";
 import { addItemQuery } from "../query/cart.query";
-import { CartError } from "../errors/cart.error";
+import { ServiceResponse } from "../model/response";
 
 export const getAllItemsRepo = async (): Promise<CartItem[]> => {
     try {
@@ -23,65 +23,84 @@ export const getAllItemsRepo = async (): Promise<CartItem[]> => {
 
 export const getSingleItemRepo = async (
     itemId: string, userId: string,
-): Promise<CartItem | CartError> => {
-    let response: CartError
+): Promise<ServiceResponse<CartItem>> => {
 
     try {
         const singleItem = await pool.query(getSingleItemQuery, [itemId, userId]);
-        return singleItem.rows[0] ?? null;
+
+        if (singleItem.rowCount != null) {
+            logger.warn(`Found item with id ${itemId}`);
+            return { isError: false, message: "item found successfully", statusCode: 200, data: singleItem.rows[0] };
+        }
     } catch (error: any) {
-         response = {isError: true, message: "Failed to get cart item", statusCode: 500};
         logger.warn(`Failed to get single cart item ${error}`);
     }
-    return response;
+    return { isError: true, message: "Error fetching item", statusCode: 500 };
 };
 
+// Implementation for updating a cart item
 export const updateItemRepo = async (
     itemId: string,
-): Promise<CartItem | CartError> => {
-    // Implementation for updating a cart item
-    let response: CartError;
-
+): Promise<ServiceResponse<CartItem>> => {
     try {
         const updateItem = await pool.query(updateItemQuery, [itemId]);
-        return updateItem.rows[0] ?? null;
+        logger.info(`Item updated successfully`);
+        return { isError: false, message: "updated successfully", statusCode: 200, data: updateItem.rows[0] };
     } catch (error: any) {
-        response = {isError: true, message: "Failed to get cart item", statusCode: 500};
         logger.warn(`Failed to update item ${error}`);
     }
-    return response;
+    return { isError: true, message: "Failed to get cart item", statusCode: 500 };
 };
 
-export const saveItemRepo = async () => {
-    // Implementation for saving a cart item
+// Implementation for saving a cart item
+export const saveItemRepo = async (item: CartItem): Promise<boolean> => {
+    const {
+        userId,
+        productId,
+        productName,
+        productDescription,
+        productCategory,
+        quantity,
+        productPrice,
+        productImage
+    } = item;
     try {
-        const saveItem = await pool.query(addItemQuery);
-        return;
+        const saveItem = await pool.query(addItemQuery,
+            [userId, productId, productName, productDescription,
+                productCategory, quantity, productPrice, productImage
+            ]
+        );
+
+        if (saveItem.rowCount == null) return false
     } catch (error) {
         logger.warn(`Failed to save cart item to db ${error}`);
+        return false;
     }
-    return;
+    return true;
 };
 
 export const deleteSingleItemRepo = async (itemId: string, userId: string,
-): Promise<CartItem | null> => {
+): Promise<ServiceResponse<CartItem>> => {
     try {
         const deletedItem = await pool.query(deleteSingleItemQuery, [itemId, userId]);
-        if (deletedItem.rows.length > 0) return deletedItem.rows[0];
+        if (deletedItem.rowCount != null) {
+            logger.warn(`cart item deleted successfully`);
+             return { isError: false, message: "item deleted succefully", statusCode: 204, data: deletedItem.rows[0] };
+        }
     } catch (error) {
         logger.warn(`Failed to delete cart item ${error}`);
     }
-    return null;
+    return { isError: true, message: `Failed to delete item with id ${userId}`, statusCode: 500};
 };
 
-export const deleteAllItemsRepo = async (): Promise<boolean> => {
-    // Implementation for deleting all cart items
+// Implementation for deleting all cart items
+export const deleteAllItemsRepo = async (): Promise<ServiceResponse<Number>> => {
     try {
         const deleteAll = await pool.query(deleteAllItemsQuery);
-        return true;
+        logger.info(`Deleted all items from user cart`);
+        return { isError: false, message: "cart item deleted successfully", statusCode: 204, data: deleteAll.rows.length}
     } catch (error) {
         logger.warn(`Failed to clear cart table ${error}`);
-        return false;
     }
-    return false;
+    return { isError: true, message: "Failed to clear user's cart", statusCode: 500};
 };
