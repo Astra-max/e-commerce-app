@@ -22,9 +22,7 @@ import store from "../store/store";
 import { authSelector } from "../store/authSlice";
 import { productSelector } from "../store/productSlice";
 
-/**
- * Handles product cart
- */
+// Handles product cart
 export const ProductCart = () => {
   const { cart, loading } = useSelector(cartSelector);
   const { total } = useSelector(totalSelector);
