@@ -3,6 +3,7 @@ import { deleteAllItemsRepo, deleteSingleItemRepo, getAllItemsRepo, getSingleIte
 import { ServiceResponse } from "../model/response";
 import { CartItem } from "../model/cart.model";
 import isRepositoryError from "../util/repoErr";
+import { getUserById } from "../repository/user.repository";
 
 
 export const getAllitemsService = async (req: Request): Promise<ServiceResponse<CartItem[]>> => {
@@ -50,13 +51,23 @@ export const deleteSingleitemsService = async (req: Request): Promise<ServiceRes
     const userId = req.body?.userId;
     const itemId = req.params?.itemId;
 
-    if (!userId) return { isError: true, message: "missing userId", statusCode: 400};
-    if (!itemId) return { isError: true, message: "missing itemId", statusCode: 400};
+    if (!userId) return { isError: true, message: "userId is missing", statusCode: 400 };
+    if (!itemId) return { isError: true, message: "itemId is missing", statusCode: 400 };
+
+    const userExists = await getUserById(userId);
+
+    if (isRepositoryError(userExists)) {
+        return { isError: true, message: `${userExists.message}`, statusCode: 401 };
+    }
 
     const deletedItem = await deleteSingleItemRepo(itemId, userId);
 
-    if (isRepositoryError(deletedItem)) {
-        return { isError: true, message: "server error", statusCode: 500};
-    }
+    if (deletedItem == null) {
+    return {
+        isError: true,
+        message: `item with id ${itemId} not found`,
+        statusCode: 404,
+    };
+}
     return { isError: false, message: "item deleted successfully", statusCode: 204};
  };
