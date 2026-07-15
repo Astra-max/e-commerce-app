@@ -1,8 +1,6 @@
 import "../styles/app.css"
 
-/**
- * Handles f o r y o u
- */
+// for you page
 const FORYOU = () => {
   return (
     <div className="about-cont">For you product page</div>
