@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { getAllItemsRepo, getSingleItemRepo } from "../repository/cart.respository"
+import { deleteAllItemsRepo, deleteSingleItemRepo, getAllItemsRepo, getSingleItemRepo } from "../repository/cart.respository"
 import { ServiceResponse } from "../model/response";
 import { CartItem } from "../model/cart.model";
 import isRepositoryError from "../util/repoErr";
@@ -35,6 +35,28 @@ export const updateSingleitemService = async () => { }
 
 export const addNewItemService = async () => { }
 
-export const deleteAllitemsService = async () => { }
+export const deleteAllitemsService = async (req: Request) => {
+    const userId = req.body?.userId;
 
-export const deleteSingleitemsService = async () => { }
+    if (!userId) return { isError: true, messaage: "missing user id", statusCode: 400};
+    const results = await deleteAllItemsRepo();
+
+    if (!results) return { isError: true, message: "failed to clear user cart", statusCode: 500}
+    return { isError: false, message: "cleared user cart successfully", statusCode: 200};
+
+ }
+
+export const deleteSingleitemsService = async (req: Request): Promise<ServiceResponse<CartItem>> => {
+    const userId = req.body?.userId;
+    const itemId = req.params?.itemId;
+
+    if (!userId) return { isError: true, message: "missing userId", statusCode: 400};
+    if (!itemId) return { isError: true, message: "missing itemId", statusCode: 400};
+
+    const deletedItem = await deleteSingleItemRepo(itemId, userId);
+
+    if (isRepositoryError(deletedItem)) {
+        return { isError: true, message: "server error", statusCode: 500};
+    }
+    return { isError: false, message: "item deleted successfully", statusCode: 204};
+ };
