@@ -157,11 +157,11 @@ export const authSignUpService = async (
 };
 
 
-export const getAllUsersService = async (): Promise<User[] | ServiceResponse<User>> => {
+export const getAllUsersService = async (): Promise<ServiceResponse<User[]>> => {
   const users = await getAllUsers();
   // check if the result is an error object or an array of users
   if (!Array.isArray(users)) {
     return { isError: true, message: users.message, statusCode: Number(users.statusCode) };
   }
-  return users;
+  return { isError: false, message: "users list", statusCode: 200, data: users};
 };

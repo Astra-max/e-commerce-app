@@ -6,7 +6,8 @@ import { ServiceResponse } from "../model/response";
 
 
 export const getUserByIdService = async (data: Request): Promise<ServiceResponse<User>> => {
-    const { userId } = data.params;
+    const userId = data.params?.userId;
+
     if (!userId) return {
         isError: true, message: "missing user id", statusCode: 400
     }

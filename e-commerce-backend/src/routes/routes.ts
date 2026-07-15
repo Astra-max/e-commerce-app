@@ -3,7 +3,7 @@ import { HandleLogin, HandleSignUP } from "../controllers/auth.controllers";
 import {
   HandleAddItem,
   HandleGetAllCart,
-  HandleRemoveItem,
+  HandleRemoveItemById,
 } from "../controllers/cart.controllers";
 import { HandleAddTotal, HandleGetAmount } from "../controllers/amount.controllers";
 import {
@@ -29,7 +29,7 @@ router.get("/users/:userId", authMiddleware, getUserByIdController);
 //cart routes
 router.post("/carts", authMiddleware, HandleAddItem);
 router.get("/carts/", authMiddleware, HandleGetAllCart);
-router.delete("/carts/:productId", authMiddleware, HandleRemoveItem);
+router.delete("/carts/:itemId",   HandleRemoveItemById);
 
 // quntity routes
 router.put("/quantity/add", authMiddleware, HandleAddQuantity);
