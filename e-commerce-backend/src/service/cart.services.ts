@@ -1,9 +1,39 @@
 import { Request } from "express";
-import { deleteAllItemsRepo, deleteSingleItemRepo, getAllItemsRepo, getSingleItemRepo } from "../repository/cart.respository"
+import { deleteAllItemsRepo, deleteSingleItemRepo, getAllItemsRepo, getSingleItemRepo, saveItemRepo } from "../repository/cart.respository"
 import { ServiceResponse } from "../model/response";
 import { CartItem } from "../model/cart.model";
 import isRepositoryError from "../util/repoErr";
 import { getUserById } from "../repository/user.repository";
+
+
+export const addNewItemService = async (req: Request): Promise<ServiceResponse<CartItem>> => {
+    const {
+    userId,
+    productId,
+    quantity,
+    productName,
+    productDescription,
+    productCategory,
+    productPrice,
+    productImage,
+  }: CartItem = req.body;
+
+  if (!productId) return {isError: true, message: "productId is missing", statusCode: 400};
+  if (!userId) return {isError: true, message: "userId is missing", statusCode: 400};
+  if (!quantity) return {isError: true, message: "quantity is missing", statusCode: 400};
+  if (!productName) return {isError: true, message: "product name is missing", statusCode: 400};
+  if (!productDescription) return {isError: true, message: "product description is missing", statusCode: 400};
+  if (!productCategory) return {isError: true, message: "product category is missing", statusCode: 400};
+  if (!productPrice) return {isError: true, message: "product price is missing", statusCode: 400};
+  if (!productImage) return {isError: true, message: "product image is missing", statusCode: 400};
+
+  const item: CartItem = { userId, productId, quantity, productName, productDescription, productCategory, productPrice, productImage};
+
+  const saved = await saveItemRepo(item);
+
+  if (!saved) return { isError: true, message: "Failed to save item to db", statusCode: 500};
+  return { isError: false, message: "item saved successfully", statusCode: 201 };
+}
 
 
 export const getAllitemsService = async (req: Request): Promise<ServiceResponse<CartItem[]>> => {
@@ -32,9 +62,7 @@ export const getSingleitemsService = async (req: Request): Promise<ServiceRespon
 
 }
 
-export const updateSingleitemService = async () => { }
-
-export const addNewItemService = async () => { }
+export const updateSingleitemService = async (req: Request) => { }
 
 export const deleteAllitemsService = async (req: Request) => {
     const userId = req.body?.userId;
