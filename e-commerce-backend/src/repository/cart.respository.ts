@@ -64,11 +64,12 @@ export const saveItemRepo = async () => {
 };
 
 export const deleteSingleItemRepo = async (
-    itemId: string,
+    itemId: string, userId: string,
 ): Promise<boolean> => {
     // Implementation for deleting a single cart item
+
     try {
-        const deletedItem = await pool.query(deleteSingleItemQuery, [itemId]);
+        const deletedItem = await pool.query(deleteSingleItemQuery, [itemId, userId]);
         return true;
     } catch (error) {
         logger.warn(`Failed to delete cart item ${error}`);
