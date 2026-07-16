@@ -48,24 +48,160 @@
     background-color: rgb(255, 250, 245);
 }
 
+/* ---------------------------------------------------------------------
+   Profile account toggle + dropdown menu
+   --------------------------------------------------------------------- */
+
+/* Anchor for the dropdown — without this the absolutely-positioned panel
+   below has no local positioning context and ends up wherever the nearest
+   positioned ancestor happens to be, which is why the old version needed a
+   "left: 80%" guess. */
+.display-p-drop {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+    border-radius: 999px;
+    cursor: pointer;
+    color: #1a1a1a;
+    transition: background-color 0.15s ease;
+    user-select: none;
+}
+
+.profile-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.profile-toggle-open {
+    background-color: rgba(0, 0, 0, 0.07);
+}
+
+.profile-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2e2e2e, #000);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px transparent;
+    transition: box-shadow 0.15s ease;
+}
+
+.profile-toggle:hover .profile-avatar,
+.profile-toggle-open .profile-avatar {
+    box-shadow: 0 0 0 2px orangered;
+}
+
+.profile-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    opacity: 0.9;
+    max-width: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.profile-caret {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 2px solid #6e6e6e;
+    border-bottom: 2px solid #6e6e6e;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.profile-toggle-open .profile-caret {
+    transform: rotate(-135deg);
+}
+
 .drop-down-cont {
-    border-radius: 0.3rem;
     position: absolute;
-    background-color: rgb(160, 142, 142);
-    width: 15rem;
-    height: 20vh;
-    margin-top: 0.8rem;
-    padding: 1rem 0rem;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    min-width: 13rem;
+    max-width: calc(100vw - 2rem);
+    background-color: #fff;
+    border-radius: 0.6rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 0.4rem 0;
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
-    left: 80%;
+    z-index: 50;
+    animation: dropdownIn 0.16s ease;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    display: flex;
+}
+
+.link {
+    flex: 1;
+    padding: 0.65rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.link:hover {
+    background-color: rgba(255, 69, 0, 0.08);
+    color: orangered;
+}
+
+.dropdown-divider {
+    border: none;
+    border-top: 1px solid #eaeaea;
+    margin: 0.35rem 0;
 }
 
 .logout-p {
     cursor: pointer;
-    padding-left: 0.5rem;
-    align-content: center;
-    font-weight: bold;
+    padding: 0.65rem 1.1rem;
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: orangered;
+    transition: background-color 0.12s ease;
 }
 
+.logout-p:hover {
+    background-color: rgba(255, 69, 0, 0.08);
+}
+
+@media screen and (max-width: 480px) {
+    .profile-name {
+        display: none;
+    }
+
+    .profile-toggle {
+        padding: 0.3rem;
+        gap: 0.4rem;
+    }
+}
