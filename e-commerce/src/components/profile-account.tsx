@@ -10,39 +10,17 @@ import { itemHistrySelector, setItemHistory } from "../store/itemHistorySlice";
  */
 const ProfileAccount = () => {
   const { userName } = useSelector(authSelector);
-
-  const styleProfile = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "0.4rem 0.7rem",
-    borderRadius: "50%",
-    backgroundColor: "#000",
-    color: "#fff",
-    fontWeight: "bold",
-  };
-
-  const majorCont = {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "#000",
-    gap: "0.5rem",
-    cursor: "pointer",
-  };
-
   const [toggle, setToggle] = useState(false);
+
   return (
     <div className="display-p-drop">
-      <div style={majorCont} onClick={() => setToggle(!toggle)}>
-        <div>
-          <span style={styleProfile}>{userName[0]}</span>
-        </div>
-        <div>
-          <p style={{ fontSize: "0.9rem", fontWeight: "bold", opacity: "0.9" }}>
-            {userName}
-          </p>
-        </div>
+      <div
+        className={`profile-toggle${toggle ? " profile-toggle-open" : ""}`}
+        onClick={() => setToggle(!toggle)}
+      >
+        <span className="profile-avatar">{userName[0]}</span>
+        <p className="profile-name">{userName}</p>
+        <span className="profile-caret" aria-hidden="true" />
       </div>
       {toggle && <DropDown />}
     </div>
@@ -75,11 +53,18 @@ export const DropDown = (): JSX.Element => {
     <div className="drop-down-cont">
       {elements.map((val) => {
         if (val.name === "Logout") {
-          return <p key={val.id} className="logout-p" onClick={HandleLogout}>{val.name}</p>;
+          return (
+            <div key={val.id}>
+              <hr className="dropdown-divider" />
+              <p className="logout-p" onClick={HandleLogout}>
+                {val.name}
+              </p>
+            </div>
+          );
         } else {
             const path = val.name === "My Account" ? userId : ""
           return (
-            <div key={val.id}>
+            <div key={val.id} className="dropdown-item">
               <Link className="link" to={`/profile/${path}`}>
                 {val.name}
               </Link>

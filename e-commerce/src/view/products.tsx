@@ -15,14 +15,17 @@ import { HandleGetTotal } from "../store/totalSlice";
 import { useNavigate, useParams } from "react-router-dom";
 import NotFound from "../components/notFound";
 
+const PREVIEW_COUNT = 5;
+
 /**
- * Handles product card
+ * Handles product card grid. Accepts the already-filtered list of items to
+ * display so the parent (ProductsList) owns all category/search filtering
+ * and section logic.
  */
-export const ProductCard = () => {
+export const ProductCard = ({ items }: { items: Products[] }) => {
   const [pid, setPid] = useState(0);
   const [leave, setLeave] = useState(false);
   const dispatch: any = useDispatch();
-  const { Items } = useSelector(productSelector);
   const { userId } = useSelector(authSelector);
 
   const push = useNavigate();
@@ -80,9 +83,17 @@ export const ProductCard = () => {
     setLeave(true);
   }
 
+  if (items.length === 0) {
+    return (
+      <div className="no-results">
+        <p>No products match your search.</p>
+      </div>
+    );
+  }
+
   return (
     <>
-      {Items.map((val: Products) => {
+      {items.map((val: Products) => {
         const styledCond =
           pid === val.productid && !leave ? "btn-cont-visible" : "btn-cont-";
         return (
@@ -105,7 +116,10 @@ export const ProductCard = () => {
               <div className={styledCond}>
                 <button
                   className="add-cart"
-                  onClick={() => HandleAddToCart(val)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    HandleAddToCart(val);
+                  }}
                 >
                   Add to cart
                 </button>
@@ -119,7 +133,10 @@ export const ProductCard = () => {
 };
 
 /**
- * Handles products list
+ * Handles products list: when browsing "All" with no search term, items are
+ * grouped into per-category sections (first 5 items + "See more"), Amazon
+ * style. Picking a specific category, clicking "See more", or typing a
+ * search term switches to a single flat grid of every matching item.
  */
 const ProductsList = () => {
   const btnVals = [
@@ -142,7 +159,9 @@ const ProductsList = () => {
     { id: 17, category: "others" },
   ];
 
+  const { Items } = useSelector(productSelector);
   const [category, setCategory] = useState("All");
+  const [search, setSearch] = useState("");
 
   /**
    * Handles fetch category
@@ -151,6 +170,21 @@ const ProductsList = () => {
     setCategory(cat);
   }
 
+  const isSearching = search.trim() !== "";
+  const showSections = category === "All" && !isSearching;
+
+  const filteredItems: Products[] = Items.filter((item: Products) => {
+    const matchesCategory = category === "All" || item.category === category;
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(search.trim().toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const sectionCategories: string[] = Array.from(
+    new Set(Items.map((item: Products) => item.category))
+  );
+
   return (
     <div className="product-section">
       <p className="products-message">Shop our newest products</p>
@@ -158,6 +192,8 @@ const ProductsList = () => {
         <input
           className="search-bar"
           type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           placeholder={`Search ${
             category === "All" ? "products" : category
           }...`}
@@ -178,9 +214,35 @@ const ProductsList = () => {
           );
         })}
       </div>
-      <div className="cards-display">
-        <ProductCard />
-      </div>
+
+      {showSections ? (
+        sectionCategories.map((cat) => {
+          const catItems = Items.filter(
+            (item: Products) => item.category === cat
+          );
+          if (catItems.length === 0) return null;
+          return (
+            <section className="category-section" key={cat}>
+              <div className="section-header">
+                <h2 className="section-title">{cat}</h2>
+                <button
+                  className="see-more"
+                  onClick={() => fetchCategory(cat)}
+                >
+                  See more
+                </button>
+              </div>
+              <div className="cards-display">
+                <ProductCard items={catItems.slice(0, PREVIEW_COUNT)} />
+              </div>
+            </section>
+          );
+        })
+      ) : (
+        <div className="cards-display">
+          <ProductCard items={filteredItems} />
+        </div>
+      )}
     </div>
   );
 };
