@@ -1,52 +1,100 @@
 :root {
   --background: rgb(243, 233, 243);
+  --primary: #ff7a00;
+  --bg: #fafafa;
+  --dark: #222;
+  --border: #e8e8e8;
 }
 
 body {
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   box-sizing: border-box;
+  background: var(--bg);
 }
 
-.nav-cont {
-  width: 90%;
-  height: 3rem;
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
-}
-
-.nav-elem {
-  display: flex;
   align-items: center;
-  gap: 3rem;
-}
+  padding: 0.6rem 6%;
 
-.link {
-  text-decoration: none;
-  color: black;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+
+  border-bottom: 1px solid var(--border);
 }
 
 .logo {
-  font-size: 1.9rem;
-  font-weight: bolder;
+  text-decoration: none;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111;
 }
 
-.logo-color {
-  color: orange;
+.logo span {
+  color: var(--primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #444;
+  transition: 0.25s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: var(--primary);
 }
 
 .active {
-  color: orange;
-  font-weight: bold;
-  text-decoration: none;
+  color: var(--primary);
 }
 
-.not-active {
-  color: black;
-  text-decoration: none;
+.active svg {
+  stroke: white;
+}
+
+.badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: crimson;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.menu-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-icon {
+  display: flex;
+  align-items: center;
 }
 
 .footer-display {
@@ -105,41 +153,51 @@ body {
   opacity: 0.8;
 }
 
-@media screen and (max-width: 768px) {
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 5%;
+    flex-wrap: wrap;
+  }
+
   .logo {
-    font-size: 1.2rem;
-    font-weight: bold;
-    padding: 1rem 1rem;
+    font-size: 1.6rem;
   }
 
-  .nav-cont {
+  .menu-btn {
     display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    left: 0;
+    top: 72px;
+
     width: 100%;
-    height: 71vh;
-    background-color: rgb(19, 3, 3);
-    padding: 0rem;
-    margin-bottom: 3rem;
-  }
-  .active {
-    color: orange;
-    text-decoration: none;
-    font-weight: bold;
-  }
 
-  .not-active {
-    color: #fff;
-    text-decoration: none;
-  }
+    background: white;
 
-  .link {
-    color: #fff;
-  }
-
-  .nav-elem {
     display: flex;
     flex-direction: column;
-    line-height: 0.8rem;
-    margin: 2rem 0rem;
+    align-items: center;
+
+    gap: 0.5rem;
+
+    padding: 1rem 0;
+
+    border-bottom: 1px solid var(--border);
+
+    transform: translateY(-150%);
+    transition: transform 0.35s ease;
+  }
+
+  .nav-links.open {
+    transform: translateY(0);
+  }
+
+  .nav-link {
+    width: 90%;
+    justify-content: flex-start;
   }
 
   .listing > p {
@@ -149,6 +207,7 @@ body {
   .footer-elements > p {
     font-size: 90%;
   }
+
   .endpage > p {
     font-size: 0.6rem;
   }
