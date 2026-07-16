@@ -132,7 +132,7 @@ export default function App() {
           }
         ></Route>
         <Route
-          path="/today's deals"
+          path="/Deals"
           element={
             <Layout>
               <ProductsList />
@@ -140,7 +140,7 @@ export default function App() {
           }
         ></Route>
         <Route
-          path="/4you"
+          path="/4You"
           element={
             <Layout>
               <About />
