@@ -4,9 +4,7 @@ import store from "./store/store";
 import { Provider } from "react-redux";
 import "./index.css";
 
-/**
- * Handles main app
- */
+// program entry point
 function MainApp() {
   return (
     <Provider store={store}>
