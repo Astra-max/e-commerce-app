@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  HandleCartFetch } from "../store/cartSlice";
+import { HandleCartFetch } from "../store/cartSlice";
 import "../styles/home.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../store/authSlice";
@@ -7,46 +7,63 @@ import { productSelector } from "../store/productSlice";
 import { useNavigate } from "react-router-dom";
 import { itemHistrySelector, setTemp } from "../store/itemHistorySlice";
 
-/**
- * Handles home
- */
+const ROTATE_MS = 10000;
+
+// home page UI
 const Home = () => {
   const dispatch = useDispatch<any>();
   const push = useNavigate();
 
   const { userId, token } = useSelector(authSelector);
-  //const { cart } = useSelector(cartSelector);
   const { Items } = useSelector(productSelector);
   const { productId }: any = useSelector(itemHistrySelector);
 
   const [index, setIndex] = useState<number>(productId ?? 0);
+  const [fadeKey, setFadeKey] = useState<number>(0);
+  const [paused, setPaused] = useState<boolean>(false);
 
   const chooseRandom = (): number => {
     if (!Items.length) return 0;
     return Math.floor(Math.random() * Items.length);
   };
 
-  useEffect(() => {
-    /**
-     * Handles handle random id
-     */
-    function HandleRandomId() {
-      if (!Items.length) return;
-
-      const id = chooseRandom();
-
-      if (token) {
-        dispatch(setTemp(id));
-        setIndex(id);
-      }
+  /**
+   * Handles switching the featured product. Used by both the auto-rotate
+   * timer and the manual prev/next controls so every path stays in sync,
+   * and bumps fadeKey so the image/text/card all replay their transition.
+   */
+  function goTo(id: number) {
+    setIndex(id);
+    setFadeKey((k) => k + 1);
+    if (token) {
+      dispatch(setTemp(id));
     }
+  }
 
-    if (!token || !Items.length) return;
+  function handlePrev() {
+    if (!Items.length) return;
+    goTo((index - 1 + Items.length) % Items.length);
+  }
 
-    const interval = setInterval(HandleRandomId, 10000);
+  function handleNext() {
+    if (!Items.length) return;
+    goTo((index + 1) % Items.length);
+  }
+
+  /* Auto-rotate the featured product for everyone, not just logged-in
+     users — a static hero is a weak first impression for guests. Pauses
+     on hover, and restarts its 10s window whenever the product changes
+     (auto or manual) since fadeKey is a dependency. */
+  useEffect(() => {
+    if (!Items.length || paused) return;
+
+    const interval = setInterval(() => {
+      goTo(chooseRandom());
+    }, ROTATE_MS);
 
     return () => clearInterval(interval);
-  }, [token, Items, dispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Items, paused, fadeKey, token]);
 
   /* fetch cart */
   useEffect(() => {
@@ -63,10 +80,15 @@ const Home = () => {
 
   return (
     <div className="home-main">
-      <div className="home-display">
+      <div
+        className="home-display"
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
         <div className="h-cat-more">
-          <div>
-            <p className="offer-news">{product.category}</p>
+          <div key={fadeKey} className="fade-slide-in">
+            <p className="home-eyebrow">{product.category}</p>
+            <p className="home-headline">{product.name}</p>
             <p className="h-cd-desc">{product.description}</p>
           </div>
 
@@ -81,19 +103,53 @@ const Home = () => {
               >
                 view more
               </button>
+
+              {Items.length > 1 && (
+                <div className="hero-controls">
+                  <div className="hero-progress">
+                    <div
+                      key={fadeKey}
+                      className={`hero-progress-fill${
+                        paused ? " paused" : ""
+                      }`}
+                      style={{ animationDuration: `${ROTATE_MS}ms` }}
+                    />
+                  </div>
+
+                  <div className="hero-nav">
+                    <button
+                      type="button"
+                      className="hero-nav-btn"
+                      onClick={handlePrev}
+                      aria-label="Previous featured product"
+                    >
+                      ‹
+                    </button>
+                    <button
+                      type="button"
+                      className="hero-nav-btn"
+                      onClick={handleNext}
+                      aria-label="Next featured product"
+                    >
+                      ›
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="h-card">
-              <HomeProductCard productId={index} />
+              <HomeProductCard key={fadeKey} productId={index} />
             </div>
           </div>
         </div>
 
         <div className="image-cont">
           <img
-            className="home-image"
+            key={fadeKey}
+            className="home-image fade"
             src={product.image}
-            alt="product image"
+            alt={product.name}
             loading="lazy"
           />
         </div>
@@ -114,7 +170,7 @@ export function HomeProductCard({ productId }: any) {
   if (!product) return null;
 
   return (
-    <div className="home-card-cont">
+    <div className="home-card-cont fade-slide-in">
       <p style={{ opacity: 0.7 }}>{product.category}</p>
 
       <p style={{ fontWeight: "bold", fontSize: "1.3rem" }}>
@@ -127,12 +183,13 @@ export function HomeProductCard({ productId }: any) {
         Kshs {product.amount}.00
       </p>
 
-      <p
+      <button
+        type="button"
         className="card-v-more"
         onClick={() => push(`/products/${product.productid}`)}
       >
         view more ---&gt;
-      </p>
+      </button>
     </div>
   );
 }
