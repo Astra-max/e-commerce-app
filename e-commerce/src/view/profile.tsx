@@ -2,13 +2,30 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../styles/profile.css";
 import { useSelector } from "react-redux";
 import { authSelector } from "../store/authSlice";
+import {
+  User,
+  ShoppingCart,
+  Truck,
+  Megaphone,
+  Compass,
+  LogOut,
+  type LucideIcon,
+} from "lucide-react";
+
+const ICONS: Record<string, LucideIcon> = {
+  account: User,
+  cart: ShoppingCart,
+  shipment: Truck,
+  marketing: Megaphone,
+  track: Compass,
+};
 
 /**
  * Handles side bar
  */
 export const SideBar = () => {
   const nav = useNavigate();
-  const { userId } = useSelector(authSelector)
+  const { userId } = useSelector(authSelector);
   const { pathname } = useLocation();
   const sideElem = [
     { id: 1, name: "account" },
@@ -21,41 +38,52 @@ export const SideBar = () => {
     { id: 8, name: "account" },
     { id: 9, name: "Logout" },
   ];
-  
+
   /**
    * Handles handle logout
    */
   function HandleLogout() {
-    nav(`/auth/login`)
+    nav(`/auth/login`);
   }
+
   return (
     <div className="side-bar-main">
-      <Link to={`/`}>Home</Link>
+      <Link to={`/`} className="side-bar-home-link">
+        Home
+      </Link>
       <div className="side-bar-cont">
-        {sideElem.map((val: { id: number; name: string }) => {
-          const activePath =
-            pathname === `${`/profile/${userId}/`}${val.name}`
-              ? "active-path"
-              : "";
-          if (val.name === "Logout") {
+        <p className="side-bar-title">My Account</p>
+        <div className="side-bar-list">
+          {sideElem.map((val: { id: number; name: string }) => {
+            const activePath =
+              pathname === `${`/profile/${userId}/`}${val.name}`
+                ? "active-path"
+                : "";
+
+            if (val.name === "Logout") {
+              return (
+                <p key={val.id} className="p-logout" onClick={HandleLogout}>
+                  <LogOut size={18} strokeWidth={2} />
+                  <span>{val.name}</span>
+                </p>
+              );
+            }
+
+            const Icon = ICONS[val.name] ?? User;
+
             return (
-              <p key={val.id} className="p-logout" onClick={HandleLogout}>
-                {val.name}
-              </p>
+              <div key={val.id} className="side-bar-item">
+                <Link
+                  className={`${activePath || "p-links"} side-bar-link-row`}
+                  to={`/profile/${userId}/${val.name}`}
+                >
+                  <Icon size={18} strokeWidth={2} className="p-links-icon" />
+                  <span>{val.name}</span>
+                </Link>
+              </div>
             );
-          }
-          return (
-            <div key={val.id}>
-              <Link
-               key={val.id}
-                className={activePath || "p-links"}
-                to={`/profile/${userId}/${val.name}`}
-              >
-                {val.name}
-              </Link>
-            </div>
-          );
-        })}
+          })}
+        </div>
       </div>
     </div>
   );
@@ -66,7 +94,7 @@ export const SideBar = () => {
  */
 const ProfileAccount = () => {
   return (
-    <div>
+    <div className="profile-account-layout">
       <SideBar />
     </div>
   );

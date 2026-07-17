@@ -1,10 +1,27 @@
 .home-main {
+  position: relative;
+  overflow: hidden;
   background-color: var(--background);
   width: 100%;
   min-height: 90vh;
 }
 
+.home-main::before {
+  content: "";
+  position: absolute;
+  top: -12%;
+  right: -8%;
+  width: 34rem;
+  height: 34rem;
+  background: radial-gradient(circle, rgba(255, 69, 0, 0.12), transparent 70%);
+  filter: blur(10px);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .home-display {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -22,12 +39,33 @@
   min-width: 0;
 }
 
-.offer-news {
-  font-size: clamp(2rem, 5vw, 4rem);
-  font-weight: bold;
-  line-height: 1.1;
+/* Small accent label above the headline */
+.home-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  color: orangered;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: fit-content;
   margin: 0;
-  letter-spacing: -0.02em;
+}
+
+.home-headline {
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0.6rem 0 0;
+  letter-spacing: -0.02em;  
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .h-cd-desc {
@@ -37,6 +75,21 @@
   opacity: 0.7;
   line-height: 1.55;
   margin: 0.75rem 0 0;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-slide-in {
+  animation: fadeSlideIn 0.5s ease;
 }
 
 /* The balanced row: text+button on the left, card on the right */
@@ -90,7 +143,75 @@
   transform: translateY(-1px);
 }
 
-/* Product card — now a real flex sibling, equal footing with the text */
+/* Auto-rotate progress bar + manual prev/next controls */
+.hero-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  max-width: 20rem;
+}
+
+.hero-progress {
+  width: 100%;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hero-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: orangered;
+  border-radius: inherit;
+  animation-name: fillBar;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.hero-progress-fill.paused {
+  animation-play-state: paused;
+}
+
+@keyframes fillBar {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.hero-nav {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.hero-nav-btn {
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #333;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.hero-nav-btn:hover {
+  background-color: rgba(255, 69, 0, 0.08);
+  border-color: orangered;
+  color: orangered;
+  transform: translateY(-1px);
+}
+
+/* Product card — a real flex sibling, equal footing with the text */
 .h-card {
   flex: 0 1 18rem;
 }
@@ -99,7 +220,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background-color: #fffdfd;
+  background-color: #fde8e8;
   width: 100%;
   border-radius: 0.85rem;
   padding: 1.1rem 1.3rem;
@@ -117,11 +238,18 @@
   opacity: 0.85;
   margin-top: 0.3rem;
   transition: opacity 0.2s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
 }
 
 .card-v-more:hover {
   opacity: 1;
-  text-decoration: underline;
+  color: orange;
 }
 
 .views {
@@ -146,7 +274,6 @@
   object-fit: cover;
   border-radius: 0.85rem;
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.6s ease-in-out, transform 0.6s ease;
 }
 
 .home-image.fade {
@@ -168,8 +295,8 @@
   .home-display {
     padding: 2rem;
   }
-  .offer-news {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+  .home-headline {
+    font-size: clamp(1.7rem, 4vw, 2.4rem);
   }
   .h-more {
     flex-direction: column;
@@ -202,5 +329,8 @@
   }
   .home-card-cont {
     display: none;
+  }
+  .hero-controls {
+    max-width: 100%;
   }
 }
