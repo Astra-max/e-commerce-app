@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, logout } from "../../store/authSlice";
+import { authSelector, logout } from "../../store/feature/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../../styles/profile.css";
-import { itemHistrySelector, setItemHistory } from "../../store/itemHistorySlice";
+import { itemHistrySelector, setItemHistory } from "../../store/feature/itemHistorySlice";
 
 // user profile component
 const ProfileAccount = () => {

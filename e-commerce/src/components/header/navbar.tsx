@@ -1,50 +1,24 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { authSelector } from "../store/authSlice";
-import { cartSelector } from "../store/cartSlice";
-import ProfileAccount from "./profile/user.profile";
+import { authSelector } from "../../store/feature/authSlice";
+import { cartSelector } from "../../store/feature/cartSlice";
+import { navItems } from "../../lib/navbar.data";
+import ProfileAccount from "../profile/user.profile";
 import {
-  ShoppingCart,
-  BadgePercent,
-  Sparkles,
   LogIn,
-  Home,
   Menu,
   X,
 } from "lucide-react";
 
 const Navbar = () => {
   const { pathname } = useLocation();
-  const { token, userId } = useSelector(authSelector);
+  const { token } = useSelector(authSelector);
   const { cart } = useSelector(cartSelector);
 
   const [open, setOpen] = useState(false);
 
   const cartItems = cart?.length ?? 0;
-
-  const navItems = [
-    {
-      name: "Home",
-      path: "/",
-      icon: <Home size={18} />,
-    },
-    {
-      name: "Deals",
-      path: "/Deals",
-      icon: <BadgePercent size={18} />,
-    },
-    {
-      name: "4You",
-      path: "/4You",
-      icon: <Sparkles size={18} />,
-    },
-    {
-      name: "Cart",
-      path: `/cart/${userId}`,
-      icon: <ShoppingCart size={18} />,
-    },
-  ];
 
   return (
     <header className="navbar">
@@ -69,7 +43,7 @@ const Navbar = () => {
               pathname === item.path ? "active nav-link" : "nav-link"
             }
           >
-            {item.icon}
+            {<item.Icon size={28} />}
             <span>{item.name}</span>
 
             {item.name === "Cart" && (

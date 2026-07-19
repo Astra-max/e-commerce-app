@@ -1,9 +1,9 @@
-import Navbar from "./navbar";
-import Footer from "./footer";
-import "../styles/profile.css";
+import Navbar from "../header/navbar";
+import Footer from "../footer/footer";
+import "../../styles/profile.css";
 import { Fragment, ReactNode } from "react";
-import { SideBar } from "./account/user.account";
-import { authSelector } from "../store/authSlice";
+import { SideBar } from "../account/user.account";
+import { authSelector } from "../../store/feature/authSlice";
 import { useSelector } from "react-redux";
 import Login from "../auth/login";
 

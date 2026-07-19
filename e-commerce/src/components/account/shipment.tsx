@@ -1,10 +1,8 @@
 import { useState } from "react";
-import "../styles/poducts.css"
+import "../../styles/poducts.css"
 
 
-/**
- * Handles shipment
- */
+// handle customer product shipment
 const Shipment = () => {
     const [selected, setSelected] = useState("Nairobi")
     const deliveryPlace = [

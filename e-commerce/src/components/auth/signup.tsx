@@ -1,13 +1,11 @@
-import "../styles/sign-up.css";
+import "../../styles/sign-up.css";
 import { Link, useNavigate } from "react-router-dom";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, signUPUser } from "../store/authSlice";
+import { authSelector, signUPUser } from "../../store/feature/authSlice";
 import { UnknownAction } from "@reduxjs/toolkit";
 
-/**
- * Handles signup
- */
+// auth sign in component
 const Signup = () => {
   const [submit, setSubmit] = useState(true);
   const { error, token } = useSelector(authSelector);
@@ -192,9 +190,7 @@ const Signup = () => {
     }
   }
 
-  /**
-   * Handles handle submit
-   */
+  // posts user data to server
   function HandleSubmit(
     event: React.FormEvent<HTMLFormElement>
   ): UnknownAction {

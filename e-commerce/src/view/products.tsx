@@ -7,13 +7,13 @@ import {
   addToTotal,
   HandleAddItem,
   HandleCartFetch,
-} from "../store/cartSlice";
-import { productSelector } from "../store/productSlice";
-import { authSelector } from "../store/authSlice";
+} from "../store/feature/cartSlice";
+import { productSelector } from "../store/feature/productSlice";
+import { authSelector } from "../store/feature/authSlice";
 import store from "../store/store";
-import { HandleGetTotal } from "../store/totalSlice";
+import { HandleGetTotal } from "../store/feature/totalSlice";
 import { useNavigate, useParams } from "react-router-dom";
-import NotFound from "../components/notFound";
+import NotFound from "../components/ui/notFound";
 
 const PREVIEW_COUNT = 5;
 

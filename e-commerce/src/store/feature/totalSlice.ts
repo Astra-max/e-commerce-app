@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import API from "../util/axios";
+import API from "../../util/axios";
 
 
 interface TotalState {

@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, loginUser } from "../store/authSlice";
-import "../styles/login.css"
+import { authSelector, loginUser } from "../../store/feature/authSlice";
+import "../../styles/login.css"
 
-/**
- * Handles login
- */
+// auth login component
 const Login = () => {
   const [userData, setData] = useState({ emailAddr: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -18,9 +16,8 @@ const Login = () => {
     if (token) push("/");
   }, [token]);  
 
-  /**
-   * Handles handle user data
-   */
+ 
+  // handle user data func writes to appliaction state
   function HandleUserData(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     setData((data) => ({ ...data, [name]: value }));
@@ -28,9 +25,7 @@ const Login = () => {
 
   const canLogin = Boolean(userData.emailAddr) && Boolean(userData.password);
 
-  /**
-   * Handles handle submit
-   */
+  // post data to server
   function HandleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     dispatch(loginUser(userData)).unwrap();

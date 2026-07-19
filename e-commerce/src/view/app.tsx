@@ -1,19 +1,19 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Layout, { ProfileAccountLayout } from "../components/layout";
+import Layout, { ProfileAccountLayout } from "../components/ui/layout";
 import Home from "./home";
-import NotFound from "../components/notFound";
+import NotFound from "../components/ui/notFound";
 import ProductsList, { SingleProduct } from "./products";
 import About from "../components/4u";
 import Cart, { SingleItem } from "./cart";
-import Signup from "../auth/signup";
-import Footer from "../components/footer";
+import Signup from "../components/auth/signup";
+import Footer from "../components/footer/footer";
 import ProfileAccount from "../components/account/user.account";
 import { Fragment } from "react";
-import Shipment from "../components/shipment";
+import Shipment from "../components/account/shipment";
 import { useSelector } from "react-redux";
-import { authSelector } from "../store/authSlice";
-import Login from "../auth/login";
-import Subscribe from "../components/subscribe";
+import { authSelector } from "../store/feature/authSlice";
+import Login from "../components/auth/login";
+import Subscribe from "../components/footer/subscribe";
 
 
 export default function App() {
