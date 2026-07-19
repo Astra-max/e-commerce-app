@@ -1,14 +1,14 @@
 import ReactDOM from "react-dom/client";
-import App from "./view/app";
 import store from "./store/store";
 import { Provider } from "react-redux";
 import "./index.css";
+import AppBrowserRoutes from "./routes/routes";
 
 // program entry point
 function MainApp() {
   return (
     <Provider store={store}>
-      <App />
+      <AppBrowserRoutes />
     </Provider>
   )
 }

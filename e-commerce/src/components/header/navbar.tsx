@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../store/feature/authSlice";
 import { cartSelector } from "../../store/feature/cartSlice";
 import { navItems } from "../../lib/navbar.data";
-import ProfileAccount from "../profile/user.profile";
+import ProfileAccount from "./user.profile";
 import {
   LogIn,
   Menu,
