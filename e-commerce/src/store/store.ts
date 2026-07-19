@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import productSlice  from "./productSlice";
-import cartSlice from "./cartSlice"
-import authSlice from "./authSlice"
-import totalSlice  from "./totalSlice";
-import quantitySlice from "./quantitySlice";
-import itemHistorySlice from "./itemHistorySlice";
+import productSlice  from "./feature/productSlice";
+import cartSlice from "./feature/cartSlice"
+import authSlice from "./feature/authSlice"
+import totalSlice  from "./feature/totalSlice";
+import quantitySlice from "./feature/quantitySlice";
+import itemHistorySlice from "./feature/itemHistorySlice";
 
 
 const store = configureStore({

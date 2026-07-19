@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { HandleCartFetch } from "../store/cartSlice";
+import { HandleCartFetch } from "../store/feature/cartSlice";
 import "../styles/home.css";
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector } from "../store/authSlice";
-import { productSelector } from "../store/productSlice";
+import { authSelector } from "../store/feature/authSlice";
+import { productSelector } from "../store/feature/productSlice";
 import { useNavigate } from "react-router-dom";
-import { itemHistrySelector, setTemp } from "../store/itemHistorySlice";
+import { itemHistrySelector, setTemp } from "../store/feature/itemHistorySlice";
 
 const ROTATE_MS = 10000;
 

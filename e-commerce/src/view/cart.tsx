@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { HandleAddTotal, HandleGetTotal, totalSelector } from "../store/totalSlice";
+import { HandleAddTotal, HandleGetTotal, totalSelector } from "../store/feature/totalSlice";
 import {
   HandleAddQuantity,
   HandleReduceQuantity,
   decrementQuantity,
-} from "../store/quantitySlice";
+} from "../store/feature/quantitySlice";
 import { Products } from "../../types";
 import "../styles/poducts.css";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -16,11 +16,11 @@ import {
   HandleRemoveItem,
   reduceTotal,
   removeItem,
-} from "../store/cartSlice";
+} from "../store/feature/cartSlice";
 import { Fragment, Suspense, useEffect } from "react";
 import store from "../store/store";
-import { authSelector } from "../store/authSlice";
-import { productSelector } from "../store/productSlice";
+import { authSelector } from "../store/feature/authSlice";
+import { productSelector } from "../store/feature/productSlice";
 
 // Handles product cart
 export const ProductCart = () => {
