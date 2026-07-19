@@ -2,7 +2,7 @@ import Navbar from "./navbar";
 import Footer from "./footer";
 import "../styles/profile.css";
 import { Fragment, ReactNode } from "react";
-import { SideBar } from "../view/profile";
+import { SideBar } from "./account/user.account";
 import { authSelector } from "../store/authSlice";
 import { useSelector } from "react-redux";
 import Login from "../auth/login";

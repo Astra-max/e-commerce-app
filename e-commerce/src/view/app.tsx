@@ -7,7 +7,7 @@ import About from "../components/4u";
 import Cart, { SingleItem } from "./cart";
 import Signup from "../auth/signup";
 import Footer from "../components/footer";
-import ProfileAccount from "./profile";
+import ProfileAccount from "../components/account/user.account";
 import { Fragment } from "react";
 import Shipment from "../components/shipment";
 import { useSelector } from "react-redux";

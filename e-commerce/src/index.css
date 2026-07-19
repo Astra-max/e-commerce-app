@@ -99,116 +99,129 @@ body {
 
 .footer-display {
   width: 100%;
-  background-color: rgb(245, 213, 213);
-  margin-top: 5rem;
+  margin-top: 4rem;
+  background: #232f3e;
+  color: #ffffff;
+  font-family: "Amazon Ember", "Segoe UI", Tahoma, sans-serif;
 }
 
 .west-mart {
-  display: flex;
-  gap: 4rem;
-  flex-wrap: wrap;
-  align-items: start;
-  justify-content: center;
-  padding: 3.7rem 0rem;
-  bottom: 0;
-  height: 40vh;
+  max-width: 1400px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2.5rem;
+  padding: 3rem 6% 2.5rem;
 }
 
 .footer-elements {
   display: flex;
-  align-items: flex-start;
   flex-direction: column;
-  justify-content: center;
-  line-height: 0.2rem;
-  width: 12rem;
-}
-
-.listing > p {
-  font-size: 0.9rem;
-  opacity: 0.7;
 }
 
 .footer-elements > p {
-  font-weight: bold;
-  opacity: 0.8;
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .listing {
-  display: block;
-  align-items: flex-start;
+  display: flex;
   flex-direction: column;
+  gap: 0.6rem;
+}
+
+.listing p {
+  margin: 0;
+  color: #dddddd;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: color 0.2s, padding-left 0.2s;
+}
+
+.listing p:hover {
+  color: #ff9900;
+  text-decoration: underline;
+}
+
+.footer-brand {
+  border-top: 1px solid #3a4553;
+  display: flex;
+  justify-content: center;
+  padding: 1.75rem 1rem;
+}
+
+.footer-logo {
+  text-decoration: none;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: -0.5px;
+}
+
+.footer-logo span {
+  color: #ff9900;
 }
 
 .endpage {
-  height: 7vh;
-  background-color: rgb(31, 32, 32);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: #131a22;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.75rem;
+  padding: 1.75rem 1rem;
+}
+
+.endpage-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.endpage-links p {
+  margin: 0;
+  color: #dddddd;
   font-size: 0.8rem;
-  bottom: 0;
+  cursor: pointer;
+  transition: color 0.2s;
 }
 
-.endpage p {
-  opacity: 0.8;
+.endpage-links p:hover {
+  color: #ff9900;
+  text-decoration: underline;
 }
 
+.endpage-links span {
+  color: #6a7684;
+  font-size: 0.7rem;
+}
+
+.copyright {
+  margin: 0;
+  color: #a8a8a8;
+  font-size: 0.78rem;
+  letter-spacing: 0.3px;
+}
 
 @media (max-width: 768px) {
-  .navbar {
-    padding: 1rem 5%;
-    flex-wrap: wrap;
+  .west-mart {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    padding: 2.5rem 8%;
   }
+  .footer-elements > p { font-size: 0.95rem; }
+  .listing p { font-size: 0.82rem; }
+}
 
-  .logo {
-    font-size: 1.6rem;
+@media (max-width: 500px) {
+  .west-mart {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
-
-  .menu-btn {
-    display: block;
-  }
-
-  .nav-links {
-    position: absolute;
-    left: 0;
-    top: 72px;
-
-    width: 100%;
-
-    background: white;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    gap: 0.5rem;
-
-    padding: 1rem 0;
-
-    border-bottom: 1px solid var(--border);
-
-    transform: translateY(-150%);
-    transition: transform 0.35s ease;
-  }
-
-  .nav-links.open {
-    transform: translateY(0);
-  }
-
-  .nav-link {
-    width: 90%;
-    justify-content: flex-start;
-  }
-
-  .listing > p {
-    font-size: 0.75rem;
-  }
-
-  .footer-elements > p {
-    font-size: 90%;
-  }
-
-  .endpage > p {
-    font-size: 0.6rem;
-  }
+  .endpage-links { font-size: 0.7rem; }
 }
