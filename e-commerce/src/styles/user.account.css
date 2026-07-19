@@ -1,0 +1,198 @@
+html,
+body,
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+.profile-account-layout {
+    display: flex;
+    align-items: stretch;
+    gap: 1.5rem;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+.side-bar-main {
+    width: 30%;
+    flex-shrink: 0;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+}
+
+.side-bar-cont {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 1px solid #eee;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.side-bar-title {
+    width: 100%;
+    line-height: 1.2;
+    padding: 0.85rem 1.1rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: orange;
+    background-color: #fafafa;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.side-bar-nav {
+    flex: 1 1 auto;
+    width: 100%;
+    margin: 0;
+    padding: 0.5rem 0 0 0;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+}
+
+.side-bar-section {
+    width: 100%;
+    margin: 0;
+}
+
+.side-bar-section:first-child {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.side-bar-section-label {
+    margin: 0.5rem 0.75rem 0.3rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #a5a5a5;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.side-bar-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.side-bar-item {
+    width: 90%;
+    margin: 0;
+}
+
+.side-bar-link-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.3rem 0.75rem;
+    margin: 0.05rem 0;
+    border-radius: 0.4rem;
+    font-size: 0.9rem;
+    color: #333;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: background-color 0.15s ease, border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.p-links-icon {
+    flex-shrink: 0;
+    color: #8a8a8a;
+    transition: color 0.15s ease;
+}
+
+.side-bar-link-row:hover {
+    background-color: #fff4ef;
+    color: orangered;
+    border-left-color: rgba(255, 69, 0, 0.4);
+}
+
+.side-bar-link-row:hover .p-links-icon {
+    color: orangered;
+}
+
+.side-bar-link-row.active-path {
+    background-color: #fff1ea;
+    color: orangered;
+    font-weight: 700;
+    border-left-color: orangered;
+}
+
+.side-bar-link-row.active-path .p-links-icon {
+    color: orangered;
+}
+
+.side-bar-badge {
+    margin-left: auto;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 0.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: orangered;
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 999px;
+}
+
+/* Logout — flush against the bottom of the card, no gap beneath it. */
+.p-logout {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    margin: 0;
+    cursor: pointer;
+    color: #d64545;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-top: 1px solid #f0f0f0;
+    background-color: #fff;
+    transition: background-color 0.15s ease;
+}
+
+.p-logout:hover {
+    background-color: #fdecec;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-account-layout {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .side-bar-main {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+}

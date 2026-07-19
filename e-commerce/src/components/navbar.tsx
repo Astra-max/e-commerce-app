@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { authSelector } from "../store/authSlice";
 import { cartSelector } from "../store/cartSlice";
-import ProfileAccount from "./profile-account";
+import ProfileAccount from "./profile/user.profile";
 import {
   ShoppingCart,
   BadgePercent,

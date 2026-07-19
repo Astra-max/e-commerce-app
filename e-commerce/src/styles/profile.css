@@ -1,146 +1,207 @@
+.side-bar-main {
+    height: 90vh;
+    width: 15rem;
+    padding-bottom: 5rem;
+}
+
+.side-bar-cont {
+    height: inherit;
+    width: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgb(19, 17, 17);
+    line-height: 2rem;
+    padding: 4rem 1rem;
+    border-radius: 0.4rem;
+}
+
+.p-links {
+    text-decoration: none;
+    color: #fff;
+    opacity: 0.9;
+}
+
+.active-path {
+    font-weight: bold;
+    text-decoration: none;
+    color: orangered;
+}
+
+.p-logout {
+    color: #fff;
+    cursor: pointer;
+    padding-top: 15rem;
+}
+
+.account-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.ship-main {
+    height: 90vh;
+    width: 90%;
+    margin: 0rem 2rem;
+    padding: 1rem 2rem;
+    background-color: rgb(255, 250, 245);
+}
+
 /* ---------------------------------------------------------------------
-   Jumia-style redesign — light card, icon rows, grouped sections.
-   Layered on top of the rules above via the cascade; nothing above is
-   deleted, these declarations simply win because they come later.
+   Profile account toggle + dropdown menu
    --------------------------------------------------------------------- */
 
-/* Let the sidebar behave as a flex child alongside a main content area.
-   Wrap <SideBar /> and your content in a parent with `display:flex`
-   (e.g. the .profile-account-layout class added to ProfileAccount above)
-   and this will size correctly instead of assuming it owns the viewport. */
-.profile-account-layout {
-    display: flex;
-    align-items: flex-start;
-    gap: 1.5rem;
-    width: 100%;
+/* Anchor for the dropdown — without this the absolutely-positioned panel
+   below has no local positioning context and ends up wherever the nearest
+   positioned ancestor happens to be, which is why the old version needed a
+   "left: 80%" guess. */
+.display-p-drop {
+    position: relative;
+    display: inline-block;
 }
 
-.side-bar-main {
-    height: auto;
-    min-height: 90vh;
-    width: 15rem;
-    flex-shrink: 0;
-    padding-bottom: 0;
+.profile-toggle {
     display: flex;
-    flex-direction: column;
-}
-
-.side-bar-home-link {
-    display: inline-flex;
     align-items: center;
-    color: #6e6e6e;
-    font-weight: 500;
-    font-size: 0.85rem;
-    text-decoration: none;
-    padding: 0 0.25rem 0.75rem 0.25rem;
-    transition: color 0.15s ease;
-}
-
-.side-bar-home-link:hover {
-    color: orangered;
-}
-
-/* Light card instead of the dark background, Jumia-style */
-.side-bar-cont {
-    background-color: #fff;
-    border: 1px solid #eee;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-    padding: 0;
-    line-height: normal;
-    border-radius: 0.5rem;
-    overflow: hidden;
-}
-
-.side-bar-title {
-    margin: 0;
-    padding: 1rem 1.1rem;
-    font-size: 0.95rem;
-    font-weight: 700;
+    gap: 0.6rem;
+    padding: 0.35rem 0.75rem 0.35rem 0.35rem;
+    border-radius: 999px;
+    cursor: pointer;
     color: #1a1a1a;
-    background-color: #fafafa;
-    border-bottom: 1px solid #eee;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
+    transition: background-color 0.15s ease;
+    user-select: none;
 }
 
-.side-bar-list {
-    display: flex;
-    flex-direction: column;
-    padding: 0.4rem;
+.profile-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.05);
 }
 
-.side-bar-item {
-    width: 100%;
+.profile-toggle-open {
+    background-color: rgba(0, 0, 0, 0.07);
 }
 
-/* Icon + label row, overriding the plain text look from .p-links */
-.side-bar-link-row,
-.p-logout {
+.profile-avatar {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    width: 100%;
-    padding: 0.65rem 0.75rem;
-    margin: 0.05rem 0;
-    border-radius: 0.4rem;
-    font-size: 0.9rem;
-    color: #333;
-    text-transform: capitalize;
-    border-left: 3px solid transparent;
-    transition: background-color 0.15s ease, border-color 0.15s ease,
-        color 0.15s ease;
-}
-
-.p-links-icon {
+    justify-content: center;
+    width: 2.15rem;
+    height: 2.15rem;
     flex-shrink: 0;
-    color: #8a8a8a;
-    transition: color 0.15s ease;
-}
-
-.side-bar-link-row:hover,
-.side-bar-item:hover .p-links-icon {
-    background-color: #fff4ef;
-    color: orangered;
-    border-left-color: rgba(255, 69, 0, 0.4);
-}
-
-.side-bar-link-row:hover .p-links-icon {
-    color: orangered;
-}
-
-.active-path.side-bar-link-row {
-    background-color: #fff1ea;
-    color: orangered;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2e2e2e, #000);
+    color: #fff;
     font-weight: 700;
-    border-left-color: orangered;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    box-shadow: 0 0 0 2px transparent;
+    transition: box-shadow 0.15s ease;
 }
 
-.active-path.side-bar-link-row .p-links-icon {
+.profile-toggle:hover .profile-avatar,
+.profile-toggle-open .profile-avatar {
+    box-shadow: 0 0 0 2px orangered;
+}
+
+.profile-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    opacity: 0.9;
+    max-width: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 0;
+}
+
+.profile-caret {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-right: 2px solid #6e6e6e;
+    border-bottom: 2px solid #6e6e6e;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.profile-toggle-open .profile-caret {
+    transform: rotate(-135deg);
+}
+
+.drop-down-cont {
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    min-width: 13rem;
+    max-width: calc(100vw - 2rem);
+    background-color: #fff;
+    border-radius: 0.6rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.08);
+    padding: 0.4rem 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 50;
+    animation: dropdownIn 0.16s ease;
+}
+
+@keyframes dropdownIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdown-item {
+    display: flex;
+}
+
+.link {
+    flex: 1;
+    padding: 0.65rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: none;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.link:hover {
+    background-color: rgba(255, 69, 0, 0.08);
     color: orangered;
 }
 
-/* Logout footer, pinned to the bottom with a divider */
-.p-logout {
-    margin-top: auto;
-    color: #d64545;
-    border-top: 1px solid #f0f0f0;
-    border-radius: 0;
-    padding-top: 0.85rem;
-    padding-bottom: 0.85rem;
+.dropdown-divider {
+    border: none;
+    border-top: 1px solid #eaeaea;
+    margin: 0.35rem 0;
 }
 
-.p-logout:hover {
-    background-color: #fdecec;
-    border-left-color: #d64545;
+.logout-p {
+    cursor: pointer;
+    padding: 0.65rem 1.1rem;
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: orangered;
+    transition: background-color 0.12s ease;
 }
 
-@media screen and (max-width: 768px) {
-    .profile-account-layout {
-        flex-direction: column;
+.logout-p:hover {
+    background-color: rgba(255, 69, 0, 0.08);
+}
+
+@media screen and (max-width: 480px) {
+    .profile-name {
+        display: none;
     }
 
-    .side-bar-main {
-        width: 100%;
-        min-height: auto;
+    .profile-toggle {
+        padding: 0.3rem;
+        gap: 0.4rem;
     }
 }

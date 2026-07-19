@@ -2,14 +2,10 @@ import { useSelector } from "react-redux"
 import "../styles/app.css"
 import { authSelector } from "../store/authSlice"
 
-/**
- * Handles subscribe
- */
+
+// handle email subscription
 const Subscribe = () => {
     const { userId } = useSelector(authSelector)
-    /**
-     * Handles handle subscribe
-     */
     function HandleSubscribe() {
         if (userId) return alert('successfully subscribed to westmart product news & promotion')
     }
