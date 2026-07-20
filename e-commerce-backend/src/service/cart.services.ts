@@ -1,7 +1,7 @@
 import { Request } from "express";
 import { deleteAllItemsRepo, deleteSingleItemRepo, getAllItemsRepo, getSingleItemRepo, saveItemRepo } from "../repository/cart.respository"
 import { ServiceResponse } from "../model/response";
-import { CartItem } from "../model/cart.model";
+import { CartItem } from "../model/models";
 import isRepositoryError from "../util/repoErr";
 import { getUserById } from "../repository/user.repository";
 

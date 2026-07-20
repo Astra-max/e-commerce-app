@@ -13,6 +13,7 @@ import {
 import { getAllUsersController, getUserByIdController } from "../controllers/users.controllers";
 import { authRateLimiter } from "../middleware/rate.limit.middleware";
 import { authMiddleware } from "../middleware/auth.middleware";
+import { HandleGetAllProducts } from "../controllers/product.controllers";
 
 export const router = express.Router();
 
@@ -25,6 +26,7 @@ router.get("/users", authMiddleware, getAllUsersController);
 router.get("/users/:userId", authMiddleware, getUserByIdController);
 
 //products route
+router.get("/products", authMiddleware, HandleGetAllProducts)
 
 //cart routes
 router.post("/carts", authMiddleware, HandleAddToCart);
