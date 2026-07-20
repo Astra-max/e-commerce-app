@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Products } from "../../types";
+import { Products, ProductState } from "../../types";
 import "../styles/poducts.css";
 import { useEffect, useState } from "react";
 import {
@@ -43,10 +43,6 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
     const { productid, name, category, image, amount, description } = product;
     const status = "cart";
     const quantity = 1;
-
-    useEffect(()=> {
-      store.dispatch(getAllProducts())
-    },[])
 
     try {
       const added = dispatch(
@@ -163,7 +159,13 @@ const ProductsList = () => {
     { id: 17, category: "others" },
   ];
 
-  const { Items } = useSelector(productSelector);
+  const { items } = useSelector(productSelector);
+
+  const dispatch: any = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
 
@@ -177,7 +179,7 @@ const ProductsList = () => {
   const isSearching = search.trim() !== "";
   const showSections = category === "All" && !isSearching;
 
-  const filteredItems: Products[] = Items.filter((item: Products) => {
+  const filteredItems: Products[] = items.filter((item: Products) => {
     const matchesCategory = category === "All" || item.category === category;
     const matchesSearch = item.name
       .toLowerCase()
@@ -186,7 +188,7 @@ const ProductsList = () => {
   });
 
   const sectionCategories: string[] = Array.from(
-    new Set(Items.map((item: Products) => item.category))
+    new Set(items.map((item: Products) => item.category))
   );
 
   return (
@@ -198,9 +200,8 @@ const ProductsList = () => {
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder={`Search ${
-            category === "All" ? "products" : category
-          }...`}
+          placeholder={`Search ${category === "All" ? "products" : category
+            }...`}
         />
       </div>
       <div className="product-category">
@@ -221,7 +222,7 @@ const ProductsList = () => {
 
       {showSections ? (
         sectionCategories.map((cat) => {
-          const catItems = Items.filter(
+          const catItems = items.filter(
             (item: Products) => item.category === cat
           );
           if (catItems.length === 0) return null;

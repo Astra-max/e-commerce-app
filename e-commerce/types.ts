@@ -26,30 +26,24 @@ export interface Products {
   category: string;
 }
 
-export interface Item {
-  productid: number;
-  name: string;
-  amount: number;
-  image: string;
-  quantity: number;
-  description: string;
-  category: string;
+export interface Item extends Products {
   status: string;
   userId: string;
 }
 
 export interface State {
-  cart: Products[];
+  cart: Item[];
   total: number;
   loading: boolean;
-  error: null;
-};
+  error: string | null;
+}
 
 export interface ProductState {
-  items: Item[];
+  items: Products[];
   loading: boolean;
-  error: null;
-};
+  error: string | null;
+}
+
 export interface Error {
   data: {
     message: string;

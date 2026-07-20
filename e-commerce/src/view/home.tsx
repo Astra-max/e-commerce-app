@@ -3,7 +3,7 @@ import { HandleCartFetch } from "../store/feature/cartSlice";
 import "../styles/home.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector } from "../store/feature/authSlice";
-import { productSelector } from "../store/feature/productSlice";
+import { getAllProducts, productSelector } from "../store/feature/productSlice";
 import { useNavigate } from "react-router-dom";
 import { itemHistrySelector, setTemp } from "../store/feature/itemHistorySlice";
 
@@ -15,16 +15,20 @@ const Home = () => {
   const push = useNavigate();
 
   const { userId, token } = useSelector(authSelector);
-  const { Items } = useSelector(productSelector);
+  const { items } = useSelector(productSelector);
   const { productId }: any = useSelector(itemHistrySelector);
 
   const [index, setIndex] = useState<number>(productId ?? 0);
   const [fadeKey, setFadeKey] = useState<number>(0);
   const [paused, setPaused] = useState<boolean>(false);
 
+  useEffect(()=>{
+    dispatch(getAllProducts())
+  },[dispatch])
+
   const chooseRandom = (): number => {
-    if (!Items.length) return 0;
-    return Math.floor(Math.random() * Items.length);
+    if (!items.length) return 0;
+    return Math.floor(Math.random() * items.length);
   };
 
   /**
@@ -41,13 +45,13 @@ const Home = () => {
   }
 
   function handlePrev() {
-    if (!Items.length) return;
-    goTo((index - 1 + Items.length) % Items.length);
+    if (!items.length) return;
+    goTo((index - 1 + items.length) % items.length);
   }
 
   function handleNext() {
-    if (!Items.length) return;
-    goTo((index + 1) % Items.length);
+    if (!items.length) return;
+    goTo((index + 1) % items.length);
   }
 
   /* Auto-rotate the featured product for everyone, not just logged-in
@@ -55,7 +59,7 @@ const Home = () => {
      on hover, and restarts its 10s window whenever the product changes
      (auto or manual) since fadeKey is a dependency. */
   useEffect(() => {
-    if (!Items.length || paused) return;
+    if (!items.length || paused) return;
 
     const interval = setInterval(() => {
       goTo(chooseRandom());
@@ -63,7 +67,7 @@ const Home = () => {
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [Items, paused, fadeKey, token]);
+  }, [items, paused, fadeKey, token]);
 
   /* fetch cart */
   useEffect(() => {
@@ -73,7 +77,7 @@ const Home = () => {
   }, [token, userId, dispatch]);
 
   /* get current product safely */
-  const product = Items[index];
+  const product = items[index];
 
   /* prevent crash */
   if (!product) return null;
@@ -104,7 +108,7 @@ const Home = () => {
                 view more
               </button>
 
-              {Items.length > 1 && (
+              {items.length > 1 && (
                 <div className="hero-controls">
                   <div className="hero-progress">
                     <div
@@ -162,10 +166,10 @@ const Home = () => {
  * Handles home product card
  */
 export function HomeProductCard({ productId }: any) {
-  const { Items } = useSelector(productSelector);
+  const { items = [] } = useSelector(productSelector);
   const push = useNavigate();
 
-  const product = Items[productId];
+  const product = items[productId];
 
   if (!product) return null;
 
