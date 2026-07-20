@@ -14,57 +14,24 @@ export const getAllProducts = createAsyncThunk(
     try {
       const { data } = await API.get("/products");
 
-      console.log("API Response:", data);
+      const products = (data.data || []).map((item: any) => ({
+        productid: item.product_id,                 // UUID string
+        name: item.product_name,
+        amount: Number(item.price),                // convert string to number
+        image: item.product_image_url,
+        quantity: item.stock_quantity ?? 1,
+        description: item.description,
+        category: item.product_category,
+      }));
 
-      const products = (Array.isArray(data.data) ? data.data : []).map(
-        (item: any) => ({
-          productid: Number(
-            item.productid ??
-              item.product_id ??
-              item.id ??
-              0
-          ),
-
-          name: String(
-            item.name ??
-              item.product_name ??
-              ""
-          ),
-
-          amount: Number(
-            item.amount ??
-              item.product_price ??
-              item.price ??
-              0
-          ),
-
-          image:
-            item.image ??
-            item.product_image_url ??
-            item.image_url ??
-            "",
-
-          quantity: Number(item.quantity ?? 1),
-
-          description:
-            item.description ??
-            "",
-
-          category:
-            item.category ??
-            item.product_category ??
-            "Others",
-        })
-      );
-
-      console.log("Mapped Products:", products);
+      console.log(products); // verify
 
       return products;
     } catch (error: any) {
       return rejectWithValue(
         error?.response?.data?.message ||
-          error?.message ||
-          "Failed to fetch products"
+        error?.message ||
+        "Failed to fetch products"
       );
     }
   }

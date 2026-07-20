@@ -23,7 +23,7 @@ const PREVIEW_COUNT = 5;
  * and section logic.
  */
 export const ProductCard = ({ items }: { items: Products[] }) => {
-  const [pid, setPid] = useState(0);
+  const [pid, setPid] = useState<string>("");
   const [leave, setLeave] = useState(false);
   const dispatch: any = useDispatch();
   const { userId } = useSelector(authSelector);
@@ -71,7 +71,7 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
   /**
    * Handles handle style
    */
-  function HandleStyle(productId: number) {
+  function HandleStyle(productId: string) {
     setLeave(false);
     setPid(productId);
   }
@@ -256,10 +256,10 @@ const ProductsList = () => {
  * Handles single product
  */
 export function SingleProduct() {
-  const { Items } = useSelector(productSelector);
+  const { items = [] } = useSelector(productSelector);
   const { productid } = useParams();
-  const productId = Number(productid);
-  const product: Products = Items.find(
+  const productId = String(productid)
+  const product: Products = items.find(
     (product: Products) => product.productid === productId
   );
   if (product === undefined) return <NotFound message={"product"} />;
