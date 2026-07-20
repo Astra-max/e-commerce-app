@@ -37,9 +37,7 @@ export const DropDown = (): JSX.Element => {
     { id: 2, name: "Logout" },
   ];
 
-  /**
-   * Handles handle logout
-   */
+  // handle logout
   function HandleLogout() {
     dispatch(setItemHistory({event: true, productId: tempId}))
     dispatch(logout());

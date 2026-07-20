@@ -1,10 +1,10 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Layout, { ProfileAccountLayout } from "../components/ui/layout";
-import Home from "./home";
+import Home from "../view/home";
 import NotFound from "../components/ui/notFound";
-import ProductsList, { SingleProduct } from "./products";
-import About from "../components/4u";
-import Cart, { SingleItem } from "./cart";
+import ProductsList, { SingleProduct } from "../view/products";
+import About from "../components/pages/4u";
+import Cart, { SingleItem } from "../view/cart";
 import Signup from "../components/auth/signup";
 import Footer from "../components/footer/footer";
 import ProfileAccount from "../components/account/user.account";
@@ -16,7 +16,7 @@ import Login from "../components/auth/login";
 import Subscribe from "../components/footer/subscribe";
 
 
-export default function App() {
+export default function AppBrowserRoutes() {
   const { userId } = useSelector(authSelector)
   return (
     <Router>

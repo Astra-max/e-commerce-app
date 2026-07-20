@@ -23,7 +23,7 @@ body,
 }
 
 .side-bar-main {
-    width: 30%;
+    width: 27%;
     flex-shrink: 0;
     height: 100vh;
     position: sticky;

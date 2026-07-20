@@ -1,4 +1,4 @@
-import "../styles/app.css"
+import "../../styles/app.css"
 
 // for you page
 const FORYOU = () => {
