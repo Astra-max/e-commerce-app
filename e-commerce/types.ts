@@ -45,6 +45,11 @@ export interface State {
   error: null;
 };
 
+export interface ProductState {
+  items: Item[];
+  loading: boolean;
+  error: null;
+};
 export interface Error {
   data: {
     message: string;

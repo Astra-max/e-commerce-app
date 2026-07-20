@@ -8,7 +8,7 @@ import {
   HandleAddItem,
   HandleCartFetch,
 } from "../store/feature/cartSlice";
-import { productSelector } from "../store/feature/productSlice";
+import { getAllProducts, productSelector } from "../store/feature/productSlice";
 import { authSelector } from "../store/feature/authSlice";
 import store from "../store/store";
 import { HandleGetTotal } from "../store/feature/totalSlice";
@@ -43,6 +43,10 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
     const { productid, name, category, image, amount, description } = product;
     const status = "cart";
     const quantity = 1;
+
+    useEffect(()=> {
+      store.dispatch(getAllProducts())
+    },[])
 
     try {
       const added = dispatch(
