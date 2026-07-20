@@ -7,7 +7,7 @@ import {
     getSingleItemQuery,
     updateItemQuery,
 } from "../query/cart.query";
-import { CartItem } from "../model/cart.model";
+import { CartItem } from "../model/models";
 import { addItemQuery } from "../query/cart.query";
 import { ServiceResponse } from "../model/response";
 

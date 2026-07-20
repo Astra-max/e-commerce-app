@@ -1,7 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../../styles/user.account.css";
-import { useSelector, useDispatch } from "react-redux";
-import { authSelector, logout } from "../../store/feature/authSlice";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/feature/authSlice";
 import { LogOut } from "lucide-react";
 import { sections } from "../../lib/sidebar.data";
 
@@ -9,9 +9,7 @@ import { sections } from "../../lib/sidebar.data";
 export const SideBar = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
-  const { userId } = useSelector(authSelector);
   const { pathname } = useLocation();
-
 
   function HandleLogout() {
     dispatch(logout());
@@ -30,7 +28,7 @@ export const SideBar = () => {
               <div className="side-bar-list">
                 {section.items.map((item) => {
                   const isActive =
-                    pathname === `/profile/${userId}/${item.slug}`;
+                    pathname === `/profile/${item.slug}`;
                   const Icon = item.icon;
 
                   return (
@@ -39,7 +37,7 @@ export const SideBar = () => {
                         className={`side-bar-link-row${
                           isActive ? " active-path" : ""
                         }`}
-                        to={`/profile/${userId}/${item.slug}`}
+                        to={`/profile/${item.slug}`}
                       >
                         <Icon
                           size={18}

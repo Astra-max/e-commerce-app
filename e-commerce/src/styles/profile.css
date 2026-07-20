@@ -48,14 +48,6 @@
     background-color: rgb(255, 250, 245);
 }
 
-/* ---------------------------------------------------------------------
-   Profile account toggle + dropdown menu
-   --------------------------------------------------------------------- */
-
-/* Anchor for the dropdown — without this the absolutely-positioned panel
-   below has no local positioning context and ends up wherever the nearest
-   positioned ancestor happens to be, which is why the old version needed a
-   "left: 80%" guess. */
 .display-p-drop {
     position: relative;
     display: inline-block;

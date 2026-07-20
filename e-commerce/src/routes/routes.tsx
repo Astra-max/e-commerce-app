@@ -10,14 +10,11 @@ import Footer from "../components/footer/footer";
 import ProfileAccount from "../components/account/user.account";
 import { Fragment } from "react";
 import Shipment from "../components/account/shipment";
-import { useSelector } from "react-redux";
-import { authSelector } from "../store/feature/authSlice";
 import Login from "../components/auth/login";
 import Subscribe from "../components/footer/subscribe";
 
 
 export default function AppBrowserRoutes() {
-  const { userId } = useSelector(authSelector)
   return (
     <Router>
       <Routes>
@@ -53,7 +50,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/cart/${userId}`}
+          path={`/cart`}
           element={
             <Layout>
               <Cart />
@@ -62,7 +59,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/cart/${userId}/:productid`}
+          path={`/cart/:productid`}
           element={
             <Layout>
               <SingleItem />
@@ -71,7 +68,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/${userId}`}
+          path={`/profile`}
           element={
             <ProfileAccountLayout>
               <p>Here</p>
@@ -79,7 +76,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/${userId}/shipment`}
+          path={`/profile/shipment`}
           element={
             <ProfileAccountLayout>
               <Shipment />
@@ -87,7 +84,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/${userId}/account`}
+          path={`/profile/account`}
           element={
             <Fragment>
               <ProfileAccount />
@@ -96,7 +93,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/${userId}/cart`}
+          path={`/profile/cart`}
           element={
             <Fragment>
               <ProfileAccount />
@@ -105,7 +102,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/${userId}/marketing`}
+          path={`/profile/marketing`}
           element={
             <Fragment>
               <ProfileAccount />
@@ -114,7 +111,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/${userId}/track`}
+          path={`/profile/track`}
           element={
             <Fragment>
               <ProfileAccount />
@@ -123,7 +120,7 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/${userId}/shipment`}
+          path={`/profile/shipment`}
           element={
             <Fragment>
               <ProfileAccount />

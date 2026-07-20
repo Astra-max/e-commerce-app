@@ -22,8 +22,8 @@ export const loginUser = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(
         error?.response?.data?.message ||
-          error?.message ||
-          "Failed to login"
+        error?.message ||
+        "Failed to login"
       );
     }
   }
@@ -49,8 +49,8 @@ export const signUPUser = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(
         error?.response?.data?.message ||
-          error?.message ||
-          "Failed to sign up"
+        error?.message ||
+        "Failed to sign up"
       );
     }
   }

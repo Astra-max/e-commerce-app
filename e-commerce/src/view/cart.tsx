@@ -327,9 +327,7 @@ export function SingleItem() {
   );
 }
 
-/**
- * Handles cart
- */
+// handle cart
 function Cart() {
   return (
     <div className="cart-display">

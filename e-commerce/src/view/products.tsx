@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Products } from "../../types";
+import { Products, ProductState } from "../../types";
 import "../styles/poducts.css";
 import { useEffect, useState } from "react";
 import {
@@ -8,7 +8,7 @@ import {
   HandleAddItem,
   HandleCartFetch,
 } from "../store/feature/cartSlice";
-import { productSelector } from "../store/feature/productSlice";
+import { getAllProducts, productSelector } from "../store/feature/productSlice";
 import { authSelector } from "../store/feature/authSlice";
 import store from "../store/store";
 import { HandleGetTotal } from "../store/feature/totalSlice";
@@ -23,7 +23,7 @@ const PREVIEW_COUNT = 5;
  * and section logic.
  */
 export const ProductCard = ({ items }: { items: Products[] }) => {
-  const [pid, setPid] = useState(0);
+  const [pid, setPid] = useState<string>("");
   const [leave, setLeave] = useState(false);
   const dispatch: any = useDispatch();
   const { userId } = useSelector(authSelector);
@@ -71,7 +71,7 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
   /**
    * Handles handle style
    */
-  function HandleStyle(productId: number) {
+  function HandleStyle(productId: string) {
     setLeave(false);
     setPid(productId);
   }
@@ -159,7 +159,13 @@ const ProductsList = () => {
     { id: 17, category: "others" },
   ];
 
-  const { Items } = useSelector(productSelector);
+  const { items } = useSelector(productSelector);
+
+  const dispatch: any = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllProducts());
+  }, [dispatch]);
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
 
@@ -173,7 +179,7 @@ const ProductsList = () => {
   const isSearching = search.trim() !== "";
   const showSections = category === "All" && !isSearching;
 
-  const filteredItems: Products[] = Items.filter((item: Products) => {
+  const filteredItems: Products[] = items.filter((item: Products) => {
     const matchesCategory = category === "All" || item.category === category;
     const matchesSearch = item.name
       .toLowerCase()
@@ -182,7 +188,7 @@ const ProductsList = () => {
   });
 
   const sectionCategories: string[] = Array.from(
-    new Set(Items.map((item: Products) => item.category))
+    new Set(items.map((item: Products) => item.category))
   );
 
   return (
@@ -194,9 +200,8 @@ const ProductsList = () => {
           type="search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder={`Search ${
-            category === "All" ? "products" : category
-          }...`}
+          placeholder={`Search ${category === "All" ? "products" : category
+            }...`}
         />
       </div>
       <div className="product-category">
@@ -217,7 +222,7 @@ const ProductsList = () => {
 
       {showSections ? (
         sectionCategories.map((cat) => {
-          const catItems = Items.filter(
+          const catItems = items.filter(
             (item: Products) => item.category === cat
           );
           if (catItems.length === 0) return null;
@@ -251,10 +256,10 @@ const ProductsList = () => {
  * Handles single product
  */
 export function SingleProduct() {
-  const { Items } = useSelector(productSelector);
+  const { items = [] } = useSelector(productSelector);
   const { productid } = useParams();
-  const productId = Number(productid);
-  const product: Products = Items.find(
+  const productId = String(productid)
+  const product: Products = items.find(
     (product: Products) => product.productid === productId
   );
   if (product === undefined) return <NotFound message={"product"} />;

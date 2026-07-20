@@ -29,7 +29,6 @@ export const DropDown = (): JSX.Element => {
   const dispatch = useDispatch();
   const push = useNavigate();
 
-  const { userId } = useSelector(authSelector)
   const { tempId }: any = useSelector(itemHistrySelector);
 
   const elements = [
@@ -58,10 +57,9 @@ export const DropDown = (): JSX.Element => {
             </div>
           );
         } else {
-            const path = val.name === "My Account" ? userId : ""
           return (
             <div key={val.id} className="dropdown-item">
-              <Link className="link" to={`/profile/${path}`}>
+              <Link className="link" to={`/profile`}>
                 {val.name}
               </Link>
             </div>
