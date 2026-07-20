@@ -8,3 +8,13 @@ export interface CartItem {
     quantity: number;
     userId: string;
 }
+
+export interface ProductType {
+    productId: string;
+    productName: string;
+    productDescription: string;
+    productCategory: string;
+    productPrice: string;
+    productImage: string;
+    quantity: number;
+}

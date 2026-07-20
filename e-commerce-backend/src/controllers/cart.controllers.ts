@@ -1,4 +1,4 @@
-import { CartItem } from "../model/cart.model";
+import { CartItem } from "../model/models";
 import { type Request, type Response } from "express";
 import pool from "../config/dbConnect";
 import {
