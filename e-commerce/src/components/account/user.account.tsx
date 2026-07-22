@@ -3,7 +3,7 @@ import "../../styles/user.account.css";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/feature/authSlice";
 import { LogOut } from "lucide-react";
-import { sections } from "../../lib/sidebar.data";
+import { sections } from "../../data/sidebar.data";
 
 // account side bar component
 export const SideBar = () => {

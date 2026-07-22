@@ -15,16 +15,14 @@ export const getAllProducts = createAsyncThunk(
       const { data } = await API.get("/products");
 
       const products = (data.data || []).map((item: any) => ({
-        productid: item.product_id,                 // UUID string
+        productid: item.product_id,                 
         name: item.product_name,
-        amount: Number(item.price),                // convert string to number
+        amount: Number(item.price),               
         image: item.product_image_url,
         quantity: item.stock_quantity ?? 1,
         description: item.description,
         category: item.product_category,
       }));
-
-      console.log(products); // verify
 
       return products;
     } catch (error: any) {

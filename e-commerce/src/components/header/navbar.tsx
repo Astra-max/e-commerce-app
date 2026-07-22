@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../store/feature/authSlice";
 import { cartSelector } from "../../store/feature/cartSlice";
-import { navItems } from "../../lib/navbar.data";
+import { navItems } from "../../data/navbar.data";
 import ProfileAccount from "./user.profile";
 import {
   LogIn,

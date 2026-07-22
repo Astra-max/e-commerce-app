@@ -2,9 +2,11 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Layout, { ProfileAccountLayout } from "../components/ui/layout";
 import Home from "../view/home";
 import NotFound from "../components/ui/notFound";
-import ProductsList, { SingleProduct } from "../view/products";
+import ProductsList from "../components/products/products";
+import SingleProduct from "../components/products/singleProduct";
 import About from "../components/pages/4u";
-import Cart, { SingleItem } from "../view/cart";
+import Cart from "../view/cart";
+import SingleCartItem from "../components/cart/singleCardItem";
 import Signup from "../components/auth/signup";
 import Footer from "../components/footer/footer";
 import ProfileAccount from "../components/account/user.account";
@@ -62,7 +64,7 @@ export default function AppBrowserRoutes() {
           path={`/cart/:productid`}
           element={
             <Layout>
-              <SingleItem />
+              <SingleCartItem />
               <ProductsList />
             </Layout>
           }
