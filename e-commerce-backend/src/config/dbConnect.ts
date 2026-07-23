@@ -1,11 +1,11 @@
 import { Pool } from "pg";
-import dotenv from "dotenv";
 import { logger } from "../util/logger";
+import LoadCfg from "./loadConfg";
 
-dotenv.config();
+const url = LoadCfg.loadDbCfg();
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL as string,
+  connectionString: url,
   ssl: {
     rejectUnauthorized: false,
   },
@@ -18,7 +18,7 @@ pool
     client.release();
   })
   .catch((err) => {
-    logger.error("Failed to connect to DB", err);
+    logger.error(`Failed to connect to DB ${err}`);
   });
 
 export default pool;
