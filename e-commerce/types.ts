@@ -1,4 +1,4 @@
-export type User = {
+export interface User {
   userName: string;
   firstName: string;
   secondName: string;
@@ -11,7 +11,7 @@ export type User = {
   gender: string;
 };
 
-export type Logins = {
+export interface Logins {
   emailAddr: string;
   password: string;
 };
