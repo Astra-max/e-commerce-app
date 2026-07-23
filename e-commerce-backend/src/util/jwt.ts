@@ -1,15 +1,16 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import { JwtSignCredentials } from "../../types";
 import { logger } from "./logger";
+import LoadCfg from "../config/loadConfg";
 
-dotenv.config();
+
+const jwtSecret = LoadCfg.loadSecretKey();
 
 export const generateToken = (data: JwtSignCredentials) => {
     try {
         const token = jwt.sign(
             { userId: data.userId, userName: data.userName },
-            process.env.SECRET_KEY as string,
+            jwtSecret,
             { expiresIn: "1d" }
         );
         return token;
@@ -23,7 +24,7 @@ export const refreshToken = (userId: string, userName: string) => {
     try {
         const token = jwt.sign(
             { userId, userName },
-            process.env.SECRET_KEY as string,
+            jwtSecret,
             { expiresIn: "7d" }
         );
         return token;
@@ -35,7 +36,7 @@ export const refreshToken = (userId: string, userName: string) => {
 
 export const verifyToken = (token: string) => {
     try {
-        const decoded = jwt.verify(token, process.env.SECRET_KEY as string) as JwtSignCredentials;    
+        const decoded = jwt.verify(token, jwtSecret) as JwtSignCredentials;    
     return decoded;
     } catch (error: any) {
         logger.error("Error verifying token:", error);
