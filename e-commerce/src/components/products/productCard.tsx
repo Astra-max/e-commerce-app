@@ -54,7 +54,11 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
         })
       ).unwrap();
       if (added) {
-        dispatch(addToCart({ ...product, quantity }));
+        dispatch(addToCart({
+          ...product, quantity,
+          status: "",
+          userId: ""
+        }));
         dispatch(HandleGetTotal(userId));
         dispatch(addToTotal(amount));
       }

@@ -16,7 +16,7 @@ const initialState: QuantityState = {
 
 export const HandleAddQuantity = createAsyncThunk(
   "quantity/add",
-  async (item: { userId: string; productId: number }, { rejectWithValue }) => {
+  async (item: { userId: string; productId: string }, { rejectWithValue }) => {
     try {
       const { data } = await API.put("/quantity/add", item);
       return data;
@@ -30,7 +30,7 @@ export const HandleAddQuantity = createAsyncThunk(
 
 export const HandleReduceQuantity = createAsyncThunk(
   "quantity/reduce",
-  async (item: { userId: string; itemId: number }, { rejectWithValue }) => {
+  async (item: { userId: string; itemId: string }, { rejectWithValue }) => {
     try {
       const { data } = await API.put("/quantity/reduce", item);
       return data;
@@ -70,7 +70,7 @@ const quantitySlice = createSlice({
 /**
  * Handles quantity selector
  */
-export const quantitySelector = (state: { quantity: number | any }) =>
+export const quantitySelector = (state: { quantity: number }) =>
   state.quantity;
 export const { incrementQuantity, decrementQuantity } = quantitySlice.actions;
 export default quantitySlice.reducer;
