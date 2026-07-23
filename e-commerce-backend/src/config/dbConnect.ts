@@ -1,5 +1,6 @@
 import { Pool } from "pg";
 import dotenv from "dotenv";
+import { logger } from "../util/logger";
 
 dotenv.config();
 
@@ -13,11 +14,11 @@ const pool = new Pool({
 pool
   .connect()
   .then((client) => {
-    console.log("Connected to Database");
+    logger.info("Database connected successfully");
     client.release();
   })
   .catch((err) => {
-    console.error("Failed to connect to DB", err);
+    logger.error("Failed to connect to DB", err);
   });
 
 export default pool;
