@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Item, Products, State } from "../../../types";
+import { Item, State } from "../../../types";
 import API from "../../util/axios";
 import { HandleAddQuantity } from "./quantitySlice";
 
@@ -34,7 +34,7 @@ export const HandleAddItem = createAsyncThunk(
 export const HandleRemoveItem = createAsyncThunk(
   "cart/removeItem",
   async (
-    { productId, userId }: { productId: number; userId: string },
+    { productId, userId }: { productId: string; userId: string },
     { rejectWithValue }
   ) => {
     try {
@@ -59,10 +59,10 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addToCart: (state, { payload }: PayloadAction<Products>) => {
+    addToCart: (state, { payload }: PayloadAction<Item>) => {
       state.cart.push(payload);
     },
-    removeItem: (state, { payload }: PayloadAction<number>) => {
+    removeItem: (state, { payload }: PayloadAction<string>) => {
       state.cart = state.cart.filter((item) => item.productid !== payload);
     },
     addQuantity: (state, { payload }: PayloadAction<number>) => {
@@ -87,7 +87,7 @@ const cartSlice = createSlice({
       })
       .addCase(
         HandleCartFetch.fulfilled,
-        (state, { payload }: PayloadAction<Products[]>) => {
+        (state, { payload }: PayloadAction<Item[]>) => {
           state.cart = payload;
           state.loading = false;
         }
@@ -103,7 +103,7 @@ const cartSlice = createSlice({
       })
       .addCase(
         HandleAddItem.fulfilled,
-        (state, { payload }: PayloadAction<Products>) => {
+        (state, { payload }: PayloadAction<Item>) => {
           state.cart.push(payload);
           state.loading = false;
         }
@@ -119,7 +119,7 @@ const cartSlice = createSlice({
       })
       .addCase(
         HandleRemoveItem.fulfilled,
-        (state, { payload }: PayloadAction<number>) => {
+        (state, { payload }: PayloadAction<string>) => {
           state.cart = state.cart.filter((item) => item.productid !== payload);
           state.loading = false;
         }

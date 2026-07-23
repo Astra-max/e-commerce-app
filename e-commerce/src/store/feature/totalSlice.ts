@@ -31,7 +31,7 @@ export const HandleGetTotal = createAsyncThunk(
 
 export const HandleAddTotal = createAsyncThunk(
   "total/add-to-total",
-  async ({userId, productId}: {userId: string, productId: number}, { rejectWithValue }) => {
+  async ({userId, productId}: {userId: string, productId: string}, { rejectWithValue }) => {
     try {
       const { data } = await API.put(`/total/${productId}`, { userId });
       return data.total;

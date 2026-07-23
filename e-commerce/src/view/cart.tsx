@@ -19,6 +19,7 @@ import { Fragment, Suspense, useEffect } from "react";
 import store from "../store/store";
 import { authSelector } from "../store/feature/authSlice";
 
+
 // Handles product cart
 export const ProductCart = () => {
   const { cart, loading } = useSelector(cartSelector);
@@ -37,7 +38,7 @@ export const ProductCart = () => {
   /**
    * Handles handle remove product
    */
-  function HandleRemoveProduct(productId: number) {
+  function HandleRemoveProduct(productId: string) {
     const checkExists = cart.findIndex(
       (product: Products) => product.productid === productId
     );
@@ -51,9 +52,9 @@ export const ProductCart = () => {
   /**
    * Handles handle add quant
    */
-  function HandleAddQuant(productId: number, amount: number) {
+  function HandleAddQuant(productId: string, amount: number) {
     const index: number = cart.findIndex(
-      (item: { productid: number }) => item.productid === productId
+      (item: { productid: string }) => item.productid === productId
     );
     if (index !== -1) {
       dispatch(addToTotal(amount));
@@ -67,9 +68,9 @@ export const ProductCart = () => {
   /**
    * Handles handle remove quant
    */
-  function HandleRemoveQuant(itemId: number, amount: number) {
+  function HandleRemoveQuant(itemId: string, amount: number) {
     const index = cart.findIndex(
-      (item: { productid: number }) => item.productid === itemId
+      (item: { productid: string }) => item.productid === itemId
     );
     if (index !== -1 && cart[index].quantity > 1) {
       dispatch(reduceTotal(amount));
