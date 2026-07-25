@@ -11,10 +11,9 @@
     "target": "esnext",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "types": [],
     // For nodejs:
     // "lib": ["esnext"],
-    // "types": ["node"],
+    "types": ["node"],
     // and npm install -D @types/node
 
     // Other Outputs
