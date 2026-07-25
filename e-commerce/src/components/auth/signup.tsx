@@ -21,7 +21,7 @@ const Signup = () => {
     gender: "",
     age: 0,
     password: "",
-    confirm: "",
+    confirmPassword: "",
   });
   const [errorVal, setError] = useState({
     userName: "",
@@ -33,7 +33,7 @@ const Signup = () => {
     gender: "",
     age: "",
     password: "",
-    confirm: "",
+    confirmPassword: "",
   });
 
   const dispatch: any = useDispatch();
@@ -152,7 +152,7 @@ const Signup = () => {
       }));
     }
 
-    if (data.confirm !== data.password) {
+    if (data.confirmPassword !== data.password) {
       setError((e) => ({
         ...e,
         confirm: "confirm password not equal password",
@@ -177,8 +177,8 @@ const Signup = () => {
       errorVal.age === "" &&
       data.age > 0 &&
       errorVal.idNo === "" &&
-      errorVal.confirm === "" &&
-      data.confirm !== "" &&
+      errorVal.confirmPassword === "" &&
+      data.confirmPassword !== "" &&
       errorVal.password === "" &&
       data.password !== "" &&
       errorVal.phone === "" &&
@@ -445,12 +445,12 @@ const Signup = () => {
             <input
               className="s-input"
               type="password"
-              name="confirm"
+              name="confirmPassword"
               placeholder="************"
               required
               onChange={(event) => FormValidation(event)}
             />
-            {errorVal.confirm && (
+            {errorVal.confirmPassword && (
               <p
                 style={{
                   color: "red",
@@ -459,7 +459,7 @@ const Signup = () => {
                   paddingTop: "4.6rem",
                 }}
               >
-                {errorVal.confirm}
+                {errorVal.confirmPassword}
               </p>
             )}
           </div>

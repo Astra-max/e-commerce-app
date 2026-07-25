@@ -6,7 +6,7 @@ export interface User {
   idNo: string;
   emailAddr: string;
   password: string;
-  confirm: string;
+  confirmPassword: string;
   age: number;
   gender: string;
 };
