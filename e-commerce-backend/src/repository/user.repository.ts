@@ -40,24 +40,42 @@ export const saveUser = async (user: User): Promise<UserLoginData | RepositoryEr
     }
 }
 
-export const handleGetUserByEmail = async (email: string): Promise<UserLoginData | RepositoryError> => {
-    try {
-        const result = await pool.query(getUserByEmail, [email]);
-        
-        if (result.rows.length > 0) {
-            return {
-                userId: result.rows[0].user_id,
-                userName: result.rows[0].user_name,
-                password: result.rows[0].password,
-            }
-        }
-        logger.warn(`User with email ${email} not found.`);
-        return { isError: true, message: "User not found", statusCode: 404 };
-    } catch (error: any) {
-        logger.error("Error fetching user by email:", error);
-        return { isError: true, message: "Error fetching user by email", statusCode: 500 };
+export const handleGetUserByEmail = async (
+  email: string
+): Promise<UserLoginData | RepositoryError> => {
+  try {
+    const result = await pool.query(getUserByEmail, [email]);
+
+    if (result.rowCount && result.rowCount > 0) {
+      const user = result.rows[0];
+
+      return {
+        userId: user.user_id,
+        userName: user.user_name,
+        password: user.password,
+      };
     }
-}
+
+    logger.warn(`User with email ${email} not found.`);
+
+    return {
+      isError: true,
+      message: "User not found",
+      statusCode: 404,
+    };
+  } catch (error: unknown) {
+    logger.error(`Error fetching user by email:, ${error}`);
+
+    return {
+      isError: true,
+      message:
+        error instanceof Error
+          ? error.message
+          : "Error fetching user by email",
+      statusCode: 500,
+    };
+  }
+};
 
 export const getAllUsers = async (): Promise<User[] | RepositoryError> => {
     try {
