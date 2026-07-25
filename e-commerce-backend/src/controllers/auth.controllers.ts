@@ -1,10 +1,11 @@
 import { type Request, type Response } from "express";
-import dotenv from "dotenv";
 import { authLoginService, authSignUpService } from "../service/auth.service";
 import { refreshToken } from "../util/jwt";
 import { logger } from "../util/logger";
+import LoadCfg from "../config/loadConfg";
 
-dotenv.config();
+const nodeEnv = LoadCfg.loadNodeEnv()
+const productionEnv = nodeEnv === "production";
 
 // Handles handle login
 export const HandleLogin = async (req: Request, res: Response) => {
@@ -19,7 +20,7 @@ export const HandleLogin = async (req: Request, res: Response) => {
     // send refresh token in cookie
     res.cookie("refreshToken", refreshAuthToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: productionEnv,
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
