@@ -18,7 +18,8 @@ pool
     client.release();
   })
   .catch((err) => {
-    logger.error(`Failed to connect to DB ${err}`);
+    logger.error(`Failed to connect to DB: ${err}`);
+    process.exit(1)
   });
 
 export default pool;
