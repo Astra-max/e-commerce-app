@@ -88,5 +88,3 @@ export const HandleLogout = (req: Request, res: Response) => {
   logger.info(`User logged out successfully`);
   return res.status(200).json({ message: "Logged out successfully" });
 }
-
-export const HandleUserProfile = async (req: Request, res: Response) => {}
