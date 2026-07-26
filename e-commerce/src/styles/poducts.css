@@ -93,8 +93,7 @@ html, body {
   flex-direction: column;
   align-items: start;
   justify-content: flex-start;
-  line-height: normal;
-  gap: 0.08rem;
+  line-height: 0.3rem;
 }
 
 .cd-category {

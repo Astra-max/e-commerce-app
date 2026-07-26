@@ -14,7 +14,7 @@ const Home = () => {
   const dispatch = useDispatch<any>();
   const push = useNavigate();
 
-  const { userId, token } = useSelector(authSelector);
+  const { user, isAuthenticated } = useSelector(authSelector);
   const { items } = useSelector(productSelector);
   const { productId }: any = useSelector(itemHistrySelector);
 
@@ -39,7 +39,7 @@ const Home = () => {
   function goTo(id: number) {
     setIndex(id);
     setFadeKey((k) => k + 1);
-    if (token) {
+    if (user?.token) {
       dispatch(setTemp(id));
     }
   }
@@ -67,14 +67,16 @@ const Home = () => {
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, paused, fadeKey, token]);
+  }, [items, paused, fadeKey, user?.token]);
 
   /* fetch cart */
   useEffect(() => {
-    if (token) {
-      dispatch(HandleCartFetch(userId));
+    if (isAuthenticated) {
+      dispatch(HandleCartFetch(user?.data?.userId));
     }
-  }, [token, userId, dispatch]);
+  }, [isAuthenticated, user?.data?.userId, dispatch]);
+
+  useEffect(()=> {}, [])
 
   /* get current product safely */
   const product = items[index];

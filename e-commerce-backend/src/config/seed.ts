@@ -203,7 +203,5 @@ logger.info(`Database seeded (${products.length} products processed)`);
   } catch (err) {
     logger.error(`Seeding failed: ${err}`);
     process.exitCode = 1;
-  } finally {
-    process.exit();
   }
 }

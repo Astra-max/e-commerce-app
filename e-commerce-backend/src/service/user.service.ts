@@ -22,3 +22,28 @@ export const getUserByIdService = async (data: Request): Promise<ServiceResponse
         isError: false, message: "user found", statusCode: 200, data: user
     }
 }
+
+interface AuthenticatedRequest extends Request {
+  user?: { userId: string; userName: string };
+}
+
+export const getUserProfileService = async (
+  req: AuthenticatedRequest
+): Promise<ServiceResponse<User>> => {
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    return { isError: true, message: "Not authenticated", statusCode: 401 };
+  }
+  const user = await getUserById(userId);
+
+  if (isRepositoryError(user)) {
+    return {
+      isError: true,
+      message: user.message,
+      statusCode: Number(user.statusCode),
+    };
+  }
+
+  return { isError: false, message: "Profile fetched", statusCode: 200, data: user };
+};

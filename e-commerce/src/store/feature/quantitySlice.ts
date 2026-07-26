@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import API from "../../util/axios";
+import API from "../../services/axios";
 import { Products } from "../../../types";
 
 interface QuantityState {

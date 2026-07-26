@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getAllUsersService } from "../service/auth.service";
-import { getUserByIdService } from "../service/user.service";
+import { getUserByIdService, getUserProfileService } from "../service/user.service";
 import { logger } from "../util/logger"
 
 export const getAllUsersController = async (req: Request, res: Response) => {
@@ -22,3 +22,19 @@ export const getUserByIdController = async (req: Request, res: Response) => {
   }
   return res.status(200).json({data})
 }
+
+// controller/user.controller.ts
+export const HandleUserProfile = async (req: Request, res: Response) => {
+  try {
+    const { isError, message, statusCode, data } = await getUserProfileService(req);
+
+    if (isError || !data) {
+      return res.status(statusCode).json({ message });
+    }
+
+    return res.status(statusCode).json({ data });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

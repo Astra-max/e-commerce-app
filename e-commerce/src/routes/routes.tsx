@@ -1,5 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Layout, { ProfileAccountLayout } from "../components/ui/layout";
+import Layout, { ProfileAccountLayout } from "../components/layout/layout";
 import Home from "../view/home";
 import NotFound from "../components/ui/notFound";
 import ProductsList from "../components/products/products";

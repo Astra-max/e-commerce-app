@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import { router } from "./routes/routes";
 import { generalRateLimiter } from "./middleware/rate.limit.middleware";
 import corsMiddleware from "./middleware/cors.middleware";
@@ -7,6 +8,8 @@ import { logger } from "./util/logger";
 import seed from "./config/seed";
 
 const app = express();
+
+app.use(cookieParser())
 app.use(corsMiddleware);
 app.use(express.json());
 app.use(generalRateLimiter);
