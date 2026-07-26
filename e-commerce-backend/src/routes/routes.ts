@@ -1,5 +1,5 @@
 import express from "express";
-import { HandleLogin, HandleSignUP } from "../controllers/auth.controllers";
+import { HandleLogin, HandleSignUP, HandleUserProfile } from "../controllers/auth.controllers";
 import {
   HandleAddToCart,
   HandleGetAllCart,
@@ -20,12 +20,15 @@ export const router = express.Router();
 //auth routes
 router.post("/auth/login", authRateLimiter, HandleLogin);
 router.post("/auth/register", authRateLimiter, HandleSignUP);
+router.get("/auth/profile", authMiddleware, HandleUserProfile);
 
 // users routes
 router.get("/users", authMiddleware, getAllUsersController);
 router.get("/users/:userId", authMiddleware, getUserByIdController);
 
-//products route
+// admin routes
+
+//products routes
 router.get("/products", authMiddleware, HandleGetAllProducts)
 
 //cart routes
