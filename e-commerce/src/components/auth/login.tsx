@@ -9,12 +9,12 @@ const Login = () => {
   const [userData, setData] = useState({ emailAddr: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const dispatch: any = useDispatch();
-  const { loading, error, token } = useSelector(authSelector);
+  const { loading, error, isAuthenticated } = useSelector(authSelector);
   const push = useNavigate();
 
   useEffect(() => {
-    if (token) push("/");
-  }, [token]);  
+    if (isAuthenticated) push("/");
+  }, [isAuthenticated]);  
 
  
   // handle user data func writes to appliaction state

@@ -27,9 +27,7 @@ export const HandleLogin = async (req: Request, res: Response) => {
     logger.info(`User ${data.userName} logged in successfully`);
     // send access token in response
     return res.status(statusCode).json({
-      accessToken: data.accessToken,
-      userId: data.userId,
-      userName: data.userName,
+      data
     });
   } catch (error) {
     console.error("Error during login:", error);

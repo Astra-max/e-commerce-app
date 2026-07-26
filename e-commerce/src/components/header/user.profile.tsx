@@ -7,7 +7,7 @@ import { itemHistrySelector, setItemHistory } from "../../store/feature/itemHist
 
 // user profile component
 const ProfileAccount = () => {
-  const { userName } = useSelector(authSelector);
+  const { user } = useSelector(authSelector);
   const [toggle, setToggle] = useState(false);
 
   return (
@@ -16,8 +16,8 @@ const ProfileAccount = () => {
         className={`profile-toggle${toggle ? " profile-toggle-open" : ""}`}
         onClick={() => setToggle(!toggle)}
       >
-        <span className="profile-avatar">{userName[0]}</span>
-        <p className="profile-name">{userName}</p>
+        <span className="profile-avatar">{user?.data?.userName[0]}</span>
+        <p className="profile-name">{user?.data?.userName}</p>
         <span className="profile-caret" aria-hidden="true" />
       </div>
       {toggle && <DropDown />}
