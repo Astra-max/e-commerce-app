@@ -28,9 +28,7 @@ const ProductsList = () => {
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
 
-  /**
-   * Handles fetch category
-   */
+ // HANDLE fetch products by category
   function fetchCategory(cat: string) {
     setCategory(cat);
   }

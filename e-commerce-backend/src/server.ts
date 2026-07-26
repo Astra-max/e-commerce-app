@@ -17,7 +17,7 @@ app.use("/api/v1", router);
 
 const env = LoadCfg.loadNodeEnv()
 
-if (env === "production") {
+if (env === "development") {
   seed();
 }
 
