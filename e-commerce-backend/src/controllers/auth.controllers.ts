@@ -10,7 +10,7 @@ const productionEnv = nodeEnv === "production";
 const REFRESH_COOKIE_OPTS = {
   httpOnly: true,
   secure: productionEnv,
-  sameSite: "strict" as const,
+  sameSite: "none" as const, // my backend url very diff with front end url
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 };
 
