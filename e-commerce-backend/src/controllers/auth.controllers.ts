@@ -27,7 +27,6 @@ export const HandleLogin = async (req: Request, res: Response) => {
 
     logger.info(`User ${data.userName} logged in successfully`);
 
-    // Same shape as signup, below — accessToken must come from authLoginService
     return res.status(statusCode).json({
       accessToken: data.accessToken,
       userId: data.userId,

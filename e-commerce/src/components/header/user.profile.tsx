@@ -1,25 +1,49 @@
 import { useDispatch, useSelector } from "react-redux";
-import { authSelector, logout } from "../../store/feature/authSlice";
+import { logoutUser } from "../../store/feature/authSlice";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../../styles/profile.css";
+import API from "../../services/axios";
 import { itemHistrySelector, setItemHistory } from "../../store/feature/itemHistorySlice";
 
+interface ResponseData {
+  firstName: string;
+  secondName: string;
+  userName: string;
+  userId: string;
+}
 // user profile component
 const ProfileAccount = () => {
-  const { user } = useSelector(authSelector);
+  const [user, setUser] = useState<ResponseData>({firstName: "", secondName: "", userName: "", emailAddr: ""})
   const [toggle, setToggle] = useState(false);
+
+  useEffect(()=> {
+    async function getUserProfile() {
+      const { data } = await API.get("/auth/profile");
+      setUser((prev)=> ({...prev, firstName: data.data.first_name}))
+    }
+    getUserProfile()
+  },[])
+
+  if (!user) return null;
 
   return (
     <div className="display-p-drop">
       <div
-        className={`profile-toggle${toggle ? " profile-toggle-open" : ""}`}
-        onClick={() => setToggle(!toggle)}
+        className={`profile-toggle ${toggle ? "profile-toggle-open" : ""}`}
+        onClick={() => setToggle(prev => !prev)}
       >
-        <span className="profile-avatar">{user?.first_name[0]}</span>
-        <p className="profile-name">{user?.first_name}</p>
-        <span className="profile-caret" aria-hidden="true" />
+        <span className="profile-avatar">
+          {user.firstName?.charAt(0).toUpperCase() ?? "?"}
+        </span>
+
+        <p className="profile-name">
+          {user.firstName ?? "User"}
+        </p>
+
+        <span className="profile-caret" />
       </div>
+
       {toggle && <DropDown />}
     </div>
   );
@@ -38,8 +62,8 @@ export const DropDown = (): JSX.Element => {
 
   // handle logout
   function HandleLogout() {
-    dispatch(setItemHistory({event: true, productId: tempId}))
-    dispatch(logout());
+    dispatch(setItemHistory({ event: true, productId: tempId }))
+    dispatch(logoutUser() as any);
     push("/auth/login");
     return;
   }
