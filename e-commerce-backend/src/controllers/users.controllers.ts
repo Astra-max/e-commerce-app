@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getAllUsersService } from "../service/auth.service";
-import { getUserByIdService } from "../service/user.service";
+import { getUserByIdService, getUserProfileService } from "../service/user.service";
 import { logger } from "../util/logger"
 
 export const getAllUsersController = async (req: Request, res: Response) => {
@@ -21,4 +21,9 @@ export const getUserByIdController = async (req: Request, res: Response) => {
     return res.status(statusCode).json({message});
   }
   return res.status(200).json({data})
+}
+
+export const HandleUserProfile = async (req: Request, res: Response) => {
+  const data = await getUserProfileService(req);
+  console.log(data)
 }

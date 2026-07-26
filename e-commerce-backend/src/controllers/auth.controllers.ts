@@ -60,7 +60,10 @@ export const HandleSignUP = async (req: Request, res: Response) => {
 
   res.cookie("refreshToken", refreshAuthToken, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    encode(val): string {
+      return data.userId
+    },
+    secure: productionEnv,
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
@@ -83,5 +86,3 @@ export const HandleLogout = (req: Request, res: Response) => {
   logger.info(`User logged out successfully`);
   return res.status(200).json({ message: "Logged out successfully" });
 }
-
-export const userProfile = async (req: Request, res: Response) => {}

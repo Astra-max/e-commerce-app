@@ -22,3 +22,10 @@ export const getUserByIdService = async (data: Request): Promise<ServiceResponse
         isError: false, message: "user found", statusCode: 200, data: user
     }
 }
+
+// Get user profile details
+export const getUserProfileService = async (req: Request)=> {
+    const userId = req.cookies
+    console.log(userId)
+  //const user = await getUserById("")
+}

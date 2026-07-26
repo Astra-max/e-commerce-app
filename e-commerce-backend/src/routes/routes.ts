@@ -10,7 +10,7 @@ import {
   HandleAddQuantity,
   HandleReduceQuantity,
 } from "../controllers/quantity.controllers";
-import { getAllUsersController, getUserByIdController } from "../controllers/users.controllers";
+import { getAllUsersController, getUserByIdController, HandleUserProfile } from "../controllers/users.controllers";
 import { authRateLimiter } from "../middleware/rate.limit.middleware";
 import { authMiddleware } from "../middleware/auth.middleware";
 import { HandleGetAllProducts } from "../controllers/product.controllers";
@@ -20,12 +20,15 @@ export const router = express.Router();
 //auth routes
 router.post("/auth/login", authRateLimiter, HandleLogin);
 router.post("/auth/register", authRateLimiter, HandleSignUP);
+router.get("/auth/profile", HandleUserProfile);
 
 // users routes
 router.get("/users", authMiddleware, getAllUsersController);
 router.get("/users/:userId", authMiddleware, getUserByIdController);
 
-//products route
+// admin routes
+
+//products routes
 router.get("/products", authMiddleware, HandleGetAllProducts)
 
 //cart routes
