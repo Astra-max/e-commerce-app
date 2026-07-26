@@ -12,8 +12,8 @@ const Layout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
-  const { token } = useSelector(authSelector);
-  if (!token) return <Login />;
+  const { isAuthenticated } = useSelector(authSelector);
+  if ( !isAuthenticated ) return <Login />;
   return (
     <Fragment>
       <Navbar />
@@ -26,8 +26,8 @@ const Layout = ({
 export const ProfileAccountLayout = ({
   children,
 }: Readonly<{ children: ReactNode }>) => {
-  const { token } = useSelector(authSelector);
-  if (!token) return <Login />;
+  const { user } = useSelector(authSelector);
+  if (!user?.accessToken) return <Login />;
   return (
     <div className="account-display">
       <SideBar />

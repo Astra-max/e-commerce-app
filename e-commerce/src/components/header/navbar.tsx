@@ -13,7 +13,7 @@ import {
 
 const Navbar = () => {
   const { pathname } = useLocation();
-  const { token } = useSelector(authSelector);
+  const { isAuthenticated } = useSelector(authSelector);
   const { cart } = useSelector(cartSelector);
 
   const [open, setOpen] = useState(false);
@@ -52,7 +52,7 @@ const Navbar = () => {
           </Link>
         ))}
 
-        {token ? (
+        {isAuthenticated ? (
           <ProfileAccount />
         ) : (
           <Link
