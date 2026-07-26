@@ -23,9 +23,27 @@ export const getUserByIdService = async (data: Request): Promise<ServiceResponse
     }
 }
 
-// Get user profile details
-export const getUserProfileService = async (req: Request)=> {
-    const userId = req.cookies
-    console.log(userId)
-  //const user = await getUserById("")
+interface AuthenticatedRequest extends Request {
+  user?: { userId: string; userName: string };
 }
+
+export const getUserProfileService = async (
+  req: AuthenticatedRequest
+): Promise<ServiceResponse<User>> => {
+  const userId = req.user?.userId;
+
+  if (!userId) {
+    return { isError: true, message: "Not authenticated", statusCode: 401 };
+  }
+  const user = await getUserById(userId);
+
+  if (isRepositoryError(user)) {
+    return {
+      isError: true,
+      message: user.message,
+      statusCode: Number(user.statusCode),
+    };
+  }
+
+  return { isError: false, message: "Profile fetched", statusCode: 200, data: user };
+};

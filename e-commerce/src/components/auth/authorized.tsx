@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { setSession, logout } from "../../store/feature/authSlice";
 import { useDispatch } from "react-redux";
-import API from "../../util/axios";
+import "../../styles/loading.css";
+import API from "../../services/axios";
+import { setAccessToken } from "../../services/token";
 
 export default function AuthProvider({
   children,
@@ -14,11 +16,15 @@ export default function AuthProvider({
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res: any = await API.get("/auth/profile");
-        console.log(res)
+        // Step 1: exchange the httpOnly refresh cookie for a fresh access token
+        const { data: refreshData } = await API.post("/auth/refresh");
+        setAccessToken(refreshData.accessToken);
 
-        dispatch(setSession(res));
+        // Step 2: now that a valid Bearer token is set, fetch the profile
+        const { data: profileData } = await API.get("/auth/profile");
+        dispatch(setSession(profileData));
       } catch {
+        setAccessToken(null);
         dispatch(logout());
       } finally {
         setLoading(false);
@@ -29,11 +35,7 @@ export default function AuthProvider({
   }, [dispatch]);
 
   if (loading) {
-    return (
-      <div className="items-center text-align-middle">
-        Checking session...
-      </div>
-    );
+    return <div className="sessionCont">Loading session...</div>;
   }
 
   return <>{children}</>;

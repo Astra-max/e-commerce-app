@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import API from "../../util/axios";
+import { setAccessToken } from "../../services/token";
+import API from "../../services/axios";
 import { Logins, User } from "../../../types";
 
 
@@ -8,7 +9,7 @@ export const loginUser = createAsyncThunk(
   async (userData: Logins, { rejectWithValue }) => {
     try {
       const { data } = await API.post("/auth/login", userData);
-      console.log(data)
+      setAccessToken(data.accessToken);
       return data;
     } catch (error: any) {
       return rejectWithValue(
@@ -37,6 +38,15 @@ export const signUPUser = createAsyncThunk(
     }
   }
 );
+
+export const logoutUser = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
+  try {
+    await API.post("/auth/logout"); // clears the refresh cookie server-side
+  } finally {
+    setAccessToken(null);
+    dispatch(logout());
+  }
+});
 
 
 interface UserCredentials {
@@ -77,6 +87,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.error = null;
+      state.isAuthenticated = false;
     },
   },
   extraReducers: (builder) => {

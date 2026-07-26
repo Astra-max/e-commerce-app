@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Item, State } from "../../../types";
-import API from "../../util/axios";
+import API from "../../services/axios";
 import { HandleAddQuantity } from "./quantitySlice";
 
 export const HandleCartFetch = createAsyncThunk(

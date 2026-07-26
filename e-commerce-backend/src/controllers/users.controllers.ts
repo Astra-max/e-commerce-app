@@ -23,7 +23,18 @@ export const getUserByIdController = async (req: Request, res: Response) => {
   return res.status(200).json({data})
 }
 
+// controller/user.controller.ts
 export const HandleUserProfile = async (req: Request, res: Response) => {
-  const data = await getUserProfileService(req);
-  console.log(data)
-}
+  try {
+    const { isError, message, statusCode, data } = await getUserProfileService(req);
+
+    if (isError || !data) {
+      return res.status(statusCode).json({ message });
+    }
+
+    return res.status(statusCode).json({ data });
+  } catch (error) {
+    console.error("Error fetching profile:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};

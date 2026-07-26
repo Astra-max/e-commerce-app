@@ -16,8 +16,8 @@ const ProfileAccount = () => {
         className={`profile-toggle${toggle ? " profile-toggle-open" : ""}`}
         onClick={() => setToggle(!toggle)}
       >
-        <span className="profile-avatar">{user?.data?.userName[0]}</span>
-        <p className="profile-name">{user?.data?.userName}</p>
+        <span className="profile-avatar">{user?.first_name[0]}</span>
+        <p className="profile-name">{user?.first_name}</p>
         <span className="profile-caret" aria-hidden="true" />
       </div>
       {toggle && <DropDown />}
