@@ -1,472 +1,321 @@
 import "../../styles/sign-up.css";
 import { Link, useNavigate } from "react-router-dom";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authSelector, signUPUser } from "../../store/feature/authSlice";
-import { UnknownAction } from "@reduxjs/toolkit";
 
-// auth sign in component
+type FormData = {
+  userName: string;
+  firstName: string;
+  secondName: string;
+  emailAddr: string;
+  phone: string;
+  idNo: string;
+  gender: string;
+  age: number;
+  password: string;
+  confirmPassword: string;
+};
+
+type FormErrors = Partial<Record<keyof FormData, string>>;
+
+const initialData: FormData = {
+  userName: "",
+  firstName: "",
+  secondName: "",
+  emailAddr: "",
+  phone: "",
+  idNo: "",
+  gender: "",
+  age: 0,
+  password: "",
+  confirmPassword: "",
+};
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validate(data: FormData): FormErrors {
+  const errors: FormErrors = {};
+
+  if (!data.userName.trim()) errors.userName = "Username is required";
+  else if (data.userName.trim().length < 3)
+    errors.userName = "Username should be at least 3 characters";
+
+  if (!data.firstName.trim()) errors.firstName = "First name is required";
+  else if (data.firstName.trim().length < 2)
+    errors.firstName = "First name should be at least 2 characters";
+
+  if (!data.secondName.trim()) errors.secondName = "Second name is required";
+  else if (data.secondName.trim().length < 2)
+    errors.secondName = "Second name should be at least 2 characters";
+
+  if (!data.emailAddr.trim()) errors.emailAddr = "Email address is required";
+  else if (!EMAIL_RE.test(data.emailAddr))
+    errors.emailAddr = "Enter a valid email address";
+
+  if (data.idNo.trim() && data.idNo.trim().length < 6)
+    errors.idNo = "Id card number looks too short";
+
+  if (!data.gender) errors.gender = "Please select a gender";
+
+  if (data.age < 9 || data.age > 110) errors.age = "Enter a valid age";
+
+  if (!data.phone.trim()) errors.phone = "Telephone number is required";
+  else if (data.phone.trim().length < 10)
+    errors.phone = "Enter a valid telephone number";
+
+  if (!data.password) errors.password = "Password is required";
+  else if (data.password.length < 8)
+    errors.password = "Must be at least 8 characters long";
+
+  if (!data.confirmPassword)
+    errors.confirmPassword = "Please confirm your password";
+  else if (data.confirmPassword !== data.password)
+    errors.confirmPassword = "Passwords do not match";
+
+  return errors;
+}
+
 const Signup = () => {
-  const [submit, setSubmit] = useState(true);
-  const { error, token } = useSelector(authSelector);
+  const { error, loading, isAuthenticated } = useSelector(authSelector);
   const push = useNavigate();
+  const dispatch = useDispatch<any>();
 
-  const [data, setData] = useState({
-    userName: "",
-    firstName: "",
-    secondName: "",
-    emailAddr: "",
-    phone: "",
-    idNo: "",
-    gender: "",
-    age: 0,
-    password: "",
-    confirmPassword: "",
-  });
-  const [errorVal, setError] = useState({
-    userName: "",
-    firstName: "",
-    secondName: "",
-    emailAddr: "",
-    phone: "",
-    idNo: "",
-    gender: "",
-    age: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [data, setData] = useState<FormData>(initialData);
+  const [errorVal, setErrorVal] = useState<FormErrors>({});
+  const [touched, setTouched] = useState<Partial<Record<keyof FormData, boolean>>>({});
+  const [submittedOnce, setSubmittedOnce] = useState(false);
 
-  const dispatch: any = useDispatch();
+  useEffect(() => {
+    if (isAuthenticated) push("/");
+  }, [isAuthenticated, push]);
 
-  useEffect(()=> {
-    if (token) {
-      push('/')
-    }
-  },[token])
+  useEffect(() => {
+    setErrorVal(validate(data));
+  }, [data]);
 
-  /**
-   * Handles form validation
-   */
-  function FormValidation(
+  const isValid = Object.keys(validate(data)).length === 0;
+
+  function handleChange(
     event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
   ) {
-    const { value, name } = event.target;
-    setData((a) => ({ ...a, [name]: value }));
-    if (data.userName.length !== 0 && data.userName.length <= 1) {
-      setError((e) => ({
-        ...e,
-        userName: "username should be atleast 3 characters",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        userName: "",
-      }));
-    }
-    if (data.firstName.length !== 0 && data.firstName.length <= 1) {
-      setError((e) => ({
-        ...e,
-        firstName: "firstname should be atleast 3 characters",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        firstName: "",
-      }));
-    }
-    if (data.secondName.length !== 0 && data.secondName.length <= 1) {
-      setError((e) => ({
-        ...e,
-        secondName: "second name should be atleast 3 characters",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        secondName: "",
-      }));
-    }
-    if (data.emailAddr.length !== 0 && data.emailAddr.length <= 1) {
-      setError((e) => ({
-        ...e,
-        emailAddr: "invalid email address",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        emailAddr: "",
-      }));
-    }
-    if (data.idNo.length <= 5) {
-      setError((e) => ({
-        ...e,
-        idNo: "Invalid id card number",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        idNo: "",
-      }));
-    }
-    if (data.gender.length !== 0 && data.gender.length <= 1) {
-      setError((e) => ({
-        ...e,
-        gender: "Missing gender",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        gender: "",
-      }));
-    }
-    if (data.age < 9 || data.age > 110) {
-      setError((e) => ({
-        ...e,
-        age: "Invalid age",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        age: "",
-      }));
-    }
-    if (data.phone.length !== 0 && data.phone.length < 10) {
-      setError((e) => ({
-        ...e,
-        phone: "Invalid telephone number",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        phone: "",
-      }));
-    }
-    if (data.password.length < 8) {
-      setError((e) => ({
-        ...e,
-        password: "Must be 8 characters long",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        password: "",
-      }));
-    }
-
-    if (data.confirmPassword !== data.password) {
-      setError((e) => ({
-        ...e,
-        confirm: "confirm password not equal password",
-      }));
-    } else {
-      setError((e) => ({
-        ...e,
-        confirm: "",
-      }));
-    }
-    if (
-      errorVal.userName === "" &&
-      data.userName !== "" &&
-      errorVal.firstName === "" &&
-      data.firstName !== "" &&
-      errorVal.secondName === "" &&
-      data.secondName !== "" &&
-      errorVal.emailAddr === "" &&
-      data.emailAddr !== "" &&
-      errorVal.gender === "" &&
-      data.gender !== "" &&
-      errorVal.age === "" &&
-      data.age > 0 &&
-      errorVal.idNo === "" &&
-      errorVal.confirmPassword === "" &&
-      data.confirmPassword !== "" &&
-      errorVal.password === "" &&
-      data.password !== "" &&
-      errorVal.phone === "" &&
-      data.phone !== ""
-    ) {
-      setSubmit(false);
-    } else {
-      setSubmit(true);
-    }
+    const { name, value } = event.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: name === "age" ? (value === "" ? 0 : Number(value)) : value,
+    }));
   }
 
-  // posts user data to server
-  function HandleSubmit(
-    event: React.FormEvent<HTMLFormElement>
-  ): UnknownAction {
+  function handleBlur(
+    event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+  ) {
+    setTouched((prev) => ({ ...prev, [event.target.name]: true }));
+  }
+
+  function showError(field: keyof FormData) {
+    return (touched[field] || submittedOnce) && errorVal[field];
+  }
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    alert("submitted succesfully");
-    setSubmit(true)
-    return dispatch(signUPUser(data));
+    setSubmittedOnce(true);
+    const errs = validate(data);
+    setErrorVal(errs);
+    if (Object.keys(errs).length > 0) return;
+    dispatch(signUPUser(data));
   }
 
   return (
-    <form
-      className="s-main"
-      action="POST"
-      onSubmit={(event) => HandleSubmit(event)}
-    >
+    <form className="s-main" onSubmit={handleSubmit} noValidate>
       <div className="s-cont">
         <div className="title-div">
           <p className="s-title">Create Account</p>
+          <p className="s-subtitle">Join us — it only takes a minute</p>
         </div>
-        <div>
-          {error && <p style={{color: "red"}}>{error}</p>}
+
+        {error && <p className="s-banner-error">{error}</p>}
+
+        <div className="s-fields">
           <div className="s-div">
-            <p>
-              UserName <span style={{ color: "red" }}>*</span>
-            </p>
+            <label htmlFor="userName">
+              Username <span className="required-mark">*</span>
+            </label>
             <input
-              className="s-input"
+              id="userName"
+              className={`s-input${showError("userName") ? " s-input-error" : ""}`}
               type="text"
               name="userName"
               placeholder="Someone"
-              required
-              onChange={(event) => FormValidation(event)}
+              value={data.userName}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.userName && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.userName}
-              </p>
-            )}
+            {showError("userName") && <p className="s-error">{errorVal.userName}</p>}
           </div>
+
           <div className="s-div">
-            <p>
-              First Name <span style={{ color: "red" }}>*</span>
-            </p>
+            <label htmlFor="firstName">
+              First Name <span className="required-mark">*</span>
+            </label>
             <input
-              className="s-input"
+              id="firstName"
+              className={`s-input${showError("firstName") ? " s-input-error" : ""}`}
               type="text"
               name="firstName"
               placeholder="John"
-              required
-              onChange={(event) => FormValidation(event)}
+              value={data.firstName}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.firstName && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.firstName}
-              </p>
-            )}
+            {showError("firstName") && <p className="s-error">{errorVal.firstName}</p>}
           </div>
+
           <div className="s-div">
-            <p>
-              Second Name <span style={{ color: "red" }}>*</span>
-            </p>
+            <label htmlFor="secondName">
+              Second Name <span className="required-mark">*</span>
+            </label>
             <input
-              className="s-input"
+              id="secondName"
+              className={`s-input${showError("secondName") ? " s-input-error" : ""}`}
               type="text"
               placeholder="Doe"
               name="secondName"
-              required
-              onChange={(event) => FormValidation(event)}
+              value={data.secondName}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.secondName && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.secondName}
-              </p>
-            )}
+            {showError("secondName") && <p className="s-error">{errorVal.secondName}</p>}
           </div>
+
           <div className="s-div">
-            <p>
-              Email Address <span style={{ color: "red" }}>*</span>
-            </p>
+            <label htmlFor="emailAddr">
+              Email Address <span className="required-mark">*</span>
+            </label>
             <input
-              className="s-input"
+              id="emailAddr"
+              className={`s-input${showError("emailAddr") ? " s-input-error" : ""}`}
               type="email"
               name="emailAddr"
               placeholder="johndoe@gmail.com"
-              onChange={(event) => FormValidation(event)}
-              required
+              value={data.emailAddr}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.emailAddr && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.emailAddr}
-              </p>
-            )}
+            {showError("emailAddr") && <p className="s-error">{errorVal.emailAddr}</p>}
           </div>
+
           <div className="s-div">
-            <p>Id Card No</p>
+            <label htmlFor="idNo">Id Card No</label>
             <input
-              className="s-input"
+              id="idNo"
+              className={`s-input${showError("idNo") ? " s-input-error" : ""}`}
               type="text"
               placeholder="00000000"
               name="idNo"
-              onChange={(event) => FormValidation(event)}
+              value={data.idNo}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.idNo && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.idNo}
-              </p>
-            )}
+            {showError("idNo") && <p className="s-error">{errorVal.idNo}</p>}
           </div>
+
           <div className="s-div-age">
             <div className="s-div">
-              <p>
-                Gender <span style={{ color: "red" }}>*</span>
-              </p>
+              <label htmlFor="gender">
+                Gender <span className="required-mark">*</span>
+              </label>
               <select
-                className="s-age"
+                id="gender"
+                className={`s-age${showError("gender") ? " s-input-error" : ""}`}
                 name="gender"
-                id=""
-                onChange={(event) => FormValidation(event)}
+                value={data.gender}
+                onChange={handleChange}
+                onBlur={handleBlur}
               >
+                <option value="" disabled>
+                  Select gender
+                </option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-                <option value="Rather not Specify">Rather not specify</option>
+                <option value="Rather not specify">Rather not specify</option>
               </select>
-              {errorVal.gender && (
-                <p
-                  style={{
-                    color: "red",
-                    fontSize: "0.9rem",
-                    position: "absolute",
-                    paddingTop: "4.6rem",
-                  }}
-                >
-                  {errorVal.gender}
-                </p>
-              )}
+              {showError("gender") && <p className="s-error">{errorVal.gender}</p>}
             </div>
             <div className="s-div">
-              <p>
-                Age <span style={{ color: "red" }}>*</span>
-              </p>
+              <label htmlFor="age">
+                Age <span className="required-mark">*</span>
+              </label>
               <input
-                className="s-age"
+                id="age"
+                className={`s-age${showError("age") ? " s-input-error" : ""}`}
                 type="number"
                 placeholder="18"
-                required
                 name="age"
-                onChange={(event) => FormValidation(event)}
+                value={data.age === 0 ? "" : data.age}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {errorVal.age && (
-                <p
-                  style={{
-                    color: "red",
-                    fontSize: "0.9rem",
-                    position: "absolute",
-                    paddingTop: "4.6rem",
-                  }}
-                >
-                  {errorVal.age}
-                </p>
-              )}
+              {showError("age") && <p className="s-error">{errorVal.age}</p>}
             </div>
           </div>
+
           <div className="s-div">
-            <p>
-              Tel Number <span style={{ color: "red" }}>*</span>
-            </p>
+            <label htmlFor="phone">
+              Tel Number <span className="required-mark">*</span>
+            </label>
             <input
-              className="s-input"
+              id="phone"
+              className={`s-input${showError("phone") ? " s-input-error" : ""}`}
               type="tel"
               name="phone"
               placeholder="+25400000000"
-              required
-              onChange={(event) => FormValidation(event)}
+              value={data.phone}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.phone && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.phone}
-              </p>
-            )}
+            {showError("phone") && <p className="s-error">{errorVal.phone}</p>}
           </div>
+
           <div className="s-div">
-            <p>
-              Password <span style={{ color: "red" }}>*</span>
-            </p>
+            <label htmlFor="password">
+              Password <span className="required-mark">*</span>
+            </label>
             <input
-              className="s-input"
+              id="password"
+              className={`s-input${showError("password") ? " s-input-error" : ""}`}
               type="password"
               name="password"
               placeholder="************"
-              required
-              onChange={(event) => FormValidation(event)}
+              value={data.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.password && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.password}
-              </p>
-            )}
+            {showError("password") && <p className="s-error">{errorVal.password}</p>}
           </div>
+
           <div className="s-div">
-            <p>
-              Confirm Password <span style={{ color: "red" }}>*</span>
-            </p>
+            <label htmlFor="confirmPassword">
+              Confirm Password <span className="required-mark">*</span>
+            </label>
             <input
-              className="s-input"
+              id="confirmPassword"
+              className={`s-input${showError("confirmPassword") ? " s-input-error" : ""}`}
               type="password"
               name="confirmPassword"
               placeholder="************"
-              required
-              onChange={(event) => FormValidation(event)}
+              value={data.confirmPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {errorVal.confirmPassword && (
-              <p
-                style={{
-                  color: "red",
-                  fontSize: "0.9rem",
-                  position: "absolute",
-                  paddingTop: "4.6rem",
-                }}
-              >
-                {errorVal.confirmPassword}
-              </p>
+            {showError("confirmPassword") && (
+              <p className="s-error">{errorVal.confirmPassword}</p>
             )}
           </div>
         </div>
+
         <div className="create-acc">
-          <button className="s-create-btn" type="submit" disabled={submit}>
-            Create Account
+          <button className="s-create-btn" type="submit" disabled={!isValid || loading}>
+            {loading ? "Creating account..." : "Create Account"}
           </button>
           <Link className="l-link" to="/auth/login">
             Back to Login {`>>`}
