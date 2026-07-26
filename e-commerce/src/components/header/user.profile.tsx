@@ -14,13 +14,13 @@ interface ResponseData {
 }
 // user profile component
 const ProfileAccount = () => {
-  const [user, setUser] = useState<ResponseData>({firstName: "", secondName: "", userName: "", emailAddr: ""})
+  const [user, setUser] = useState<ResponseData>({firstName: "", secondName: "", userName: "", userId: ""})
   const [toggle, setToggle] = useState(false);
 
   useEffect(()=> {
     async function getUserProfile() {
       const { data } = await API.get("/auth/profile");
-      setUser((prev)=> ({...prev, firstName: data.data.first_name}))
+      setUser((prev)=> ({...prev, firstName: data.data.first_name, userId: data.data.user_id}))
     }
     getUserProfile()
   },[])
