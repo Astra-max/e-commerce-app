@@ -6,7 +6,7 @@ export interface User {
   idNo: string;
   emailAddr: string;
   password: string;
-  confirm: string;
+  confirmPassword: string;
   age: number;
   gender: string;
 };
@@ -49,5 +49,3 @@ export interface Error {
     message: string;
   };
 };
-
-export const BASE_URL = "http://localhost:5500/api/v1";
