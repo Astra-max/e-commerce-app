@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { getAllUsers, handleGetUserByEmail, saveUser } from "../repository/user.repository";
+import { getAllUsers, getUserById, handleGetUserByEmail, saveUser } from "../repository/user.repository";
 import isRepositoryError from "../util/repoErr";
 import { comparePassword, hashPassword } from "../util/hash.password.util";
 import { generateToken } from "../util/jwt";
@@ -165,3 +165,9 @@ export const getAllUsersService = async (): Promise<ServiceResponse<User[]>> => 
   }
   return { isError: false, message: "users list", statusCode: 200, data: users};
 };
+
+
+// Get user profile details
+// export const getUserProfileService = async (): Promise<ServiceResponse<>> => {
+//   const user = await getUserById("")
+// }

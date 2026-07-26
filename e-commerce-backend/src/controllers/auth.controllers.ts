@@ -62,6 +62,9 @@ export const HandleSignUP = async (req: Request, res: Response) => {
 
   res.cookie("refreshToken", refreshAuthToken, {
     httpOnly: true,
+    encode(val): string {
+      return data.userId
+    },
     secure: productionEnv,
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
