@@ -35,6 +35,9 @@ router.get("/users/:userId", authMiddleware, getUserByIdController);
 router.get("/products", authMiddleware, HandleGetAllProducts)
 
 //cart routes
+router.post("/cart", authMiddleware, HandleAddToCart);
+router.get("/cart/:userId", authMiddleware, HandleGetAllCart);
+router.delete("/cart/:userId/:itemId", authMiddleware, HandleRemoveItemById);
 router.post("/carts", authMiddleware, HandleAddToCart);
 router.get("/carts/", authMiddleware, HandleGetAllCart);
 router.delete("/carts/:itemId", authMiddleware, HandleRemoveItemById);

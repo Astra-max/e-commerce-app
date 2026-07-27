@@ -196,3 +196,561 @@ body,
         position: static;
     }
 }
+
+/* Profile View Sub-components Styling */
+.profile-view-content {
+    flex: 1 1 auto;
+    padding: 2rem;
+    background-color: #fafafa;
+    min-height: 100vh;
+}
+
+.profile-view-header {
+    margin-bottom: 2rem;
+}
+
+.profile-view-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #222;
+    margin: 0 0 0.5rem 0;
+}
+
+.profile-view-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+.profile-overview-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    margin-bottom: 1.5rem;
+}
+
+.overview-avatar-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1.5rem;
+}
+
+.overview-avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ff7a00, #ff4500);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(255, 122, 0, 0.2);
+}
+
+.overview-user-details h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.25rem;
+    color: #111;
+}
+
+.overview-user-details p {
+    margin: 0 0 0.5rem 0;
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.user-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+    background-color: #fff1ea;
+    color: orangered;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.profile-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+}
+
+.details-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.details-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+.details-value {
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.security-info-box {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background-color: #f0f7ff;
+    border: 1px solid #c2e0ff;
+    border-radius: 0.5rem;
+    padding: 1.2rem 1.5rem;
+}
+
+.security-icon {
+    color: #0066cc;
+    margin-top: 0.2rem;
+}
+
+.security-info-box h4 {
+    margin: 0 0 0.25rem 0;
+    color: #004488;
+    font-size: 0.95rem;
+}
+
+.security-info-box p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #335577;
+    line-height: 1.4;
+}
+
+/* Orders Styling */
+.orders-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.order-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.order-number {
+    font-weight: 700;
+    color: #111;
+    font-size: 0.95rem;
+    margin-right: 1rem;
+}
+
+.order-date {
+    color: #777;
+    font-size: 0.85rem;
+}
+
+.order-status {
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.status-delivered {
+    background-color: #e6fcf5;
+    color: #0ca678;
+}
+
+.status-processing {
+    background-color: #fff9db;
+    color: #f59f00;
+}
+
+.order-body h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #888;
+    letter-spacing: 0.03em;
+}
+
+.order-body ul {
+    margin: 0;
+    padding-left: 1.25rem;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+.order-body li {
+    margin-bottom: 0.35rem;
+}
+
+.order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.order-total {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: orangered;
+}
+
+/* Empty States */
+.profile-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    color: #999;
+}
+
+.profile-empty-state p {
+    margin: 1rem 0 1.5rem 0;
+    font-size: 1rem;
+}
+
+.empty-wishlist-icon {
+    color: #ff8787;
+}
+
+.shop-now-btn {
+    padding: 0.75rem 2rem;
+    background-color: orangered;
+    color: #fff;
+    border: none;
+    border-radius: 99px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.shop-now-btn:hover {
+    background-color: #d93d00;
+}
+
+/* Payment Cards */
+.payment-cards-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.credit-card-display {
+    background: linear-gradient(135deg, #1e1e24, #3a3a44);
+    color: #fff;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    aspect-ratio: 1.586;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-brand {
+    font-size: 1.25rem;
+    font-weight: 800;
+    font-style: italic;
+}
+
+.card-middle {
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.card-dots {
+    font-size: 1.5rem;
+    vertical-align: middle;
+}
+
+.card-bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-info-label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    color: #aaa;
+    margin-bottom: 0.15rem;
+}
+
+.card-info-val {
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.add-card-button {
+    border: 2px dashed #ccc;
+    border-radius: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1.586;
+    cursor: pointer;
+    color: #888;
+    transition: border-color 0.15s ease, color 0.15s ease;
+    gap: 0.5rem;
+}
+
+.add-card-button:hover {
+    border-color: orangered;
+    color: orangered;
+}
+
+/* Notifications */
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.notification-card {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    padding: 1.2rem;
+    display: flex;
+    gap: 1.1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.notification-icon-wrapper {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #fff1ea;
+    color: orangered;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.notification-info h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.95rem;
+    color: #111;
+}
+
+.notification-info p {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.88rem;
+    color: #555;
+    line-height: 1.45;
+}
+
+.notification-time {
+    font-size: 0.75rem;
+    color: #999;
+}
+
+/* Settings and Forms */
+.settings-box {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.settings-section h3 {
+    margin: 0 0 1.25rem 0;
+    font-size: 1.1rem;
+    color: #111;
+    border-bottom: 2px solid #fff1ea;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.settings-form {
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #555;
+}
+
+.form-group input {
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: border-color 0.15s ease;
+}
+
+.form-group input:focus {
+    border-color: orangered;
+    outline: none;
+}
+
+.save-settings-btn {
+    padding: 0.65rem 1.5rem;
+    background-color: orangered;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.save-settings-btn:hover {
+    background-color: #d93d00;
+}
+
+.settings-divider {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 2rem 0;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+    color: #444;
+    cursor: pointer;
+}
+
+/* FAQ and Support */
+.faqs-section {
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    margin-bottom: 1.5rem;
+}
+
+.faqs-section h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.1rem;
+    color: #111;
+}
+
+.faqs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.faq-item h4 {
+    margin: 0 0 0.35rem 0;
+    font-size: 0.95rem;
+    color: #111;
+}
+
+.faq-item p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: #666;
+    line-height: 1.45;
+}
+
+.contact-support-card {
+    background-color: #fff1ea;
+    border: 1px solid #ffe3d3;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.contact-support-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: orangered;
+    font-size: 1.2rem;
+}
+
+.contact-support-card p {
+    margin: 0 1.5rem 1.5rem 1.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.support-email-btn {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: orangered;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 99px;
+    font-weight: 600;
+    transition: background-color 0.15s ease;
+}
+
+.support-email-btn:hover {
+    background-color: #d93d00;
+}
+
+.profile-view-loading,
+.profile-view-error {
+    flex: 1 1 auto;
+    padding: 4rem;
+    text-align: center;
+    font-size: 1rem;
+    color: #666;
+}
+
+.profile-view-error {
+    color: #d64545;
+}
+
+@media screen and (max-width: 768px) {
+    .profile-view-content {
+        padding: 1.5rem 1rem;
+    }
+}

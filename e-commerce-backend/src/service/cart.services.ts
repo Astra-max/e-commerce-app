@@ -37,11 +37,11 @@ export const addNewItemService = async (req: Request): Promise<ServiceResponse<C
 
 
 export const getAllitemsService = async (req: Request): Promise<ServiceResponse<CartItem[]>> => {
-    const userId = req.body?.userId;
+    const userId = req.params?.userId || (req as any).user?.userId || req.body?.userId;
 
     if (!userId) return { isError: true, message: "Missing userId", statusCode: 400 }
 
-    const data = await getAllItemsRepo();
+    const data = await getAllItemsRepo(userId);
     return { isError: false, message: "all products", statusCode: 200, data: data }
 }
 
@@ -76,7 +76,7 @@ export const deleteAllitemsService = async (req: Request) => {
  }
 
 export const deleteSingleitemsService = async (req: Request): Promise<ServiceResponse<CartItem>> => {
-    const userId = req.body?.userId;
+    const userId = req.params?.userId || (req as any).user?.userId || req.body?.userId;
     const itemId = req.params?.itemId;
 
     if (!userId) return { isError: true, message: "userId is missing", statusCode: 400 };

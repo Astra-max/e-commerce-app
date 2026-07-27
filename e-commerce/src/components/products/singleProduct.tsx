@@ -1,18 +1,89 @@
-import { useSelector } from "react-redux";
-import { productSelector } from "../../store/feature/productSlice";
-import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { productSelector, getAllProducts } from "../../store/feature/productSlice";
+import { useParams, useNavigate } from "react-router-dom";
 import { Products } from "../../../types";
+import { authSelector } from "../../store/feature/authSlice";
+import {
+  addToCart,
+  addToTotal,
+  HandleAddItem,
+} from "../../store/feature/cartSlice";
+import { HandleGetTotal } from "../../store/feature/totalSlice";
 import NotFound from "../ui/notFound";
 
 
 export default function SingleProduct() {
-  const { items = [] } = useSelector(productSelector);
+  const dispatch: any = useDispatch();
+  const navigate = useNavigate();
+  const { items = [], loading } = useSelector(productSelector);
+  const { userId } = useSelector(authSelector);
   const { productid } = useParams();
-  const productId = String(productid)
-  const product: Products = items.find(
+
+  useEffect(() => {
+    if (items.length === 0) {
+      dispatch(getAllProducts());
+    }
+  }, [items.length, dispatch]);
+
+  const productId = String(productid);
+
+  if (loading && items.length === 0) {
+    return <div style={{ padding: "4rem", textAlign: "center" }}>Loading product details...</div>;
+  }
+
+  const product: Products | undefined = items.find(
     (product: Products) => product.productid === productId
   );
-  if (product === undefined) return <NotFound message={"product"} />;
+
+  if (product === undefined) {
+    if (loading) {
+      return <div style={{ padding: "4rem", textAlign: "center" }}>Loading product details...</div>;
+    }
+    return <NotFound message={"product"} />;
+  }
+
+  async function handleAddToCart() {
+    if (!product) return;
+    const { productid, name, category, image, amount, description } = product;
+    const status = "cart";
+    const quantity = 1;
+
+    try {
+      const added = await dispatch(
+        HandleAddItem({
+          productid,
+          name,
+          category,
+          image,
+          amount,
+          description,
+          quantity,
+          status,
+          userId: userId || "",
+        })
+      ).unwrap();
+      if (added) {
+        dispatch(addToCart({
+          ...product,
+          quantity,
+          status: "",
+          userId: ""
+        }));
+        if (userId) {
+          dispatch(HandleGetTotal(userId));
+        }
+        dispatch(addToTotal(amount));
+      }
+    } catch (error) {
+      console.log("Failed to add to cart", error);
+    }
+  }
+
+  async function handleBuyNow() {
+    await handleAddToCart();
+    navigate("/cart");
+  }
 
   return (
     <div className="s-p-page">
@@ -60,8 +131,8 @@ export default function SingleProduct() {
           <p className="s-buybox-stock">In Stock</p>
 
           <div className="s-btn-cont">
-            <button className="s-btn purchase-item">Add to cart</button>
-            <button className="s-btn goto-cart">Buy Now</button>
+            <button className="s-btn purchase-item" onClick={handleAddToCart}>Add to cart</button>
+            <button className="s-btn goto-cart" onClick={handleBuyNow}>Buy Now</button>
           </div>
 
           <p className="s-buybox-secure">🔒 Secure transaction</p>
