@@ -5,15 +5,22 @@ import NotFound from "../components/ui/notFound";
 import ProductsList from "../components/products/products";
 import SingleProduct from "../components/products/singleProduct";
 import About from "../components/pages/4u";
-import Cart from "../view/cart";
+import Cart, { ProductCart } from "../view/cart";
 import SingleCartItem from "../components/cart/singleCardItem";
 import Signup from "../components/auth/signup";
-import Footer from "../components/footer/footer";
-import ProfileAccount from "../components/account/user.account";
-import { Fragment } from "react";
 import Shipment from "../components/account/shipment";
 import Login from "../components/auth/login";
 import Subscribe from "../components/footer/subscribe";
+import {
+  AccountOverview,
+  OrdersView,
+  WishlistView,
+  PaymentMethodsView,
+  NotificationsView,
+  SettingsView,
+  HelpSupportView,
+} from "../components/account/profileViews";
+
 
 
 export default function AppBrowserRoutes() {
@@ -73,12 +80,44 @@ export default function AppBrowserRoutes() {
           path={`/profile`}
           element={
             <ProfileAccountLayout>
-              <p>Here</p>
+              <AccountOverview />
             </ProfileAccountLayout>
           }
         ></Route>
         <Route
-          path={`/profile/shipment`}
+          path={`/profile/account`}
+          element={
+            <ProfileAccountLayout>
+              <AccountOverview />
+            </ProfileAccountLayout>
+          }
+        ></Route>
+        <Route
+          path={`/profile/orders`}
+          element={
+            <ProfileAccountLayout>
+              <OrdersView />
+            </ProfileAccountLayout>
+          }
+        ></Route>
+        <Route
+          path={`/profile/wishlist`}
+          element={
+            <ProfileAccountLayout>
+              <WishlistView />
+            </ProfileAccountLayout>
+          }
+        ></Route>
+        <Route
+          path={`/profile/cart`}
+          element={
+            <ProfileAccountLayout>
+              <ProductCart />
+            </ProfileAccountLayout>
+          }
+        ></Route>
+        <Route
+          path={`/profile/addresses`}
           element={
             <ProfileAccountLayout>
               <Shipment />
@@ -86,48 +125,35 @@ export default function AppBrowserRoutes() {
           }
         ></Route>
         <Route
-          path={`/profile/account`}
+          path={`/profile/payment-methods`}
           element={
-            <Fragment>
-              <ProfileAccount />
-              <Footer />
-            </Fragment>
+            <ProfileAccountLayout>
+              <PaymentMethodsView />
+            </ProfileAccountLayout>
           }
         ></Route>
         <Route
-          path={`/profile/cart`}
+          path={`/profile/notifications`}
           element={
-            <Fragment>
-              <ProfileAccount />
-              <Footer />
-            </Fragment>
+            <ProfileAccountLayout>
+              <NotificationsView />
+            </ProfileAccountLayout>
           }
         ></Route>
         <Route
-          path={`/profile/marketing`}
+          path={`/profile/settings`}
           element={
-            <Fragment>
-              <ProfileAccount />
-              <Footer />
-            </Fragment>
+            <ProfileAccountLayout>
+              <SettingsView />
+            </ProfileAccountLayout>
           }
         ></Route>
         <Route
-          path={`/profile/track`}
+          path={`/profile/help`}
           element={
-            <Fragment>
-              <ProfileAccount />
-              <Footer />
-            </Fragment>
-          }
-        ></Route>
-        <Route
-          path={`/profile/shipment`}
-          element={
-            <Fragment>
-              <ProfileAccount />
-              <Footer />
-            </Fragment>
+            <ProfileAccountLayout>
+              <HelpSupportView />
+            </ProfileAccountLayout>
           }
         ></Route>
         <Route

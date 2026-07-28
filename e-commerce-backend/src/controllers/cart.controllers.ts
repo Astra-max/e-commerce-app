@@ -8,14 +8,30 @@ import { addItemQuery } from "../query/cart.query";
 import { deleteSingleitemsService, getAllitemsService, getSingleitemsService } from "../service/cart.services";
 import { logger } from "../util/logger";
 
+const mapCartItemToFrontend = (item: any) => {
+  if (!item) return item;
+  return {
+    productid: item.product_id,
+    name: item.product_name,
+    description: item.product_description,
+    category: item.product_category,
+    amount: Number(item.product_price),
+    image: item.product_image,
+    quantity: item.quantity,
+    userId: item.user_id,
+    status: item.product_status || "cart",
+  };
+};
+
 // return all items in the cart table
 export const HandleGetAllCart = async (req: Request, res: Response) => {
   const { isError, message, data, statusCode } = await getAllitemsService(req)
 
   if (isError)
     return res.status(statusCode).json({message})
-  return res.status(200).json({data})
   
+  const mappedData = (data || []).map(mapCartItemToFrontend);
+  return res.status(200).json(mappedData);
 };
 
 
@@ -25,22 +41,20 @@ export const HandleGetCartById = async (req: Request, res: Response) => {
 
   if (isError)
     return res.status(statusCode).json({ message });
-  return res.json({ data })
+  return res.json({ data: mapCartItemToFrontend(data) })
 };
 
 
 //  * Handles handle add item
 export const HandleAddToCart = async (req: Request, res: Response) => {
-  const {
-    userId,
-    productId,
-    quantity,
-    productName,
-    productDescription,
-    productCategory,
-    productPrice,
-    productImage,
-  }: CartItem = req.body;
+  const userId = req.body.userId || (req as any).user?.userId;
+  const productId = req.body.productId || req.body.productid;
+  const quantity = req.body.quantity;
+  const productName = req.body.productName || req.body.name;
+  const productDescription = req.body.productDescription || req.body.description;
+  const productCategory = req.body.productCategory || req.body.category;
+  const productPrice = req.body.productPrice || req.body.amount;
+  const productImage = req.body.productImage || req.body.image;
 
   if (
     !productId ||
@@ -76,11 +90,9 @@ export const HandleAddToCart = async (req: Request, res: Response) => {
       productImage,
     ]);
 
-    console.log(inserted.rows[0]);
-
     console.log("Item added successfully!");
 
-    return res.status(201).json(inserted.rows[0]);
+    return res.status(201).json(mapCartItemToFrontend(inserted.rows[0]));
   } catch (error: any) {
     console.error("Add item error:", error);
     return res.status(500).json({

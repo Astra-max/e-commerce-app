@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Item, State } from "../../../types";
 import API from "../../services/axios";
-import { HandleAddQuantity } from "./quantitySlice";
+import { HandleAddQuantity, HandleReduceQuantity } from "./quantitySlice";
 
 export const HandleCartFetch = createAsyncThunk(
   "cart/fetch",
@@ -66,7 +66,12 @@ const cartSlice = createSlice({
       state.cart = state.cart.filter((item) => item.productid !== payload);
     },
     addQuantity: (state, { payload }: PayloadAction<number>) => {
-      state.cart[payload].quantity += 1;
+      if (state.cart[payload]) state.cart[payload].quantity += 1;
+    },
+    reduceQuantity: (state, { payload }: PayloadAction<number>) => {
+      if (state.cart[payload] && state.cart[payload].quantity > 1) {
+        state.cart[payload].quantity -= 1;
+      }
     },
     addToTotal: (state, { payload }: PayloadAction<number>) => {
       state.total += payload;
@@ -136,13 +141,41 @@ const cartSlice = createSlice({
         HandleAddQuantity.fulfilled,
         (
           state,
-          { payload }: PayloadAction<{ itemId: number; quantity: number }>
+          { payload }: PayloadAction<{ itemId: string; quantity: number }>
         ) => {
           state.loading = false;
-          state.cart[payload.itemId].quantity = payload.quantity;
+          const item = state.cart.find((i) => i.productid === payload.itemId);
+          if (item) {
+            item.quantity = payload.quantity;
+          }
         }
       )
       .addCase(HandleAddQuantity.rejected, (state, { payload }: any) => {
+        state.error = payload;
+        state.loading = false;
+      })
+      .addCase(HandleReduceQuantity.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(
+        HandleReduceQuantity.fulfilled,
+        (
+          state,
+          { payload }: PayloadAction<{ itemId: string; quantity: number }>
+        ) => {
+          state.loading = false;
+          const itemIndex = state.cart.findIndex((i) => i.productid === payload.itemId);
+          if (itemIndex !== -1) {
+            if (payload.quantity < 1) {
+              state.cart.splice(itemIndex, 1);
+            } else {
+              state.cart[itemIndex].quantity = payload.quantity;
+            }
+          }
+        }
+      )
+      .addCase(HandleReduceQuantity.rejected, (state, { payload }: any) => {
         state.error = payload;
         state.loading = false;
       });
@@ -154,6 +187,7 @@ export const {
   removeItem,
   addToTotal,
   addQuantity,
+  reduceQuantity,
   reduceTotal,
   removeItemPrice,
 } = cartSlice.actions;

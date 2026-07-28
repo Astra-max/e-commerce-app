@@ -11,9 +11,9 @@ import { CartItem } from "../model/models";
 import { addItemQuery } from "../query/cart.query";
 import { ServiceResponse } from "../model/response";
 
-export const getAllItemsRepo = async (): Promise<CartItem[]> => {
+export const getAllItemsRepo = async (userId: string): Promise<CartItem[]> => {
     try {
-        const allItems = await pool.query(getAllItemsQuery);
+        const allItems = await pool.query(getAllItemsQuery, [userId]);
         return allItems.rows;
     } catch (error: any) {
         logger.warn(`Failed to get all cart items ${error}`);

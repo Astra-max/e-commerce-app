@@ -10,8 +10,14 @@ const productionEnv = nodeEnv === "production";
 const REFRESH_COOKIE_OPTS = {
   httpOnly: true,
   secure: productionEnv,
-  sameSite: "none" as const, // my backend url very diff with front end url
+  sameSite: productionEnv ? ("none" as const) : ("lax" as const),
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+};
+
+const CLEAR_COOKIE_OPTS = {
+  httpOnly: true,
+  secure: productionEnv,
+  sameSite: productionEnv ? ("none" as const) : ("lax" as const),
 };
 
 export const HandleLogin = async (req: Request, res: Response) => {
@@ -67,12 +73,9 @@ export const HandleSignUP = async (req: Request, res: Response) => {
   }
 };
 
+// logout handler
 export const HandleLogout = (req: Request, res: Response) => {
-  res.clearCookie("refreshToken", {
-    httpOnly: true,
-    secure: productionEnv,
-    sameSite: "strict",
-  });
+  res.clearCookie("refreshToken", CLEAR_COOKIE_OPTS);
   logger.info(`User logged out successfully`);
   return res.status(200).json({ message: "Logged out successfully" });
 };

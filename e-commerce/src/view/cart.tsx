@@ -8,6 +8,7 @@ import "../styles/poducts.css";
 import { Link } from "react-router-dom";
 import {
   addQuantity,
+  reduceQuantity,
   addToTotal,
   cartSelector,
   HandleCartFetch,
@@ -74,7 +75,7 @@ export const ProductCart = () => {
     );
     if (index !== -1 && cart[index].quantity > 1) {
       dispatch(reduceTotal(amount));
-      //dispatch(decrementQuantity(cart[index].quantity));
+      dispatch(reduceQuantity(index));
       dispatch(HandleReduceQuantity({ userId, itemId }));
     }
   }
