@@ -9,7 +9,6 @@ import { itemHistrySelector, setTemp } from "../store/feature/itemHistorySlice";
 
 const ROTATE_MS = 10000;
 
-// home page UI
 const Home = () => {
   const dispatch = useDispatch<any>();
   const push = useNavigate();
@@ -71,12 +70,10 @@ const Home = () => {
 
   /* fetch cart */
   useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(HandleCartFetch(user?.data?.userId));
+    if (isAuthenticated && user?.userId) {
+      dispatch(HandleCartFetch(user.userId));
     }
-  }, [isAuthenticated, user?.data?.userId, dispatch]);
-
-  useEffect(()=> {}, [])
+  }, [isAuthenticated, user?.userId, dispatch]);
 
   /* get current product safely */
   const product = items[index];

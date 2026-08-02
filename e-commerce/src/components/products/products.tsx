@@ -4,6 +4,7 @@ import "../../styles/poducts.css";
 import { useEffect, useState } from "react";
 import { getAllProducts, productSelector } from "../../store/feature/productSlice";
 import ProductCard from "../../components/products/productCard";
+import Loading from "../../components/ui/loading";
 import { productCategory } from "../../data/product.data";
 
 
@@ -18,15 +19,24 @@ const PREVIEW_COUNT = 5;
  */
 const ProductsList = () => {
   
-  const { items } = useSelector(productSelector);
+  const { items, loading } = useSelector(productSelector);
 
   const dispatch: any = useDispatch();
 
   useEffect(() => {
     dispatch(getAllProducts());
   }, [dispatch]);
+
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
+
+  if (loading && items.length === 0) {
+    return (
+      <div className="product-section">
+        <Loading message="Loading products..." />
+      </div>
+    );
+  }
 
  // HANDLE fetch products by category
   function fetchCategory(cat: string) {

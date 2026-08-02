@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { HandleAddTotal, HandleGetTotal, totalSelector } from "../store/feature/totalSlice";
+import Loading from "../components/ui/loading";
 import {
   HandleAddQuantity,
   HandleReduceQuantity} from "../store/feature/quantitySlice";
@@ -80,17 +81,21 @@ export const ProductCart = () => {
     }
   }
 
-  if (loading) return <p>Loading cart items.....</p>;
+  if (loading) {
+    return (
+      <div className="cart-check">
+        <Loading message="Loading your cart..." />
+      </div>
+    );
+  }
 
-  if (cart.length === 0 && !loading) {
+  if (cart.length === 0) {
     return (
       <div className="cart-check">
         <p className="empty-cart">Your shopping basket is empty</p>
       </div>
     );
   }
-
-  if (cart.length === 0 ) return (<p>Temporarily unavailable 503</p>)
 
   const itemCount = cart.reduce(
     (sum: number, val: Products) => sum + (val.quantity || 1),

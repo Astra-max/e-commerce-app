@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import store from "../../store/store";
 import { useNavigate } from "react-router-dom";
 import { Products } from "../../../types";
 import { authSelector } from "../../store/feature/authSlice";
@@ -10,6 +9,10 @@ import {
   addToTotal,
   HandleAddItem,
   HandleCartFetch,
+  removeItem,
+  addQuantity,
+  reduceQuantity,
+  reduceTotal,
 } from "../../store/feature/cartSlice";
 
 /**
@@ -20,17 +23,19 @@ import {
 export const ProductCard = ({ items }: { items: Products[] }) => {
   const [pid, setPid] = useState<string>("");
   const [leave, setLeave] = useState(false);
+  const [addingProductId, setAddingProductId] = useState<string | null>(null);
   const dispatch: any = useDispatch();
   const { user } = useSelector(authSelector);
   const userId = user?.userId ?? "";
+  const cart = useSelector((state: any) => state.cart.cart as Products[]);
  
   const push = useNavigate();
 
   useEffect(() => {
     if (userId) {
-      store.dispatch(HandleCartFetch(userId));
+      dispatch(HandleCartFetch(userId));
     }
-  }, [userId]);
+  }, [userId, dispatch]);
 
   /**
    * Handles handle add to cart
@@ -40,8 +45,30 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
     const status = "cart";
     const quantity = 1;
 
+    if (!userId) {
+      console.warn("Add to cart requires a logged in user");
+      return;
+    }
+
+    const existingIndex = cart.findIndex((item) => item.productid === productid);
+    const wasInCart = existingIndex !== -1;
+
+    setAddingProductId(productid);
+
+    if (wasInCart) {
+      dispatch(addQuantity(existingIndex));
+    } else {
+      dispatch(addToCart({
+        ...product,
+        quantity,
+        status,
+        userId,
+      }));
+    }
+    dispatch(addToTotal(amount));
+
     try {
-      const added = dispatch(
+      const added = await dispatch(
         HandleAddItem({
           productid,
           name,
@@ -54,17 +81,20 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
           userId,
         })
       ).unwrap();
+
       if (added) {
-        dispatch(addToCart({
-          ...product, quantity,
-          status: "",
-          userId: ""
-        }));
         dispatch(HandleGetTotal(userId));
-        dispatch(addToTotal(amount));
       }
     } catch (error) {
-      console.log("Failed to add to cart", error);
+      if (wasInCart) {
+        dispatch(reduceQuantity(existingIndex));
+      } else {
+        dispatch(removeItem(productid));
+      }
+      dispatch(reduceTotal(amount));
+      console.error("Failed to add to cart", error);
+    } finally {
+      setAddingProductId(null);
     }
   }
 
@@ -116,12 +146,19 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
               <div className={styledCond}>
                 <button
                   className="add-cart"
+                  disabled={addingProductId === val.productid}
                   onClick={(e) => {
                     e.stopPropagation();
                     HandleAddToCart(val);
                   }}
                 >
-                  Add to cart
+                  {addingProductId === val.productid ? (
+                    <span className="loading-inline">
+                      <span className="loading-spinner" /> Adding...
+                    </span>
+                  ) : (
+                    "Add to cart"
+                  )}
                 </button>
               </div>
             </div>

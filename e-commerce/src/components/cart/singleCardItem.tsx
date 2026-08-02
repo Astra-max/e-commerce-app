@@ -18,7 +18,8 @@ export default function SingleCartItem() {
   const { user } = useSelector(authSelector);
   const userId = user?.userId ?? "";
   const { Items } = useSelector(productSelector);
-n  const nav = useNavigate();
+
+  const nav = useNavigate();
   const dispatch: any = useDispatch();
 
   useEffect(() => {

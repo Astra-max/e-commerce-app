@@ -1,7 +1,5 @@
-import API from "./axios";
+﻿import API from "./axios";
 import { setAccessToken } from "./token";
-
-
 
 API.interceptors.response.use(
   (res) => res,
@@ -18,7 +16,10 @@ API.interceptors.response.use(
 
         setAccessToken(newToken);
 
-        original.headers.Authorization = `Bearer ${newToken}`;
+        original.headers = {
+          ...(original.headers || {}),
+          Authorization: "Bearer " + newToken,
+        } as any;
 
         return API(original);
       } catch (err) {

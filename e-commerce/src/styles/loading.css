@@ -5,3 +5,127 @@
     align-items: center;
     justify-content: center;
 }
+
+/* 
+   Loading UI — orange (#f68b1e) + black theme, matching the rest of the
+   storefront's palette. Two variants supported by the existing component:
+   .loading-screen  — full-page dark overlay
+   .loading-inline  — sits inline within a card/section on a light bg
+ */
+
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.4rem;
+  background: radial-gradient(circle at center, #1c1c1c 0%, #0a0a0a 100%);
+  z-index: 9999;
+}
+
+.loading-inline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 3rem 1rem;
+}
+
+/* ---- Spinner: static track ring + rotating glowing orange arc ---- */
+
+.loading-spinner {
+  position: relative;
+  width: 3.4rem;
+  height: 3.4rem;
+  flex-shrink: 0;
+}
+
+.loading-spinner::before,
+.loading-spinner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 4px solid transparent;
+}
+
+/* the static track ring */
+.loading-screen .loading-spinner::before {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.loading-inline .loading-spinner::before {
+  border-color: rgba(26, 26, 26, 0.1);
+}
+
+/* the rotating arc */
+.loading-spinner::after {
+  border-top-color: #f68b1e;
+  border-right-color: #f68b1e;
+  animation: loading-spin 0.85s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
+  filter: drop-shadow(0 0 6px rgba(246, 139, 30, 0.55));
+}
+
+@keyframes loading-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Message: uppercase, letter-spaced, shimmering gradient text ---- */
+
+.loading-message {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: loading-shimmer 2.2s linear infinite;
+}
+
+.loading-screen .loading-message {
+  background-image: linear-gradient(90deg, #f68b1e 0%, #ffffff 50%, #f68b1e 100%);
+}
+
+.loading-inline .loading-message {
+  background-image: linear-gradient(90deg, #1a1a1a 0%, #f68b1e 50%, #1a1a1a 100%);
+}
+
+@keyframes loading-shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Respect reduced-motion preferences: keep the UI static but still visible */
+@media (prefers-reduced-motion: reduce) {
+  .loading-spinner::after {
+    animation: none;
+    border-right-color: transparent;
+  }
+
+  .loading-message {
+    animation: none;
+    -webkit-text-fill-color: initial;
+    background: none;
+  }
+
+  .loading-screen .loading-message {
+    color: #f68b1e;
+  }
+
+  .loading-inline .loading-message {
+    color: #1a1a1a;
+  }
+}
