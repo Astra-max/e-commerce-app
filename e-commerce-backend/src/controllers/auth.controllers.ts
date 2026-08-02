@@ -4,6 +4,7 @@ import { verifyRefreshToken, generateToken, refreshToken } from "../util/jwt";
 import { logger } from "../util/logger";
 import LoadCfg from "../config/loadConfg";
 
+
 const nodeEnv = LoadCfg.loadNodeEnv();
 const productionEnv = nodeEnv === "production";
 

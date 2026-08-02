@@ -5,24 +5,18 @@ import "../../styles/loading.css";
 import API from "../../services/axios";
 import { setAccessToken } from "../../services/token";
 
-export default function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthProvider({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const checkSession = async () => {
       try {
-        // Step 1: exchange the httpOnly refresh cookie for a fresh access token
         const { data: refreshData } = await API.post("/auth/refresh");
         setAccessToken(refreshData.accessToken);
 
-        // Step 2: now that a valid Bearer token is set, fetch the profile
         const { data: profileData } = await API.get("/auth/profile");
-        dispatch(setSession(profileData));
+        dispatch(setSession(profileData.data ?? profileData));
       } catch {
         setAccessToken(null);
         dispatch(logout());
