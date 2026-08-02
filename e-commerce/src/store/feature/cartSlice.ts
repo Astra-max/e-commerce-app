@@ -5,13 +5,19 @@ import { HandleAddQuantity, HandleReduceQuantity } from "./quantitySlice";
 
 export const HandleCartFetch = createAsyncThunk(
   "cart/fetch",
-  async (userId: string, { rejectWithValue }) => {
+  async (userId: string | undefined, { rejectWithValue }) => {
+    if (!userId) {
+      return rejectWithValue("User id missing");
+    }
+
     try {
       const { data } = await API.get(`/cart/${userId}`);
       return data;
     } catch (error: any) {
       return rejectWithValue(
-        error?.data?.message || error?.message || "Failed to fetch cart items"
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to fetch cart"
       );
     }
   }

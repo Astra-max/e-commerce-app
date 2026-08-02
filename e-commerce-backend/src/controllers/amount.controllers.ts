@@ -28,6 +28,13 @@ export const HandleAddTotal = async (req: Request, res: Response) => {
   const { productId } = req.params;
   if (!userId || !productId)
     return res.status(400).json({ message: "missing userid or productid" });
-  const totalPrice = await pool.query(addTotal, [productId, userId]);
-  console.log(totalPrice);
+
+  try {
+    const totalPrice = await pool.query(getTotal, [userId]);
+    const total = totalPrice.rows[0]?.total ?? 0;
+    return res.json({ total });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Failed to calculate total" });
+  }
 };

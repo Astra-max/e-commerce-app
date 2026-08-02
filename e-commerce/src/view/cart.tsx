@@ -17,7 +17,6 @@ import {
   removeItem,
 } from "../store/feature/cartSlice";
 import { Fragment, Suspense, useEffect } from "react";
-import store from "../store/store";
 import { authSelector } from "../store/feature/authSlice";
 
 
@@ -25,16 +24,17 @@ import { authSelector } from "../store/feature/authSlice";
 export const ProductCart = () => {
   const { cart, loading } = useSelector(cartSelector);
   const { total } = useSelector(totalSelector);
-  const { userId } = useSelector(authSelector);
+  const { user } = useSelector(authSelector);
+  const userId = user?.userId ?? "";
   const dispatch: any = useDispatch();
 
   useEffect(() => {
-    if (userId) store.dispatch(HandleCartFetch(userId));
-  }, [cart.length]);
+    if (userId) dispatch(HandleCartFetch(userId));
+  }, [dispatch, userId]);
 
   useEffect(() => {
     if (userId) dispatch(HandleGetTotal(userId));
-  }, [total]);
+  }, [dispatch, userId]);
 
   /**
    * Handles handle remove product
@@ -112,7 +112,7 @@ export const ProductCart = () => {
               <Fragment key={val.productid}>
                 <div className="cart-main">
                   <div className="display-img-price">
-                    <Link to={`/cart/${userId}/${val.productid}`}>
+                    <Link to={`/cart/${val.productid}`}>
                       <img
                         className="cart-image"
                         src={val.image}
@@ -122,7 +122,7 @@ export const ProductCart = () => {
                     <div className="price-cont">
                       <div className="cart-price-div">
                         <Link
-                          to={`/cart/${userId}/${val.productid}`}
+                          to={`/cart/${val.productid}`}
                           className="cart-name"
                         >
                           {val.name}
@@ -162,7 +162,7 @@ export const ProductCart = () => {
                           <span className="ct-sep">|</span>
 
                           <Link
-                            to={`/cart/${userId}/${val.productid}`}
+                            to={`/cart/${val.productid}`}
                             className="cart-link-btn"
                           >
                             View details

@@ -38,6 +38,7 @@ export const addNewItemService = async (req: Request): Promise<ServiceResponse<C
 
 export const getAllitemsService = async (req: Request): Promise<ServiceResponse<CartItem[]>> => {
     const userId = req.params?.userId || (req as any).user?.userId || req.body?.userId;
+    console.log(userId)
 
     if (!userId) return { isError: true, message: "Missing userId", statusCode: 400 }
 
