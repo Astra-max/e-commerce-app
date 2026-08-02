@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setAccessToken } from "../../services/token";
+import { getAccessToken, setAccessToken } from "../../services/token";
 import API from "../../services/axios";
 import { Logins, User } from "../../../types";
 
@@ -81,11 +81,15 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setSession: (state, { payload }: any) => {
-      state.user = payload.data;
+      state.user = {
+        userId: payload?.data?.userId ?? payload?.userId ?? null,
+        userName: payload?.data?.userName ?? payload?.userName ?? null,
+        token: payload?.accessToken ?? payload?.data?.accessToken ?? getAccessToken() ?? null,
+      };
       state.isAuthenticated = true;
     },
     logout: (state) => {
-      state.user = null;
+      state.user = { userName: null, token: null, userId: null };
       state.error = null;
       state.isAuthenticated = false;
     },
@@ -115,7 +119,12 @@ const authSlice = createSlice({
       })
       .addCase(signUPUser.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.user = payload
+        state.user = {
+          userId: payload.userId ?? null,
+          userName: payload.userName ?? null,
+          token: payload.accessToken ?? null,
+        };
+        state.isAuthenticated = true;
         state.error = null;
       })
       .addCase(signUPUser.rejected, (state, { payload }) => {

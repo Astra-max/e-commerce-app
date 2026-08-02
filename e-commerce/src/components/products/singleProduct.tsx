@@ -17,7 +17,8 @@ export default function SingleProduct() {
   const dispatch: any = useDispatch();
   const navigate = useNavigate();
   const { items = [], loading } = useSelector(productSelector);
-  const { userId } = useSelector(authSelector);
+  const { user } = useSelector(authSelector);
+  const userId = user?.userId ?? "";
   const { productid } = useParams();
 
   useEffect(() => {
