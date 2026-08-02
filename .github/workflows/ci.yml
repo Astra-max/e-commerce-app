@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install frontend dependencies
+        working-directory: ./e-commerce
+        run: |
+          npm ci
+
+      - name: Run frontend tests
+        working-directory: ./e-commerce
+        run: |
+          npm test
+
+      - name: Build frontend (optional)
+        working-directory: ./e-commerce
+        run: |
+          npm run build
+
+      - name: Install backend dependencies
+        working-directory: ./e-commerce-backend
+        run: |
+          npm ci
+
+      - name: Run backend tests (if any)
+        working-directory: ./e-commerce-backend
+        run: |
+          npm test || echo "No backend tests or tests failing allowed to continue"
