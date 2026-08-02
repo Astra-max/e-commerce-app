@@ -21,8 +21,9 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
   const [pid, setPid] = useState<string>("");
   const [leave, setLeave] = useState(false);
   const dispatch: any = useDispatch();
-  const { userId } = useSelector(authSelector);
-
+  const { user } = useSelector(authSelector);
+  const userId = user?.userId ?? "";
+ 
   const push = useNavigate();
 
   useEffect(() => {
