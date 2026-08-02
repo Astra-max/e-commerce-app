@@ -68,6 +68,14 @@ const cartSlice = createSlice({
     addToCart: (state, { payload }: PayloadAction<Item>) => {
       state.cart.push(payload);
     },
+    upsertCartItem: (state, { payload }: PayloadAction<Item>) => {
+      const existing = state.cart.find((item) => item.productid === payload.productid);
+      if (existing) {
+        existing.quantity += payload.quantity;
+      } else {
+        state.cart.push(payload);
+      }
+    },
     removeItem: (state, { payload }: PayloadAction<string>) => {
       state.cart = state.cart.filter((item) => item.productid !== payload);
     },
@@ -115,7 +123,14 @@ const cartSlice = createSlice({
       .addCase(
         HandleAddItem.fulfilled,
         (state, { payload }: PayloadAction<Item>) => {
-          state.cart.push(payload);
+          const existing = state.cart.find((item) => item.productid === payload.productid);
+          if (existing) {
+            existing.quantity = payload.quantity;
+            existing.status = payload.status;
+            existing.userId = payload.userId;
+          } else {
+            state.cart.push(payload);
+          }
           state.loading = false;
         }
       )
@@ -190,6 +205,7 @@ const cartSlice = createSlice({
 
 export const {
   addToCart,
+  upsertCartItem,
   removeItem,
   addToTotal,
   addQuantity,

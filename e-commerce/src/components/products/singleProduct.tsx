@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { productSelector, getAllProducts } from "../../store/feature/productSlice";
 import { useParams, useNavigate } from "react-router-dom";
@@ -7,9 +7,14 @@ import { authSelector } from "../../store/feature/authSlice";
 import {
   addToCart,
   addToTotal,
+  removeItem,
+  addQuantity,
+  reduceQuantity,
+  reduceTotal,
   HandleAddItem,
 } from "../../store/feature/cartSlice";
 import { HandleGetTotal } from "../../store/feature/totalSlice";
+import Loading from "../ui/loading";
 import NotFound from "../ui/notFound";
 
 
@@ -19,6 +24,8 @@ export default function SingleProduct() {
   const { items = [], loading } = useSelector(productSelector);
   const { user } = useSelector(authSelector);
   const userId = user?.userId ?? "";
+  const cart = useSelector((state: any) => state.cart.cart as Products[]);
+  const [adding, setAdding] = useState(false);
   const { productid } = useParams();
 
   useEffect(() => {
@@ -30,7 +37,11 @@ export default function SingleProduct() {
   const productId = String(productid);
 
   if (loading && items.length === 0) {
-    return <div style={{ padding: "4rem", textAlign: "center" }}>Loading product details...</div>;
+    return (
+      <div style={{ padding: "4rem", textAlign: "center" }}>
+        <Loading message="Loading product details..." />
+      </div>
+    );
   }
 
   const product: Products | undefined = items.find(
@@ -50,6 +61,28 @@ export default function SingleProduct() {
     const status = "cart";
     const quantity = 1;
 
+    const existingIndex = cart.findIndex((item) => item.productid === productid);
+    const wasInCart = existingIndex !== -1;
+
+    if (!userId) {
+      console.warn("Add to cart requires a logged in user");
+      return;
+    }
+
+    setAdding(true);
+
+    if (wasInCart) {
+      dispatch(addQuantity(existingIndex));
+    } else {
+      dispatch(addToCart({
+        ...product,
+        quantity,
+        status,
+        userId,
+      }));
+    }
+    dispatch(addToTotal(amount));
+
     try {
       const added = await dispatch(
         HandleAddItem({
@@ -61,23 +94,22 @@ export default function SingleProduct() {
           description,
           quantity,
           status,
-          userId: userId || "",
+          userId,
         })
       ).unwrap();
-      if (added) {
-        dispatch(addToCart({
-          ...product,
-          quantity,
-          status: "",
-          userId: ""
-        }));
-        if (userId) {
-          dispatch(HandleGetTotal(userId));
-        }
-        dispatch(addToTotal(amount));
+      if (added && userId) {
+        dispatch(HandleGetTotal(userId));
       }
     } catch (error) {
+      if (wasInCart) {
+        dispatch(reduceQuantity(existingIndex));
+      } else {
+        dispatch(removeItem(productid));
+      }
+      dispatch(reduceTotal(amount));
       console.log("Failed to add to cart", error);
+    } finally {
+      setAdding(false);
     }
   }
 
@@ -132,7 +164,19 @@ export default function SingleProduct() {
           <p className="s-buybox-stock">In Stock</p>
 
           <div className="s-btn-cont">
-            <button className="s-btn purchase-item" onClick={handleAddToCart}>Add to cart</button>
+            <button
+              className="s-btn purchase-item"
+              disabled={adding}
+              onClick={handleAddToCart}
+            >
+              {adding ? (
+                <span className="loading-inline">
+                  <span className="loading-spinner" /> Adding...
+                </span>
+              ) : (
+                "Add to cart"
+              )}
+            </button>
             <button className="s-btn goto-cart" onClick={handleBuyNow}>Buy Now</button>
           </div>
 
