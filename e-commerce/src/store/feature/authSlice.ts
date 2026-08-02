@@ -3,7 +3,6 @@ import { getAccessToken, setAccessToken } from "../../services/token";
 import API from "../../services/axios";
 import { Logins, User } from "../../../types";
 
-
 export const loginUser = createAsyncThunk(
   "auth/login",
   async (userData: Logins, { rejectWithValue }) => {
@@ -39,6 +38,34 @@ export const signUPUser = createAsyncThunk(
   }
 );
 
+export const fetchUserProfile = createAsyncThunk(
+  "auth/fetchProfile",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await API.get("/auth/profile");
+      const raw = data.data ?? data;
+      // normalize snake_case from backend to camelCase used in frontend
+      const normalized = {
+        userId: raw.userId ?? raw.user_id ?? null,
+        userName: raw.userName ?? raw.user_name ?? null,
+        firstName: raw.firstName ?? raw.first_name ?? null,
+        secondName: raw.secondName ?? raw.second_name ?? null,
+        emailAddr: raw.emailAddr ?? raw.email_addr ?? null,
+        phone: raw.phone ?? raw.phone ?? null,
+        idNo: raw.idNo ?? raw.id_no ?? null,
+        accessToken: raw.accessToken ?? raw.access_token ?? null,
+      };
+      return normalized;
+    } catch (error: any) {
+      return rejectWithValue(
+        error?.response?.data?.message ||
+        error?.message ||
+        "Failed to fetch profile"
+      );
+    }
+  }
+);
+
 export const logoutUser = createAsyncThunk("auth/logout", async (_, { dispatch }) => {
   try {
     await API.post("/auth/logout"); // clears the refresh cookie server-side
@@ -52,21 +79,34 @@ export const logoutUser = createAsyncThunk("auth/logout", async (_, { dispatch }
 interface UserCredentials {
   userName: string | null;
   token: string | null;
-  userId: string | null
+  userId: string | null;
+  firstName?: string | null;
+  secondName?: string | null;
+  emailAddr?: string | null;
+  phone?: string | null;
+  idNo?: string | null;
 }
 
 interface UserType {
-  user: UserCredentials | null 
+  user: UserCredentials | null;
 }
 
-const user: UserCredentials = {userName: null, token: null, userId: null}
+const user: UserCredentials = {
+  userName: null,
+  token: null,
+  userId: null,
+  firstName: null,
+  secondName: null,
+  emailAddr: null,
+  phone: null,
+  idNo: null,
+};
 
 interface AuthState extends UserType {
   loading: boolean;
   error: null | string;
   isAuthenticated: boolean;
 }
-
 
 const initialState: AuthState = {
   user: user,
@@ -84,12 +124,26 @@ const authSlice = createSlice({
       state.user = {
         userId: payload?.data?.userId ?? payload?.userId ?? null,
         userName: payload?.data?.userName ?? payload?.userName ?? null,
+        firstName: payload?.data?.firstName ?? payload?.firstName ?? null,
+        secondName: payload?.data?.secondName ?? payload?.secondName ?? null,
+        emailAddr: payload?.data?.emailAddr ?? payload?.emailAddr ?? null,
+        phone: payload?.data?.phone ?? payload?.phone ?? null,
+        idNo: payload?.data?.idNo ?? payload?.idNo ?? null,
         token: payload?.accessToken ?? payload?.data?.accessToken ?? getAccessToken() ?? null,
       };
       state.isAuthenticated = true;
     },
     logout: (state) => {
-      state.user = { userName: null, token: null, userId: null };
+      state.user = {
+        userName: null,
+        token: null,
+        userId: null,
+        firstName: null,
+        secondName: null,
+        emailAddr: null,
+        phone: null,
+        idNo: null,
+      };
       state.error = null;
       state.isAuthenticated = false;
     },
@@ -103,7 +157,16 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, { payload }) => {
         state.loading = false;
-        state.user = payload;
+        state.user = {
+          userId: payload.userId ?? payload?.data?.userId ?? null,
+          userName: payload.userName ?? payload?.data?.userName ?? null,
+          firstName: payload.firstName ?? payload?.data?.firstName ?? null,
+          secondName: payload.secondName ?? payload?.data?.secondName ?? null,
+          emailAddr: payload.emailAddr ?? payload?.data?.emailAddr ?? null,
+          phone: payload.phone ?? payload?.data?.phone ?? null,
+          idNo: payload.idNo ?? payload?.data?.idNo ?? null,
+          token: payload.accessToken ?? payload?.data?.accessToken ?? getAccessToken() ?? null,
+        };
         state.isAuthenticated = true;
         state.error = null;
       })
@@ -120,14 +183,43 @@ const authSlice = createSlice({
       .addCase(signUPUser.fulfilled, (state, { payload }) => {
         state.loading = false;
         state.user = {
-          userId: payload.userId ?? null,
-          userName: payload.userName ?? null,
-          token: payload.accessToken ?? null,
+          userId: payload.userId ?? payload?.data?.userId ?? null,
+          userName: payload.userName ?? payload?.data?.userName ?? null,
+          firstName: payload.firstName ?? payload?.data?.firstName ?? null,
+          secondName: payload.secondName ?? payload?.data?.secondName ?? null,
+          emailAddr: payload.emailAddr ?? payload?.data?.emailAddr ?? null,
+          phone: payload.phone ?? payload?.data?.phone ?? null,
+          idNo: payload.idNo ?? payload?.data?.idNo ?? null,
+          token: payload.accessToken ?? payload?.data?.accessToken ?? getAccessToken() ?? null,
         };
         state.isAuthenticated = true;
         state.error = null;
       })
       .addCase(signUPUser.rejected, (state, { payload }) => {
+        state.loading = false;
+        state.error = payload as string;
+      })
+
+      .addCase(fetchUserProfile.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, { payload }) => {
+        state.loading = false;
+        state.user = {
+          userId: payload.userId ?? state.user?.userId ?? null,
+          userName: payload.userName ?? state.user?.userName ?? null,
+          firstName: payload.firstName ?? state.user?.firstName ?? null,
+          secondName: payload.secondName ?? state.user?.secondName ?? null,
+          emailAddr: payload.emailAddr ?? state.user?.emailAddr ?? null,
+          phone: payload.phone ?? state.user?.phone ?? null,
+          idNo: payload.idNo ?? state.user?.idNo ?? null,
+          token: state.user?.token ?? getAccessToken() ?? null,
+        };
+        state.isAuthenticated = true;
+        state.error = null;
+      })
+      .addCase(fetchUserProfile.rejected, (state, { payload }) => {
         state.loading = false;
         state.error = payload as string;
       });

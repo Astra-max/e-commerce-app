@@ -1,3 +1,6 @@
+import "../../styles/loading.css";
+
+
 type LoadingProps = {
   message?: string;
   inline?: boolean;

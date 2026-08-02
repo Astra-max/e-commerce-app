@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import "./index.css";
 import AppBrowserRoutes from "./routes/routes";
 import AuthProvider from "./components/auth/authorized";
+import "./services/refreshToken";
 
 // program entry point
 function MainApp() {
