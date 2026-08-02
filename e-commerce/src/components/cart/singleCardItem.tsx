@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import store from "../../store/store";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { cartSelector, HandleCartFetch, addToTotal, addQuantity } from "../../store/feature/cartSlice";
@@ -16,18 +15,18 @@ import {
 export default function SingleCartItem() {
   const { productid } = useParams();
   const { cart } = useSelector(cartSelector);
-  const { userId } = useSelector(authSelector);
+  const { user } = useSelector(authSelector);
+  const userId = user?.userId ?? "";
   const { Items } = useSelector(productSelector);
-
-  const nav = useNavigate();
+n  const nav = useNavigate();
   const dispatch: any = useDispatch();
 
   useEffect(() => {
-    if (userId) store.dispatch(HandleCartFetch(userId));
-  }, [dispatch, cart.length]);
+    if (userId) dispatch(HandleCartFetch(userId));
+  }, [dispatch, userId]);
 
   const itemIndex = cart.findIndex(
-    (item: { productid: number }) => item.productid === Number(productid)
+    (item: { productid: string }) => item.productid === productid
   );
   if (itemIndex === -1)
     return (
@@ -117,7 +116,7 @@ export default function SingleCartItem() {
             <button className="s-btn purchase-item">Purchase Now</button>
             <button
               className="s-btn goto-cart"
-              onClick={() => nav(`/cart/${userId}`)}
+              onClick={() => nav("/cart")}
             >
               Go to Cart
             </button>
