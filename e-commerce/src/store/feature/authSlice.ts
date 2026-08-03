@@ -50,9 +50,9 @@ export const fetchUserProfile = createAsyncThunk(
         userName: raw.userName ?? raw.user_name ?? null,
         firstName: raw.firstName ?? raw.first_name ?? null,
         secondName: raw.secondName ?? raw.second_name ?? null,
-        emailAddr: raw.emailAddr ?? raw.email_addr ?? null,
-        phone: raw.phone ?? raw.phone ?? null,
-        idNo: raw.idNo ?? raw.id_no ?? null,
+        emailAddr: raw.emailAddr ?? raw.email_addr ?? raw.email ?? null,
+        phone: raw.phone ?? raw.phone_number ?? raw.phoneNumber ?? null,
+        idNo: raw.idNo ?? raw.id_no ?? raw.id_number ?? null,
         accessToken: raw.accessToken ?? raw.access_token ?? null,
       };
       return normalized;
