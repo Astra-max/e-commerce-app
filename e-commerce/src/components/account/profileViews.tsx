@@ -6,6 +6,7 @@ import "../../styles/user.account.css";
 
 
 export const AccountOverview = () => {
+  const { user, isAuthenticated, loading } = useSelector(authSelector);
   const {
     userName,
     firstName,
@@ -13,9 +14,7 @@ export const AccountOverview = () => {
     emailAddr,
     phone,
     idNo,
-    isAuthenticated,
-    loading,
-  } = useSelector(authSelector);
+  } = user ?? {};
 
   if (loading) {
     return <div className="profile-view-loading">Loading account overview...</div>;
