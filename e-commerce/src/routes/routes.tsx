@@ -11,15 +11,13 @@ import Signup from "../components/auth/signup";
 import Shipment from "../components/account/shipment";
 import Login from "../components/auth/login";
 import Subscribe from "../components/footer/subscribe";
-import {
-  AccountOverview,
-  OrdersView,
-  WishlistView,
-  PaymentMethodsView,
-  NotificationsView,
-  SettingsView,
-  HelpSupportView,
-} from "../components/account/profileViews";
+import { AccountOverview } from "../components/account/AccountOverview";
+import { OrdersView } from "../components/account/OrdersView";
+import { WishlistView } from "../components/account/WishlistView";
+import { PaymentMethodsView } from "../components/account/PaymentMethodsView";
+import { NotificationsView } from "../components/account/NotificationsView";
+import { SettingsView } from "../components/account/SettingsView";
+import { HelpSupportView } from "../components/account/HelpSupportView";
 
 
 
