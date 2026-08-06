@@ -5,6 +5,8 @@ import { cartSelector, HandleCartFetch, addToTotal, addQuantity } from "../../st
 import { authSelector } from "../../store/feature/authSlice";
 import { productSelector } from "../../store/feature/productSlice";
 import { HandleAddTotal } from "../../store/feature/totalSlice";
+import Loading from "../ui/loading";
+import ImageWithLoader from "../ui/ImageWithLoader";
 import {
   HandleAddQuantity,
   HandleReduceQuantity,
@@ -14,7 +16,7 @@ import {
 // single card item ui
 export default function SingleCartItem() {
   const { productid } = useParams();
-  const { cart } = useSelector(cartSelector);
+  const { cart, loading } = useSelector(cartSelector);
   const { user } = useSelector(authSelector);
   const userId = user?.userId ?? "";
   const { Items } = useSelector(productSelector);
@@ -25,6 +27,14 @@ export default function SingleCartItem() {
   useEffect(() => {
     if (userId) dispatch(HandleCartFetch(userId));
   }, [dispatch, userId]);
+
+  if (loading) {
+    return (
+      <div className="item-not-found">
+        <Loading message="Loading cart item..." />
+      </div>
+    );
+  }
 
   const itemIndex = cart.findIndex(
     (item: { productid: string }) => item.productid === productid
@@ -66,10 +76,10 @@ export default function SingleCartItem() {
       <div className="s-p-card" key={item.productid}>
         {/* Left: image */}
         <div className="s-cd-img-cont">
-          <img
+          <ImageWithLoader
             className="s-cd-image"
             src={item.image}
-            alt="product image"
+            alt={item.name}
           />
         </div>
 

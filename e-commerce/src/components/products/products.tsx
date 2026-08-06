@@ -18,21 +18,56 @@ const PREVIEW_COUNT = 5;
  * search term switches to a single flat grid of every matching item.
  */
 const ProductsList = () => {
-  
-  const { items, loading } = useSelector(productSelector);
-
+  const { items, loading, hasMore } = useSelector(productSelector);
   const dispatch: any = useDispatch();
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const [hasObserved, setHasObserved] = useState(false);
+
+n  useEffect(() => {
+    if (items.length > 0) return;
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasObserved) {
+          setHasObserved(true);
+          dispatch(getAllProducts({ limit: 10, offset: 0 }));
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+n    observer.observe(section);
+    return () => observer.disconnect();
+  }, [dispatch, hasObserved, items.length]);
 
   useEffect(() => {
-    dispatch(getAllProducts());
-  }, [dispatch]);
+    if (!hasMore || loading || items.length === 0) return;
+    const sentinel = sentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          dispatch(getAllProducts({ limit: 10, offset: items.length }));
+        }
+      },
+      { rootMargin: "200px" }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [dispatch, hasMore, loading, items.length]);
 
   const [category, setCategory] = useState("All");
   const [search, setSearch] = useState("");
 
   if (loading && items.length === 0) {
     return (
-      <div className="product-section">
+      <div className="product-section" ref={sectionRef}>
         <Loading message="Loading products..." />
       </div>
     );
@@ -59,7 +94,7 @@ const ProductsList = () => {
   );
 
   return (
-    <div className="product-section">
+    <div className="product-section" ref={sectionRef}>
       <p className="products-message">Shop our newest products</p>
       <div className="search-div">
         <input
@@ -115,6 +150,7 @@ const ProductsList = () => {
           <ProductCard items={filteredItems} />
         </div>
       )}
+      <div ref={sentinelRef} className="loading-sentinel" />
     </div>
   );
 };

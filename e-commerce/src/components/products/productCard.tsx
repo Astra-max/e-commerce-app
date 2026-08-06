@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Products } from "../../../types";
 import { authSelector } from "../../store/feature/authSlice";
 import { HandleGetTotal } from "../../store/feature/totalSlice";
+import ImageWithLoader from "../ui/ImageWithLoader";
 import {
   addToCart,
   addToTotal,
@@ -135,7 +136,11 @@ export const ProductCard = ({ items }: { items: Products[] }) => {
             onMouseLeave={() => HandleMouseLeave()}
           >
             <div className="c-img-div">
-              <img className="card-image" src={val.image} alt="product image" />
+              <ImageWithLoader
+                className="card-image"
+                src={val.image}
+                alt={val.name}
+              />
             </div>
             <div className="center-price">
               <div className="price-div">

@@ -6,6 +6,8 @@ import { authSelector } from "../store/feature/authSlice";
 import { getAllProducts, productSelector } from "../store/feature/productSlice";
 import { useNavigate } from "react-router-dom";
 import { itemHistrySelector, setTemp } from "../store/feature/itemHistorySlice";
+import Loading from "../components/ui/loading";
+import ImageWithLoader from "../components/ui/ImageWithLoader";
 
 const ROTATE_MS = 10000;
 
@@ -21,9 +23,11 @@ const Home = () => {
   const [fadeKey, setFadeKey] = useState<number>(0);
   const [paused, setPaused] = useState<boolean>(false);
 
-  useEffect(()=>{
-    dispatch(getAllProducts())
-  },[dispatch])
+  useEffect(() => {
+    if (items.length === 0) {
+      dispatch(getAllProducts({ limit: 1, offset: 0 }));
+    }
+  }, [dispatch, items.length]);
 
   const chooseRandom = (): number => {
     if (!items.length) return 0;
@@ -78,8 +82,16 @@ const Home = () => {
   /* get current product safely */
   const product = items[index];
 
-  /* prevent crash */
-  if (!product) return null;
+  /* show a loading placeholder until we have at least one featured product */
+  if (!product) {
+    return (
+      <div className="home-main">
+        <div className="home-display">
+          <Loading message="Loading featured product..." />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="home-main">
@@ -148,12 +160,11 @@ const Home = () => {
         </div>
 
         <div className="image-cont">
-          <img
+          <ImageWithLoader
             key={fadeKey}
             className="home-image fade"
             src={product.image}
             alt={product.name}
-            loading="lazy"
           />
         </div>
       </div>
