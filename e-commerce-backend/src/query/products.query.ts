@@ -1,1 +1,1 @@
-export const getAllProductsQuery = `SELECT * FROM products;`;
+export const getAllProductsQuery = `SELECT * FROM products ORDER BY created_at DESC LIMIT $1 OFFSET $2;`;

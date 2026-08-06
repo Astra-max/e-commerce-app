@@ -42,6 +42,7 @@ export interface ProductState {
   items: Products[];
   loading: boolean;
   error: string | null;
+  hasMore: boolean;
 }
 
 export interface Error {

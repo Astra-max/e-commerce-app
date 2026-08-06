@@ -30,7 +30,7 @@ export default function SingleProduct() {
 
   useEffect(() => {
     if (items.length === 0) {
-      dispatch(getAllProducts());
+      dispatch(getAllProducts({ limit: 10, offset: 0 }));
     }
   }, [items.length, dispatch]);
 
@@ -123,7 +123,11 @@ export default function SingleProduct() {
       <div className="s-p-card">
         {/* Left: image */}
         <div className="s-cd-img-cont">
-          <img className="s-cd-image" src={product.image} alt="product image" />
+          <ImageWithLoader
+            className="s-cd-image"
+            src={product.image}
+            alt={product.name}
+          />
         </div>
 
         {/* Middle: details */}
